@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Vite; @endphp
 <header class="bg-gray-800 text-white py-4 w-full z-50" id="header">
     <div class="max-w-5xl mx-auto flex justify-between items-center px-4">
         <div>
@@ -17,7 +18,7 @@
 
 <nav class="bg-white shadow-md w-full transition-transform duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <img src="{{ \Illuminate\Support\Facades\Vite::asset('/images/logo1.jpg') }}" alt="" class="h-14 me-3">
+        <img src="{{ Vite::asset('resources/images/logo1.jpg') }}" alt="" class="h-14 me-3">
 
         <!-- Centered Navigation List -->
         <ul id="menu" class="hidden md:flex space-x-6 p-1.5 mx-auto">
