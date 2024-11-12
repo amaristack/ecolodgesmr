@@ -1,7 +1,5 @@
-@php use Illuminate\Support\Facades\@endphp
-    <!-- Header for Contact Info -->
+ <x-layout>
     <x-navbar />
-
 
     <section class="h-full relative">
         <x-carousel/>
@@ -376,3 +374,4 @@
 
     <x-footer/>
 
+ </x-layout>
