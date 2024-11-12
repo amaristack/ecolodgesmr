@@ -1,4 +1,4 @@
-@php use Illuminate\Support\Facades\@endphp>
+@php use Illuminate\Support\Facades\@endphp
     <!-- Header for Contact Info -->
     <x-navbar />
 
