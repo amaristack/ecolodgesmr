@@ -1,5 +1,3 @@
-import logo from '../images/logo1.jpg';
-import video from '../videos/sibugay.mp4';
 import Choices from 'choices.js';
 import 'choices.js/public/assets/styles/choices.css';
 import './bootstrap';
