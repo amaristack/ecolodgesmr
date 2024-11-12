@@ -1,0 +1,115 @@
+<x-layout>
+    <x-navbar/>
+    <div class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
+         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+        <div class="absolute inset-0 bg-black opacity-30"></div>
+        <div class="container mx-auto relative z-10 text-center text-white">
+            <h1 class="text-5xl font-bold mb-4">Join us in Ecolodge SMR </h1>
+            <nav class="text-lg mb-6">
+                <a href="/dashboard" class="hover:underline">Home</a> / <a href="/register" class="underline text-yellow-500">Register</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="w-full max-w-3xl p-12 bg-white border-2 border-gray-200 rounded-3xl shadow-xl mx-auto mt-10 mb-10">
+        <h1 class="text-3xl font-bold text-center mb-8 text-black">Create Your Account</h1>
+        <form class="p-4" action="/register" method="post">
+            @csrf
+            <div class="grid gap-6 mb-8 md:grid-cols-2">
+                <div>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" id="first_name" name="first_name"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           placeholder="John" required/>
+                </div>
+                <x-fields_error name="first_name"/>
+                <div>
+                    <label for="middle_name" class="block mb-2 text-sm font-medium text-gray-700">Middle Initial</label>
+                    <input type="text" id="middle_name" name="middle_name"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           placeholder="A." required/>
+                </div>
+                <x-fields_error name="middle_name"/>
+                <div>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" id="last_name" name="last_name"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           placeholder="Doe" required/>
+                </div>
+                <x-fields_error name="last_name"/>
+                <div>
+                    <label for="address" class="block mb-2 text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" id="address" name="address"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           placeholder="123 Main St." required/>
+                </div>
+                <x-fields_error name="address"/>
+                <div>
+                    <label for="birth_date" class="block mb-2 text-sm font-medium text-gray-700">Birth Date</label>
+                    <input type="date" id="birth_date" name="birth_date"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           required/>
+                </div>
+                <x-fields_error name="birth_date"/>
+                <div>
+                    <label for="age" class="block mb-2 text-sm font-medium text-gray-700">Age</label>
+                    <input type="number" id="age" name="age"
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           required/>
+                </div>
+                <x-fields_error name="age"/>
+                <div>
+                    <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="number" id="phone_number" name="phone_number" placeholder="09...."
+                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                           required/>
+                </div>
+                <x-fields_error name="phone_number"/>
+            </div>
+
+            <div class="mb-6">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="email" name="email"
+                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                       placeholder="john.doe@example.com" required/>
+            </div>
+            <x-fields_error name="email"/>
+
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password"
+                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                       placeholder="•••••••••" required/>
+            </div>
+            <x-fields_error name="password"/>
+
+            <div class="mb-6">
+                <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
+                <input type="password" id="confirm_password" name="password_confirmation"
+                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                       placeholder="•••••••••" required/>
+            </div>
+            <x-fields_error name="password_confirmation"/>
+
+            <div class="flex items-start mb-6">
+                <input id="remember" type="checkbox" value=""
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-100 focus:ring-3 focus:ring-green-300"
+                       required/>
+                <label for="remember" class="ml-2 text-sm font-medium text-gray-700">I agree with the <a href="{{ route('terms_and_condition') }}"
+                                                                                                         class="text-blue-600 hover:underline">terms and conditions</a>.
+                </label>
+            </div>
+
+            <button type="submit"
+                    class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300">
+                Register Now
+            </button>
+
+            <p class="mt-4 text-center text-sm text-gray-700">Already have an account? <a href="/login"
+                                                                                          class="text-blue-600 hover:underline">Log in here</a>.
+            </p>
+        </form>
+    </div>
+    <x-newsletter/>
+    <x-footer/>
+</x-layout>
