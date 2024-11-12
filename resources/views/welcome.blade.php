@@ -1,7 +1,7 @@
 @php use Illuminate\Support\Facades\Vite; @endphp
 <x-layout>
     <!-- Header for Contact Info -->
-    <x-navbar/>
+    <x-navbar></x-navbar>
 
 
     <section class="h-full relative">
