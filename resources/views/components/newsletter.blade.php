@@ -1,7 +1,7 @@
 <div class="relative w-full flex items-center justify-center" style="min-height: 60vh;">
 
     <!-- Background Image -->
-    <img src="{{ asset('images/pool.jpg') }}" alt="Background Image"
+    <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/pool.jpg') }}" alt="Background Image"
          class="absolute inset-0 w-full h-full object-cover">
 
     <!-- Overlay to darken background for readability -->

@@ -18,38 +18,38 @@
 
 <nav class="bg-white shadow-md w-full transition-transform duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <img src="{{ asset('images/logo1.jpg') }}" alt="" class="h-14 me-3">
+        <img src="{{ Vite::asset('/images/logo1.jpg') }}" alt="" class="h-14 me-3">
 
         <!-- Centered Navigation List -->
         <ul id="menu" class="hidden md:flex space-x-6 p-1.5 mx-auto">
             @guest
                 <li>
-                    <x-nav-design href="/" :active="request()->is('/dashboard')">Home</x-nav-design>
+                    <x-nav_design href="/" :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endguest
             @auth
                 <li>
-                    <x-nav-design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav-design>
+                    <x-nav_design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endauth
             <li>
-                <x-nav-design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav-design>
+                <x-nav_design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/activities" :active="request()->is('activities')">Activities</x-nav-design>
+                <x-nav_design href="/activities" :active="request()->is('activities')">Activities</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav-design>
+                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav-design>
+                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav-design>
+                <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
             </li>
             @guest
                 <li>
-                    <x-nav-design href="/login" :active="request()->is('login')">Log in</x-nav-design>
+                    <x-nav_design href="/login" :active="request()->is('login')">Log in</x-nav_design>
                 </li>
             @endguest
         </ul>
@@ -145,7 +145,7 @@
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                         data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" src="{{ asset('images/mario.png') }}"
+                    <img class="w-8 h-8 rounded-full" src="{{ Vite::asset('resources/images/mario.png') }}"
                          alt="user photo">
                 </button>
 
@@ -191,28 +191,28 @@
         <ul class="space-y-4">
             @guest
                 <li>
-                    <x-nav-design href="/" :active="request()->is('/dashboard')">Home</x-nav-design>
+                    <x-nav_design href="/" :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endguest
             @auth
                 <li>
-                    <x-nav-design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav-design>
+                    <x-nav_design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endauth
             <li>
-                <x-nav-design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav-design>
+                <x-nav_design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/activities" :active="request()->is('activities')">Activities</x-nav-design>
+                <x-nav_design href="/activities" :active="request()->is('activities')">Activities</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav-design>
+                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav-design>
+                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav_design>
             </li>
             <li>
-                <x-nav-design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav-design>
+                <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
             </li>
             @guest
                 <li><a href="/login" class="text-black text-[18px] font-medium hover:text-yellow-500">Login</a></li>

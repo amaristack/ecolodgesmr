@@ -1,5 +1,8 @@
- <x-layout>
-    <x-navbar />
+@php use Illuminate\Support\Facades\Vite; @endphp
+<x-layout>
+    <!-- Header for Contact Info -->
+    <x-navbar/>
+
 
     <section class="h-full relative">
         <x-carousel/>
@@ -120,13 +123,13 @@
                 <!-- Images Section -->
                 <div class="space-y-4" data-aos="fade-up">
                     <div class="h-80" data-aos="zoom-in">
-                        <img src="{{ asset('images/main.jpg') }}" alt="Main Image"
+                        <img src="{{ Vite::asset('resources/images/main.jpg') }}" alt="Main Image"
                              class="w-full h-full object-cover rounded-lg shadow-lg">
                     </div>
                     <div class="grid grid-cols-2 gap-4" data-aos="zoom-in">
-                        <img src="{{ asset('images/main image.jpg') }}" alt="Image 1"
+                        <img src="{{ Vite::asset('resources/images/main image.jpg') }}" alt="Image 1"
                              class="w-full h-full object-cover rounded-lg shadow-md">
-                        <img src="{{ asset('images/main pool.jpg') }}" alt="Image 2"
+                        <img src="{{ Vite::asset('resources/images/main pool.jpg') }}" alt="Image 2"
                              class="w-full h-full object-cover rounded-lg shadow-md">
                     </div>
                 </div>
@@ -200,7 +203,7 @@
             @foreach($activities as $act)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="flip-left">
                     <div class="relative">
-                        <img src="{{ asset('images/' . strtolower($act->activity_name) . '.jpg') }}"
+                        <img src="{{ Vite::asset('resources/images/' . strtolower($act->activity_name) . '.jpg') }}"
                              alt="{{ $act->activity_name }}"
                              class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
@@ -231,7 +234,7 @@
             @foreach($rooms as $room)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="zoom-in-up">
                     <div class="relative">
-                        <img src="{{ asset('images/' . strtolower($room->room_type) . '.jpg') }}"
+                        <img src="{{ Vite::asset('resources/images/' . strtolower($room->room_type) . '.jpg') }}"
                              alt="{{ $room->room_type }}"
                              class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
@@ -254,7 +257,7 @@
             <!-- Phone Image -->
             <div class="flex-1 w-full flex justify-center lg:justify-end" data-aos="zoom-in">
                 <div class="relative w-60 h-auto md:w-72 lg:w-80 aspect-[2/3]">
-                    <img src="{{ asset('images/phone.png') }}" alt="Phone Mockup"
+                    <img src="{{ Vite::asset('resources/images/phone.png') }}" alt="Phone Mockup"
                          class="w-full h-full object-contain">
                 </div>
             </div>
@@ -270,20 +273,20 @@
                 <div class="flex flex-col lg:flex-row items-center gap-6 mt-6">
                     <!-- QR Code -->
                     <div class="bg-gray-200 p-4 rounded-lg shadow-md" data-aos="zoom-in">
-                        <img src="{{ asset('images/qr_code.png') }}" alt="QR Code"
+                        <img src="{{ Vite::asset('resources/images/qr_code.png') }}" alt="QR Code"
                              class="w-32 h-32 object-contain">
                     </div>
                     <!-- App Store Buttons -->
                     <div class="flex flex-col gap-4 mt-4 lg:mt-0">
                         <a href="#"
                            class="flex items-center bg-gray-800 text-white rounded-lg py-2 px-4 space-x-2 shadow hover:bg-gray-900">
-                            <img src="{{ asset('images/app.png') }}" alt="Download on the App Store"
+                            <img src="{{ Vite::asset('resources/images/app.png') }}" alt="Download on the App Store"
                                  class="w-6 h-auto">
                             <span class="text-sm font-semibold">Get it on the App Store</span>
                         </a>
                         <a href="#"
                            class="flex items-center bg-gray-800 text-white rounded-lg py-2 px-4 space-x-2 shadow hover:bg-gray-900">
-                            <img src="{{ asset('images/gplay.png') }}" alt="Get it on Google Play"
+                            <img src="{{ Vite::asset('resources/images/gplay.png') }}" alt="Get it on Google Play"
                                  class="w-6 h-auto">
                             <span class="text-sm font-semibold">Get it on Google Play</span>
                         </a>
@@ -301,17 +304,17 @@
         <div class="max-w-5xl mx-auto text-center" data-aos="fade-up">
             <h2 class="text-3xl font-bold mb-10">Gallery</h2>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <img src="{{ asset('images/pool1.jpg') }}" alt="Resort Image 1"
+                <img src="{{ Vite::asset('resources/images/pool1.jpg') }}" alt="Resort Image 1"
                      class="rounded-lg shadow-md" data-aos="zoom-out">
-                <img src="{{ asset('images/pool2.jpg') }}" alt="Resort Image 2"
+                <img src="{{ Vite::asset('resources/images/pool2.jpg') }}" alt="Resort Image 2"
                      class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="100">
-                <img src="{{ asset('images/canyo.jpg') }}" alt="Resort Image 3"
+                <img src="{{ Vite::asset('resources/images/canyo.jpg') }}" alt="Resort Image 3"
                      class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="200">
-                <img src="{{ asset('images/canyo 1.jpg') }}" alt="Resort Image 4"
+                <img src="{{ Vite::asset('resources/images/canyo 1.jpg') }}" alt="Resort Image 4"
                      class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="300">
-                <img src="{{ asset('images/canyo2.jpg') }}" alt="Resort Image 5"
+                <img src="{{ Vite::asset('resources/images/canyo2.jpg') }}" alt="Resort Image 5"
                      class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="400">
-                <img src="{{ asset('images/canyo3.jpg') }}" alt="Resort Image 6"
+                <img src="{{ Vite::asset('resources/images/canyo3.jpg') }}" alt="Resort Image 6"
                      class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="500">
             </div>
         </div>
@@ -374,4 +377,4 @@
 
     <x-footer/>
 
- </x-layout>
+</x-layout>
