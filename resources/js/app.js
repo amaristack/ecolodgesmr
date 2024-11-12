@@ -1,3 +1,4 @@
+import logo from '../images/logo1.jpg';
 import Choices from 'choices.js';
 import 'choices.js/public/assets/styles/choices.css';
 import './bootstrap';
