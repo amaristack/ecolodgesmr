@@ -13,8 +13,8 @@ class HallController extends Controller
      */
     public function index()
     {
-        $function_hall = Hall::all();
-        return view('user.user_hall', compact('function_hall'));
+        $hall = Hall::all();
+        return view('user.user_hall', compact('hall'));
     }
 
     /**
@@ -36,10 +36,12 @@ class HallController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Hall $hall)
+    public function show($hall_id)
     {
-        //
+        $hall = Hall::findOrFail($hall_id); // This should return a single Hall instance, not a collection.
+        return view('user.user_show_hall', ['hall' => $hall]);
     }
+
 
     /**
      * Show the form for editing the specified resource.

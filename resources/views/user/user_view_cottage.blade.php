@@ -70,14 +70,6 @@
                     Special arrangements for anniversaries or birthdays can also be made on request.</p>
             </div>
 
-
-            <div class="p-4 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-bold mb-4">Beds</h3>
-                <ul class="list-disc list-inside text-gray-700">
-                    <li>King-size bed</li>
-                    <li>Extra sofa bed available on request</li>
-                </ul>
-            </div>
         </div>
     </div>
 

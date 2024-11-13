@@ -82,6 +82,7 @@ Route::get('/activities/{activity_id}', [ActivityController::class, 'show'])->na
 Route::get('/cottages', [PoolController::class, 'index']);
 Route::get('/cottages/{pool_id}', [PoolController::class, 'show'])->name('pools.show');
 Route::get('/function_hall', [HallController::class, 'index']);
+Route::get('/function_hall/{hall_id}', [HallController::class, 'show'])->name('function-hall.show');
 Route::get('/privacy', fn() => view('privacy'));
 Route::get('/terms', fn() => view('terms_and_condition'))->name('terms_and_condition');
 Route::get('/calendar', [CalendarController::class, 'index']);
