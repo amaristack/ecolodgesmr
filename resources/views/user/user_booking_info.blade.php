@@ -4,16 +4,62 @@
     <div id="print-section" class="container mx-auto my-10 p-8 bg-white shadow-lg rounded-xl max-w-3xl">
         <!-- Receipt Header with Logo -->
         <div class="text-center mb-8">
-            <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo.png') }}" alt="Resort Logo" class="w-24 mx-auto mb-4">
+            <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo1.jpg') }}" alt="Resort Logo" class="w-24 mx-auto mb-4">
             <h1 class="text-4xl font-bold text-gray-800">Booking Information</h1>
             <p class="text-gray-500">Thank you for choosing our resort! Here are your booking details.</p>
         </div>
 
         @if(session('success'))
-            <div class="alert alert-success p-4 bg-green-100 text-green-800 rounded-md">
-                {{ session('success') }}
+            <div
+                id="success-modal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+                <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-green-500 to-green-400 rounded-t-lg">
+                        <h3 class="text-lg font-semibold text-white">
+                            Success!
+                        </h3>
+                        <button
+                            type="button"
+                            class="text-white hover:text-gray-200"
+                            onclick="document.getElementById('success-modal').remove()">
+                            ✕
+                        </button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="px-6 py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-full">
+                                    <i class="fas fa-check-circle text-green-500 text-3xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 text-sm">
+                                    {{ session('success') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Auto Fade-Out Script -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const successModal = document.getElementById('success-modal');
+
+                    setTimeout(() => {
+                        if (successModal) {
+                            successModal.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                            setTimeout(() => successModal.remove(), 1000); // Remove after fade-out
+                        }
+                    }, 3000); // Delay before fade-out
+                });
+            </script>
         @endif
+
         <!-- Gradient Background for Main Section -->
         <div class="bg-gradient-to-r from-blue-100 to-blue-50 p-6 rounded-xl shadow-inner mb-8">
             <!-- Booking Information -->
@@ -85,8 +131,6 @@
 
     </div>
 
-    <!-- Button Section -->
-    <!-- Button Section -->
     <div class="flex justify-center gap-4 mt-8">
         <button onclick="printReceipt()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition">
             Print Receipt
@@ -127,8 +171,97 @@
         </div>
     </div>
 
+    <!-- Feedback Modal -->
+    @if($booking->payment_status === 'Fully Paid' && $booking->booking_status === 'Approved' && !$feedbackExists)
+        <div id="feedback-modal" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="relative bg-white rounded-lg shadow-lg w-full max-w-lg">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-400 rounded-t-lg">
+                    <h3 class="text-xl font-semibold text-white">
+                        Share Your Experience
+                    </h3>
+                    <button type="button" class="text-white hover:text-gray-300" onclick="document.getElementById('feedback-modal').classList.add('hidden')">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-6">
+                    <p class="text-gray-700 text-sm leading-relaxed">
+                        We strive to provide the best service for our guests. Please take a moment to share your feedback and let us know how we did during your stay!
+                    </p>
+
+                    <form id="feedback-form" action="{{ route('submit.feedback') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="booking_id" value="{{ $booking->booking_id }}">
+
+                        <!-- Rating -->
+                        <div>
+                            <label for="rating" class="block mb-2 text-sm font-medium text-gray-900">
+                                How would you rate your stay?
+                            </label>
+                            <div class="flex items-center space-x-2">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <label class="cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value="{{ $i }}"
+                                            class="hidden peer"
+                                            onclick="updateStars({{ $i }})" />
+                                        <div
+                                            id="star-{{ $i }}"
+                                            class="text-4xl text-gray-300 hover:text-yellow-500">
+                                            ★
+                                        </div>
+                                    </label>
+                                @endfor
+                            </div>
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="mt-4">
+                            <label for="comments" class="block mb-2 text-sm font-medium text-gray-900">
+                                Your Comments (Optional)
+                            </label>
+                            <textarea
+                                name="comments"
+                                id="comments"
+                                rows="4"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 text-sm placeholder-gray-400"
+                                placeholder="Tell us what you loved or what we could improve..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-6 flex justify-end">
+                            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:ring focus:ring-blue-300">
+                                Submit Feedback
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script for Star Highlighting -->
+        <script>
+            function updateStars(selected) {
+                // Highlight all stars up to the selected one
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.getElementById(`star-${i}`);
+                    if (i <= selected) {
+                        star.classList.add('text-yellow-500');
+                        star.classList.remove('text-gray-300');
+                    } else {
+                        star.classList.add('text-gray-300');
+                        star.classList.remove('text-yellow-500');
+                    }
+                }
+            }
+        </script>
+    @endif
+
     <br>
-    <hr>
 
     <x-footer />
 
@@ -150,5 +283,7 @@
         function closeModal() {
             document.getElementById('cancel-modal').classList.add('hidden');
         }
+
+
     </script>
 </x-layout>

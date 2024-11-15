@@ -35,7 +35,6 @@
         </div>
     </section>
 
-    <x-newsletter/>
     <x-footer/>
 </x-layout>
 

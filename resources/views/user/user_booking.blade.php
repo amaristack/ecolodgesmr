@@ -107,7 +107,5 @@
         </div>
     </div>
 
-    <hr class="my-12 border-t border-gray-300">
-
     <x-footer />
 </x-layout>

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Booking;
+use App\Models\Feedback;
 use App\Models\Hall;
 use App\Models\Pool;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -29,7 +31,10 @@ class BookingController extends Controller
     public function viewDetailedBooking($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('user.user_booking_info', compact('booking'));
+
+        $feedbackExists = Feedback::where('booking_id', $booking->booking_id)->exists();
+
+        return view('user.user_booking_info', compact('booking', 'feedbackExists'));
     }
 
     public function cancelBooking(Request $request, $booking_id)
@@ -65,4 +70,20 @@ class BookingController extends Controller
         return view('user.user_availability', compact('items', 'category'));
     }
 
+    public function submitFeedback(Request $request)
+    {
+        $request->validate([
+            'booking_id' => 'required|exists:bookings,booking_id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comments' => 'nullable|string|max:1000',
+        ]);
+
+        Feedback::create([
+            'booking_id' => $request->input('booking_id'),
+            'rating' => $request->input('rating'),
+            'comments' => $request->input('comments'),
+        ]);
+
+        return redirect()->route('viewDetailed.booking', $request->input('booking_id'))->with('success', 'Thank you for your feedback!');
+    }
 }

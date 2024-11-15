@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/my_bookings', [UserDashboardController::class, 'ViewBooking'])->name('view.booking');
     Route::get('/my_bookings/{booking_id}', [BookingController::class, 'viewDetailedBooking'])->name('viewDetailed.booking');
     Route::post('/cancel-booking/{booking_id}', [BookingController::class, 'cancelBooking'])->name('cancel.booking');
+    Route::post('/submit-feedback', [BookingController::class, 'submitFeedback'])->name('submit.feedback');
+
+
 
     // Booking and checkout
     Route::post('/book', [CheckoutController::class, 'book'])->name('book');

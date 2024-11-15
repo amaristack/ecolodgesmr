@@ -72,7 +72,8 @@
                     @endphp
 
                     @if($color && $statusMessage)
-                        <a href="{{ $bookingLink }}" class="flex items-start p-4 {{ $color }} rounded-lg shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <a href="{{ $bookingLink }}"
+                           class="flex items-start p-4 {{ $color }} rounded-lg shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                             <div>
                                 <i class="fa fa-bell fa-lg"></i>
                             </div>
@@ -80,7 +81,8 @@
                                 <h3 class="font-semibold text-gray-800">{{ $statusMessage }}</h3>
                                 <p class="text-sm text-gray-600">Booking for
                                     <span class="font-semibold">{{ $bookingItemName ?? 'Item not available' }}</span>,
-                                    Check-in: <span class="font-semibold">{{ $booking->check_in ? $booking->check_in->format('M d, Y') : 'N/A' }}</span>
+                                    Check-in: <span
+                                        class="font-semibold">{{ $booking->check_in ? $booking->check_in->format('M d, Y') : 'N/A' }}</span>
                                 </p>
                                 <p class="text-xs text-gray-400 mt-1">{{ $booking->created_at->diffForHumans() }}</p>
                             </div>
@@ -88,7 +90,9 @@
                     @endif
                 @endforeach
             </div>
-
+            <div class="mt-6">
+                {{ $bookings->links('pagination::tailwind') }}
+            </div>
         </div>
 
     </div>

@@ -9,11 +9,13 @@ class NotificationController extends Controller
 {
     public function getNotifications()
     {
-        $bookings = Booking::with(['room', 'activity', 'user', 'hall']) // Eager load the relationships
+        $bookings = Booking::with(['room', 'activity', 'user', 'hall'])
         ->where('user_id', auth()->id())
-            ->get();
+            ->orderByDesc('created_at')
+            ->paginate(5); 
 
         $user = auth()->user(); // Get the authenticated user
         return view('user.user_notifications', ['bookings' => $bookings, 'user' => $user]);
     }
+
 }

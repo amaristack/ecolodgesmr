@@ -42,7 +42,8 @@
                 <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav_design>
+                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
+                </x-nav_design>
             </li>
             <li>
                 <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
@@ -71,16 +72,18 @@
                         class="absolute block w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-0.5 start-2.5 dark:border-gray-900"></div>
                 </button>
 
-                <!-- Dropdown menu Notif -->
                 <div id="dropdownNotification"
-                     class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700"
+                     class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700 overflow-hidden"
                      aria-labelledby="dropdownNotificationButton">
                     <div
                         class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
                         Notifications
                     </div>
+
                     <div class="divide-y divide-gray-100 dark:divide-gray-700">
-                        @foreach($bookings as $booking)
+                        <!-- Add a fixed height and scrollable behavior here -->
+                        <div class="max-h-96 overflow-y-auto">
+                            @foreach($bookings->sortByDesc('created_at') as $booking) <!-- Sort to get latest at top -->
                             @php
                                 // Define the notification color and message based on payment_status and booking_status
                                 $color = '';
@@ -121,8 +124,7 @@
                                     <div class="ml-4 flex-1">
                                         <h3 class="font-semibold text-gray-800">{{ $statusMessage }}</h3>
                                         <p class="text-sm text-gray-600">Booking for
-                                            <span
-                                                class="font-semibold">{{ $bookingItemName ?? 'Item not available' }}</span>,
+                                            <span class="font-semibold">{{ $bookingItemName ?? 'Item not available' }}</span>,
                                             Check-in: <span
                                                 class="font-semibold">{{ $booking->check_in ? $booking->check_in->format('M d, Y') : 'N/A' }}</span>
                                         </p>
@@ -130,14 +132,12 @@
                                     </div>
                                 </a>
                             @endif
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                    <a href="{{ route('notifications') }}" class="block text-center mt-4 text-blue-500">View All
-                        Notifications</a>
+
+                    <a href="{{ route('notifications') }}" class="block text-center mt-4 text-blue-500">View All Notifications</a>
                 </div>
-
-
-
 
                 <!-- User Profile Menu -->
                 <button type="button"
@@ -209,7 +209,8 @@
                 <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall</x-nav_design>
+                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
+                </x-nav_design>
             </li>
             <li>
                 <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
