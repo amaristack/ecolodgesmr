@@ -51,28 +51,28 @@
                         @if($category === 'rooms')
                             <a href="{{ route('rooms.show', $item->room_id) }}"
                                class="block p-4 bg-white rounded-lg shadow-md text-center hover:bg-gradient-to-r hover:from-blue-200 hover:to-teal-200 transition">
-                                <img src="{{ Vite::asset('resources/images/' . strtolower($item->room_type) . '.jpg') }}" alt="{{ $item->room_type }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->room_type) . '.jpg' }}" alt="{{ $item->room_type }}" class="w-full h-48 object-cover rounded-lg mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800">Room: {{ $item->room_name }}</h3>
                                 <p class="text-gray-600">Availability: {{ $item->availability }}</p>
                             </a>
                         @elseif($category === 'activity')
                             <a href="{{ route('activities.show', $item->activity_id) }}"
                                class="block p-4 bg-white rounded-lg shadow-md text-center hover:bg-gradient-to-r hover:from-blue-200 hover:to-teal-200 transition">
-                                <img src="{{ Vite::asset('resources/images/' . strtolower($item->activity_name) . '.jpg') }}" alt="{{ $item->activity_name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->activity_name) . '.jpg' }}" alt="{{ $item->activity_name }}" class="w-full h-48 object-cover rounded-lg mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800">Activity: {{ $item->activity_name }}</h3>
                                 <p class="text-gray-600">Availability: {{ $item->availability }}</p>
                             </a>
                         @elseif($category === 'cottages')
                             <a href="{{ route('pools.show', $item->pool_id) }}"
                                class="block p-4 bg-white rounded-lg shadow-md text-center hover:bg-gradient-to-r hover:from-blue-200 hover:to-teal-200 transition">
-                                <img src="{{ Vite::asset('resources/images/' . strtolower($item->cottage_name) . '.jpg') }}" alt="{{ $item->cottage_name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->cottage_name) . '.jpg' }}" alt="{{ $item->cottage_name }}" class="w-full h-48 object-cover rounded-lg mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800">Cottage: {{ $item->cottage_name }}</h3>
                                 <p class="text-gray-600">Availability: {{ $item->availability }}</p>
                             </a>
                         @elseif($category === 'function_hall')
-                            <a href="{{ route('function_halls.show', $item->hall_id) }}"
+                            <a href="{{ route('function-hall.show', $item->hall_id) }}"
                                class="block p-4 bg-white rounded-lg shadow-md text-center hover:bg-gradient-to-r hover:from-blue-200 hover:to-teal-200 transition">
-                                <img src="{{ Vite::asset('resources/images/' . strtolower($item->type) . '.jpg') }}" alt="{{ $item->type }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->hall_name) . '.jpg' }}" alt="{{ $item->type }}" class="w-full h-48 object-cover rounded-lg mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800">Function Hall: {{ $item->type }}</h3>
                                 <p class="text-gray-600">Availability: {{ $item->availability }}</p>
                             </a>

@@ -2,7 +2,7 @@
     <x-navbar />
 
     <div class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-black opacity-30"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-bold mb-4">Welcome to Ecolodge Resort </h1>

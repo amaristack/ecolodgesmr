@@ -1,7 +1,7 @@
 <!-- Video Background Section -->
 <div class="relative w-full h-screen">
     <video autoplay muted loop class="w-full h-full object-cover">
-        <source src="{{ Vite::asset('resources/videos/sibugay.mp4') }}" type="video/mp4">
+        <source src="{{ asset('videos/sibugay.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div

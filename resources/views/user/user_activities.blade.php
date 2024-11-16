@@ -1,7 +1,7 @@
 <x-layout>
     <x-navbar/>
     <div class="relative bg-cover bg-center h-[350px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-extrabold mb-4">Choose your Activity</h1>
@@ -27,7 +27,7 @@
                 <div
                     class="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($act->activity_name) . '.jpg') }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($act->activity_name) . '.jpg' }}"
                              alt="{{ $act->activity_name }}"
                              class="w-full h-56 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                         @if ($index === 0)

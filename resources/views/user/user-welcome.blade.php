@@ -7,7 +7,7 @@
     <section class="h-full relative">
         <x-carousel/>
     </section>
-    
+
     <section class="container mx-auto px-4 py-8" data-aos="fade-up">
         <div class="w-full mx-auto p-8" data-aos="fade-up">
             <h1 class="text-3xl font-bold text-black text-center mb-8" data-aos="fade-up">About Us</h1>
@@ -15,13 +15,13 @@
                 <!-- Images Section -->
                 <div class="space-y-4" data-aos="fade-up">
                     <div class="h-80" data-aos="zoom-in">
-                        <img src="{{ Vite::asset('resources/images/main.jpg') }}" alt="Main Image"
+                        <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg" alt="Main Image"
                              class="w-full h-full object-cover rounded-lg shadow-lg">
                     </div>
                     <div class="grid grid-cols-2 gap-4" data-aos="zoom-in">
-                        <img src="{{ Vite::asset('resources/images/main image.jpg') }}" alt="Image 1"
+                        <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main image.jpg" alt="Image 1"
                              class="w-full h-full object-cover rounded-lg shadow-md">
-                        <img src="{{ Vite::asset('resources/images/main pool.jpg') }}" alt="Image 2"
+                        <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main pool.jpg" alt="Image 2"
                              class="w-full h-full object-cover rounded-lg shadow-md">
                     </div>
                 </div>
@@ -88,19 +88,23 @@
         <div class="text-center mb-8">
             <h2 class="text-lg text-yellow-500 font-semibold">Choose Your Activities</h2>
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Featured Outdoor Activity</h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+            <p class="text-gray-600 max-w-2xl mx-auto">Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry...</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach($activities as $act)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="flip-left">
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($act->activity_name) . '.jpg') }}" alt="{{ $act->activity_name }}" class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($act->activity_name) . '.jpg' }}"
+                             alt="{{ $act->activity_name }}"
+                             class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $act->activity_name }}</h3>
                         <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $act->price }} / Person</p>
                         <div class="flex justify-between items-center mb-4">
-                            <a href="/activities/{{ $act->activity_id }}" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
+                            <a href="/activities/{{ $act->activity_id }}"
+                               class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
                         </div>
                     </div>
                 </div>
@@ -122,7 +126,7 @@
             @foreach($rooms as $room)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="zoom-in-up">
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($room->room_type) . '.jpg') }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
                              alt="{{ $room->room_type }}"
                              class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
@@ -136,28 +140,6 @@
                     </div>
                 </div>
             @endforeach
-        </div>
-    </section>
-
-
-    <!-- Gallery Section -->
-    <section class="py-10 px-4 md:px-6 lg:px-10 bg-white" id="gallery" data-aos="fade-up">
-        <div class="max-w-5xl mx-auto text-center" data-aos="fade-up">
-            <h2 class="text-3xl font-bold mb-10">Gallery</h2>
-            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <img src="{{ Vite::asset('resources/images/pool1.jpg') }}" alt="Resort Image 1"
-                     class="rounded-lg shadow-md" data-aos="zoom-out">
-                <img src="{{ Vite::asset('resources/images/pool2.jpg') }}" alt="Resort Image 2"
-                     class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="100">
-                <img src="{{ Vite::asset('resources/images/canyo.jpg') }}" alt="Resort Image 3"
-                     class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="200">
-                <img src="{{ Vite::asset('resources/images/canyo 1.jpg') }}" alt="Resort Image 4"
-                     class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="300">
-                <img src="{{ Vite::asset('resources/images/canyo2.jpg') }}" alt="Resort Image 5"
-                     class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="400">
-                <img src="{{ Vite::asset('resources/images/canyo3.jpg') }}" alt="Resort Image 6"
-                     class="rounded-lg shadow-md" data-aos="zoom-out" data-aos-delay="500">
-            </div>
         </div>
     </section>
 
@@ -215,10 +197,6 @@
     </section>
 
     <x-newsletter/>
-
-    <x-user_modal_login/>
-    <x-user_register_modal/>
-
     <x-footer/>
 
 </x-layout>

@@ -9,12 +9,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($rooms as $room)
                     <div class="rounded overflow-hidden shadow-lg bg-white">
-                        @php
-                            $roomImagePath = 'resources/images/' . strtolower($room->room_type) . '.jpg';
-                        @endphp
 
                         <img class="w-full h-48 object-cover"
-                             src="{{ Vite::asset($roomImagePath) }}"
+                             src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
                              alt="{{ $room->room_name }}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ asset('images/default-room.jpg') }}'">
@@ -42,12 +39,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($activities as $activity)
                     <div class="rounded overflow-hidden shadow-lg bg-white">
-                        @php
-                            $activityImagePath = 'resources/images/' . strtolower($activity->activity_name) . '.jpg';
-                        @endphp
 
                         <img class="w-full h-48 object-cover"
-                             src="{{ Vite::asset($activityImagePath) }}"
+                             src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($activity->activity_name) . '.jpg' }}"
                              alt="{{ $activity->activity_name }}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ asset('images/default-activity.jpg') }}'">
@@ -74,12 +68,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($cottages as $cottage)
                     <div class="rounded overflow-hidden shadow-lg bg-white">
-                        @php
-                            $cottageImagePath = 'resources/images/' . strtolower($cottage->cottage_name) . '.jpg';
-                        @endphp
 
                         <img class="w-full h-48 object-cover"
-                             src="{{ Vite::asset($cottageImagePath) }}"
+                             src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($cottage->cottage_name) . '.jpg' }}"
                              alt="{{ $cottage->cottage_name }}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ asset('images/default-cottage.jpg') }}'">
@@ -107,12 +98,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($halls as $hall)
                     <div class="rounded overflow-hidden shadow-lg bg-white">
-                        @php
-                            $hallImagePath = 'resources/images/' . strtolower($hall->name) . '.jpg';
-                        @endphp
 
                         <img class="w-full h-48 object-cover"
-                             src="{{ Vite::asset($hallImagePath) }}"
+                             src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($hall->hall_name) . '.jpg' }}"
                              alt="{{ $hall->name }}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ asset('images/default-hall.jpg') }}'">
@@ -125,7 +113,7 @@
                             <p class="text-gray-900 font-semibold mt-2">Capacity: {{ $hall->capacity }} people</p>
                         </div>
                         <div class="px-6 py-4">
-                            <a href="{{ route('halls.show', $hall->hall_id) }}" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('function-hall.show', $hall->hall_id) }}" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 Book Now
                             </a>
                         </div>

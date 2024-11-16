@@ -126,9 +126,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Initiate payment with PayMongo (GCash).
-     */
+
     public function payWithPayMongo()
     {
         $bookingData = session('booking_data');
@@ -182,9 +180,7 @@ class CheckoutController extends Controller
         }
     }
 
-    /**
-     * Handle the successful payment callback from PayMongo.
-     */
+ 
     public function success(Request $request)
     {
         $bookingData = session('booking_data');
@@ -390,9 +386,7 @@ class CheckoutController extends Controller
         }
     }
 
-    /**
-     * Initiate payment with PayPal.
-     */
+
     public function payWithPayPal()
     {
         $bookingData = session('booking_data');
@@ -400,15 +394,15 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-        // Initialize PayPal client
+       
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
 
-        // Format the amount to two decimal places
+        
         $formattedAmount = number_format($bookingData['payment_amount'], 2, '.', '');
 
-        // Create PayPal order
+        // Order diri dapit 
         $order = $provider->createOrder([
             "intent" => "CAPTURE",
             "purchase_units" => [
@@ -426,13 +420,15 @@ class CheckoutController extends Controller
         ]);
 
         if (isset($order['id']) && $order['id'] != null) {
-            // Redirect the user to PayPal approval URL
+            //Balik sa user
             foreach ($order['links'] as $link) {
                 if ($link['rel'] === 'approve') {
                     return redirect()->away($link['href']);
                 }
             }
+            
 
+            //Callback ni dire dapit
             return redirect()
                 ->route('payment-failure')
                 ->with('error', 'Something went wrong.');
@@ -444,9 +440,7 @@ class CheckoutController extends Controller
     }
 
 
-    /**
-     * Handle PayPal success callback.
-     */
+   
     public function paypalSuccess(Request $request)
     {
         $provider = new PayPalClient;
@@ -495,9 +489,7 @@ class CheckoutController extends Controller
     }
 
 
-    /**
-     * Handle PayPal cancellation.
-     */
+
     public function paypalCancel()
     {
         return redirect()->route('payment-failure')->with('error', 'Payment was canceled.');
