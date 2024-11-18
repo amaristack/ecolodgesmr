@@ -4,7 +4,7 @@
     <div id="print-section" class="container mx-auto my-10 p-8 bg-white shadow-lg rounded-xl max-w-3xl">
         <!-- Receipt Header with Logo -->
         <div class="text-center mb-8">
-            <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo1.jpg') }}" alt="Resort Logo" class="w-24 mx-auto mb-4">
+            <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/logo1.jpg?t=2024-11-16T16%3A15%3A49.458Z" alt="Resort Logo" class="w-24 mx-auto mb-4">
             <h1 class="text-4xl font-bold text-gray-800">Booking Information</h1>
             <p class="text-gray-500">Thank you for choosing our resort! Here are your booking details.</p>
         </div>

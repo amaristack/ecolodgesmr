@@ -21,7 +21,7 @@
         <div class="w-full md:w-1/4 bg-white shadow-xl rounded-3xl overflow-hidden mb-8 md:mb-0">
             <div class="text-center p-8">
                 <div class="w-24 h-24 rounded-full bg-yellow-500 flex items-center justify-center mx-auto shadow-md">
-                    <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/mario.png') }}" alt=""
+                    <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/mario.png?t=2024-11-16T16%3A16%3A19.062Z" alt=""
                          class="rounded-full object-cover w-full h-full"/>
                 </div>
                 <h3 class="mt-4 text-xl font-semibold text-gray-800">{{ $users->first_name }} {{ $users->last_name }}</h3>

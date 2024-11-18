@@ -5,7 +5,7 @@
 
     <!-- Banner Section -->
     <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-blue-500 opacity-50"></div>
         <div class="container mx-auto relative z-10 flex items-center justify-center">
             <div class="text-center text-white">
@@ -111,7 +111,7 @@
                     <div class="mb-4">
                         @if($type == 'rooms')
                             <!-- For Rooms -->
-                            <img src="{{ Vite::asset('resources/images/' . strtolower($item->room_type) . '.jpg') }}"
+                            <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->room_type) . '.jpg' }}"
                                  alt="Room Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->room_name }}</h3>
                             <p class="font-bold">PHP {{ $item->price }} / Night</p>
@@ -119,14 +119,14 @@
                             <input type="hidden" name="room_id" value="{{ $item->room_id }}">
                         @elseif($type == 'cottages')
                             <!-- For Cottages -->
-                            <img src="{{ Vite::asset('resources/images/' . strtolower($item->cottage_name) . '.jpg') }}"
+                            <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->cottage_name) . '.jpg' }}"
                                  alt="Cottage Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->cottage_name }}</h3>
                             <p class="font-bold">PHP {{ $item->price }} / Day</p>
                             <input type="hidden" name="pool_id" value="{{ $item->pool_id }}">
                         @elseif($type == 'activity')
                             <!-- For Activities -->
-                            <img src="{{ Vite::asset('resources/images/' . strtolower($item->activity_name) . '.jpg') }}"
+                            <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->activity_name) . '.jpg' }}"
                                  alt="Activity Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->activity_name }}</h3>
                             <p class="font-bold">PHP {{ $item->price }} per Person</p>
@@ -134,7 +134,7 @@
                             <input type="hidden" name="activity_id" value="{{ $item->activity_id }}">
                         @elseif($type == 'hall')
                             <!-- For Hall -->
-                            <img src="{{ Vite::asset('resources/images/' . strtolower($item->hall_name) . '.jpg') }}"
+                            <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->hall_name) . '.jpg' }}"
                                  alt="Hall Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->hall_name }}</h3>
                             <p class="font-bold">PHP {{ $item->price }} / Event</p>
