@@ -69,7 +69,7 @@
             <!-- Pay with GCash -->
             <form action="{{ route('pay-with-gcash') }}" method="GET" class="w-full md:w-auto">
                 <button type="submit" class="flex items-center justify-center w-full md:w-auto text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-3 shadow">
-                    <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/gcash-logo.png')  }}" alt="GCash" class="w-24 h-5 mr-3">
+                    <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/gcash-logo.png?t=2024-11-19T06%3A11%3A58.795Z" alt="GCash" class="w-24 h-5 mr-3">
                 </button>
             </form>
 

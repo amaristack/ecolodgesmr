@@ -13,9 +13,11 @@ class PoolController extends Controller
      */
     public function index()
     {
-        $pool = Pool::all();
+        // Fetch pools where 'cottage_type' is not null
+        $pool = Pool::whereNotNull('cottage_type')->get();
         return view('user.user_cottage', compact('pool'));
     }
+
 
     /**
      * Show the form for creating a new resource.

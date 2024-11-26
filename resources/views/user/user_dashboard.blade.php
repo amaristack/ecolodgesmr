@@ -1,7 +1,7 @@
 <x-layout>
     <x-navbar />
     <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-blue-500 opacity-50"></div>
         <div class="container mx-auto relative z-10 flex items-center justify-center">
             <div class="text-center text-white">
@@ -17,7 +17,7 @@
         <div class="w-full md:w-1/4 md:h-screen bg-white shadow-lg mb-8 md:mb-0 rounded-3xl">
             <div class="text-center p-8">
                 <div class="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center mx-auto">
-                    <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/mario.png') }}" alt="" class="rounded-full"/>
+                    <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/mario.png?t=2024-11-19T05%3A51%3A38.924Z" alt="" class="rounded-full"/>
                 </div>
                 <h3 class="mt-4 text-lg font-semibold">{{ $user->first_name }} {{ $user->last_name }}</h3>
                 <p class="text-sm text-gray-500">{{ $user->email }}</p>

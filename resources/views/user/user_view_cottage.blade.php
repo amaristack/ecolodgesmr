@@ -1,75 +1,62 @@
 <x-layout>
     <x-navbar/>
 
-    <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
-        <div class="absolute inset-0 bg-blue-500 opacity-50"></div>
-        <div class="container mx-auto relative z-10 flex items-center justify-center">
-            <div class="text-center text-white">
-                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">View Room</h1>
-                <nav class="text-sm sm:text-lg font-bold mb-4 sm:mb-8">
-                    <a href="/dashboard" class="hover:underline">Home</a> /
-                    <a href="/rooms/{{ $pool->pool_id }}" class="underline">View Rooms</a>
-                </nav>
-            </div>
+    <div class="relative bg-cover bg-center h-[350px] sm:h-[400px] flex items-center justify-center"
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+        <div class="container mx-auto relative z-10 text-center text-white">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">View Room</h1>
+            <nav class="text-sm sm:text-lg font-semibold mb-6">
+                <a href="/dashboard" class="hover:underline">Home</a> /
+                <a href="/rooms/{{ $pool->pool_id }}" class="underline">View Rooms</a>
+            </nav>
         </div>
     </div>
 
-
-    <div class="max-w-screen-lg mx-auto my-8 px-4 lg:px-0 flex flex-col lg:flex-row gap-8 w-full">
-        <div class="w-full lg:w-2/3 flex flex-col gap-4">
-            <img class="h-auto w-full rounded-lg shadow-xl dark:shadow-gray-800"
-                 src="{{ Vite::asset('resources/images/' . strtolower($pool->cottage_name) . '.jpg') }}"
+    {{-- Main Content --}}
+    <div class="max-w-screen-lg mx-auto my-10 px-4 lg:px-6 flex flex-col lg:flex-row gap-8 w-full">
+        <!-- Left Column - Image -->
+        <div class="w-full lg:w-2/3 flex justify-center">
+            <img class="w-full h-auto object-cover rounded-lg shadow-lg"
+                 src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($pool->cottage_name) . '.jpg' }}"
                  alt="Main Room Image">
         </div>
 
-
+        <!-- Right Column - Room Info & Description -->
         <div class="w-full lg:w-1/3 flex flex-col space-y-8">
-            <div class="flex flex-col items-start p-4 bg-white shadow-md rounded-lg space-y-4 h-full">
-                <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-gray-900">{{ $pool->cottage_name }}</h3>
-                    <p class="text-gray-700">
-                        <span class="font-bold">{{ $pool->price }}</span> / Night
-                    </p>
-                </div>
-
+            <!-- Cottage Info -->
+            <div class="flex flex-col items-start p-6 bg-white shadow-xl rounded-lg space-y-4">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $pool->cottage_name }}</h3>
+                <p class="text-lg text-gray-800">
+                    <span class="font-semibold text-yellow-600">{{ $pool->price }}</span> / Night
+                </p>
                 <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
-                   class="bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 w-full text-center block text-sm sm:text-base">
+                   class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">
                     Book Now
                 </a>
-
-
-                <div class="flex space-x-2">
-                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Adult 2</span>
-                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Child 0</span>
+                <div class="flex space-x-3 text-gray-600">
+                    <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow-md">Relaxing</span>
+                    <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow-md">Pool View</span>
+                    <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow-md">River Access</span>
                 </div>
             </div>
 
-
-            <div class="p-4 bg-white shadow-md rounded-lg">
-                <h2 class="text-xl sm:text-2xl font-bold mb-4">{{ $pool->cottage_name }}</h2>
+            <!-- Room Description -->
+            <div class="p-6 bg-white shadow-xl rounded-lg">
+                <h2 class="text-lg sm:text-xl font-semibold mb-4 text-gray-800">Description</h2>
                 <p class="text-gray-700">{{ $pool->description }}</p>
             </div>
 
-
-            <div class="p-4 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-bold mb-4">Amenities</h3>
-                <ul class="list-disc list-inside text-gray-700">
-                    <li>Free Wi-Fi</li>
-                    <li>24/7 Room Service</li>
-                    <li>Flat-screen TV</li>
-                    <li>Mini Bar</li>
-                    <li>Complimentary Breakfast</li>
+            <!-- Entrance Fee -->
+            <div class="p-6 bg-white shadow-xl rounded-lg">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-gray-800">Entrance Fee</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li><i class="fa fa-user text-yellow-600"></i> Adult: PHP 50.00</li>
+                    <li><i class="fa fa-person-cane text-yellow-600"></i> Senior: PHP 40.00</li>
+                    <li><i class="fa fa-child text-yellow-600"></i> Child: PHP 30.00</li>
+                    <li><i class="fa fa-house text-yellow-600"></i> Albuera Resident: PHP 45.00</li>
                 </ul>
             </div>
-
-
-            <div class="p-4 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-bold mb-4">Complements</h3>
-                <p class="text-gray-700">Enjoy a bottle of wine on arrival, along with a complimentary fruit basket.
-                    Special arrangements for anniversaries or birthdays can also be made on request.</p>
-            </div>
-
         </div>
     </div>
 

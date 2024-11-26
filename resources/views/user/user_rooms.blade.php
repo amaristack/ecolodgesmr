@@ -3,7 +3,7 @@
 
     <!-- Hero Section -->
     <div class="relative bg-cover bg-center h-[350px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-extrabold mb-4">Choose a Room</h1>
@@ -29,7 +29,7 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300">
                     <!-- Image -->
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($room->room_type) . '.jpg') }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
                              alt="{{ $room->room_type }}"
                              class="w-full h-56 sm:h-64 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
                              style="object-position: center 40%;">
@@ -41,7 +41,7 @@
                     <!-- Room Details -->
                     <div class="p-4 sm:p-6">
                         <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{{ $room->room_type }}</h3>
-                        <p class="text-green-600 font-bold text-lg mb-3">PHP {{ $room->price }} / Night</p>
+                        <p class="text-green-600 font-bold text-lg mb-3">PHP {{ $room->rate }} / Night</p>
 
                         <!-- Highlights -->
                         <div class="mb-4 flex flex-wrap gap-2">

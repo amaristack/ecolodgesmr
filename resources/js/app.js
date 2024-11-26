@@ -4,6 +4,7 @@ import './bootstrap';
 import 'flowbite';
 
 
+
 // Preloader Fade-Out
 $(window).on('load', function () {
     setTimeout(function () {
@@ -224,6 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-//Notif
+
 
 

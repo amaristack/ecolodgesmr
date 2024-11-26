@@ -1,7 +1,7 @@
 <x-layout>
     <x-navbar/>
     <div class="relative bg-cover bg-center h-[350px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-extrabold mb-4">Choose your Hall</h1>
@@ -45,7 +45,7 @@
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-lg transition transform hover:-translate-y-1">
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($hall->hall_name) . '.jpg') }}" alt="{{ $hall->hall_name }}" class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($hall->hall_name) . '.jpg' }}" alt="{{ $hall->hall_name }}" class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                         <div class="absolute top-0 left-0 bg-indigo-500 text-white font-bold py-1 px-3 rounded-br-lg">{{ $highlight }}</div>
                     </div>
                     <div class="p-6">

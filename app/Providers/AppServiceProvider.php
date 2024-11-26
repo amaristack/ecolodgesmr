@@ -52,4 +52,6 @@ class AppServiceProvider extends ServiceProvider
         View::share('bookings', Booking::all());
     }
 
+
+
 }

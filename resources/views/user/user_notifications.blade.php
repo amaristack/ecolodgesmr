@@ -3,7 +3,7 @@
 
     <!-- Banner Section -->
     <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 opacity-60"></div>
         <div class="container mx-auto relative z-10 flex items-center justify-center">
             <div class="text-center text-white">
@@ -22,7 +22,7 @@
         <div class="w-full md:w-1/4 bg-white shadow-lg rounded-xl p-6">
             <div class="text-center">
                 <div class="w-24 h-24 rounded-full bg-red-500 flex items-center justify-center mx-auto mb-4">
-                    <img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/mario.png') }}" alt=""
+                    <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/mario.png?t=2024-11-19T05%3A51%3A38.924Z" alt=""
                          class="rounded-full"/>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800">{{ $user->first_name }} {{ $user->last_name }}</h3>

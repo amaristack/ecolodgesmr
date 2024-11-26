@@ -28,7 +28,7 @@
                     class="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition transform hover:-translate-y-1">
                     <div class="relative">
                         <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($act->activity_name) . '.jpg' }}"
-                             alt="{{ $act->activity_name }}"
+                             alt="{{ $act->activity_names }}"
                              class="w-full h-56 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                         @if ($index === 0)
                             <div class="absolute top-0 right-0 bg-red-600 text-white font-bold py-1 px-3 rounded-bl-lg">
@@ -64,7 +64,7 @@
                                 Discover this unique experience away from the usual tourist path.
                             @endif
                         </p>
-                        <p class="text-green-700 font-semibold text-xl mb-2">PHP{{ number_format($act->price, 2) }} /
+                        <p class="text-green-700 font-semibold text-xl mb-2">PHP{{ number_format($act->rate, 2) }} /
                             Person</p>
                         <div class="flex justify-between items-center">
                             <a href="/activities/{{ $act->activity_id }}"

@@ -13,9 +13,11 @@ class HallController extends Controller
      */
     public function index()
     {
-        $hall = Hall::all();
+        // Fetch halls where 'hall_name' is not null
+        $hall = Hall::whereNotNull('hall_name')->get();
         return view('user.user_hall', compact('hall'));
     }
+
 
     /**
      * Show the form for creating a new resource.

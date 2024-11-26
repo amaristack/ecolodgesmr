@@ -2,7 +2,7 @@
     <x-navbar/>
 
     <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('{{ \Illuminate\Support\Facades\Vite::asset('resources/images/main.jpg') }}');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-blue-500 opacity-50"></div>
         <div class="container mx-auto relative z-10 flex items-center justify-center">
             <div class="text-center text-white">
@@ -19,7 +19,7 @@
     <div class="max-w-screen-lg mx-auto my-8 px-4 lg:px-0 flex flex-col lg:flex-row gap-8 w-full">
         <div class="w-full lg:w-2/3 flex flex-col gap-4">
             <img class="h-auto w-full rounded-lg shadow-xl dark:shadow-gray-800"
-                 src="{{ Vite::asset('resources/images/' . strtolower($activity->activity_name) . '.jpg') }}"
+                 src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($activity->activity_name) . '.jpg' }}"
                  alt="Main Room Image">
         </div>
 
@@ -29,7 +29,7 @@
                 <div>
                     <h3 class="text-lg sm:text-xl font-bold text-gray-900">{{ $activity->activity_name }}</h3>
                     <p class="text-gray-700">
-                        <span class="font-bold">{{ $activity->price }}</span> / Night
+                        <span class="font-bold">{{ $activity->price }}</span> / Activity
                     </p>
                 </div>
 
@@ -40,36 +40,59 @@
 
 
                 <div class="flex space-x-2">
-                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Tour Guide 2</span>
-                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Person 5</span>
+                    @if($activity->activity_id == 4)
+                        <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Tour Guide 1</span>
+                        <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Person 5</span>
+                    @else
+                        <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Tour Guide 2</span>
+                        <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow">Person 5</span>
+                    @endif
                 </div>
             </div>
 
 
             <div class="p-4 bg-white shadow-md rounded-lg">
-                <h2 class="text-xl sm:text-2xl font-bold mb-4">{{ $activity->activity_name }}</h2>
+                <h2 class="text-xl sm:text-2xl font-bold mb-4">Inclusion</h2>
                 <ul class="list-disc list-inside text-gray-700">
-                    <li>{{ $activity->activity_description }}</li>
+                    @if($activity->activity_id == 1)
+                        <li>Figure 8 gear, Harness, Helmet</li>
+                        <li>Ropes (2 pcs. 100m and 2 pcs. 50m)</li>
+                        <li>1 tour guide/ 5 persons</li>
+                        <li>Service Vehicle (Albuera Town Hall to Sibugay Mountain Resort V/V)</li>
+                    @elseif($activity->activity_id == 2)
+                        <li>Figure 8 gear, Harness, Helmet</li>
+                        <li>Ropes (2 pcs. 100m and 2 pcs. 50m)</li>
+                        <li>1 tour guide/ 5 persons</li>
+                        <li>Service Vehicle (Albuera Town Hall to Sibugay Mountain Resort V/V)</li>
+                        <li>Camp Site</li>
+                        <li>Pool Access</li>
+                        <li>1 Small Cottage (group)</li>
+                    @elseif($activity->activity_id == 3)
+                        <li>Figure 8 gear, Harness, Helmet</li>
+                        <li>Ropes (2 pcs. 100m and 2 pcs. 50m)</li>
+                        <li>1 tour guide/ 5 persons</li>
+                        <li>Service Vehicle (Albuera Town Hall to Sibugay Mountain Resort V/V)</li>
+                        <li>Camp Site</li>
+                        <li>Pool Access</li>
+                        <li>1 Small Cottage and Deluxe Cottage (group)</li>
+                        <li>Ecolodge Guest Room</li>
+                    @elseif($activity->activity_id == 4)
+                        <li>Helmet</li>
+                        <li>Pool Access</li>
+                        <li>1 Small Cottage (group)</li>
+                        <li>1 tour guide</li>
+                    @else
+                        <li>Standard Inclusion</li>
+                    @endif
                 </ul>
             </div>
 
 
-
-
             <div class="p-4 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-bold mb-4">Complements</h3>
-                <p class="text-gray-700">Enjoy a bottle of wine on arrival, along with a complimentary fruit basket.
-                    Special arrangements for anniversaries or birthdays can also be made on request.</p>
+                <h3 class="text-lg sm:text-xl font-bold mb-4">Description</h3>
+                <p class="text-gray-700">{{ $activity->activity_description }}</p>
             </div>
 
-
-            <div class="p-4 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-bold mb-4">Beds</h3>
-                <ul class="list-disc list-inside text-gray-700">
-                    <li>King-size bed</li>
-                    <li>Extra sofa bed available on request</li>
-                </ul>
-            </div>
         </div>
     </div>
 

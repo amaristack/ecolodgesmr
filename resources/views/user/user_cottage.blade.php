@@ -45,13 +45,13 @@
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-lg transition transform hover:-translate-y-1">
                     <div class="relative">
-                        <img src="{{ Vite::asset('resources/images/' . strtolower($pools->cottage_name) . '.jpg') }}" alt="{{ $pools->cottage_type }}" class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($pools->cottage_name) . '.jpg' }}" alt="{{ $pools->cottage_type }}" class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                         <div class="absolute top-0 left-0 bg-indigo-500 text-white font-bold py-1 px-3 rounded-br-lg">{{ $highlight }}</div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $pools->cottage_type }}</h3>
                         <p class="text-gray-700 mb-3">{{ $description }}</p>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP {{ number_format($pools->price, 2) }} Rent</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP {{ number_format($pools->rate, 2) }} Rent</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="/cottages/{{ $pools->pool_id }}" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
                             <span class="text-yellow-500 text-sm font-semibold">{{ $highlight }}</span>

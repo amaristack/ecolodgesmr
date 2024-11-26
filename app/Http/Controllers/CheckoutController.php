@@ -180,7 +180,7 @@ class CheckoutController extends Controller
         }
     }
 
- 
+
     public function success(Request $request)
     {
         $bookingData = session('booking_data');
@@ -394,15 +394,15 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-       
+
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
 
-        
+
         $formattedAmount = number_format($bookingData['payment_amount'], 2, '.', '');
 
-        // Order diri dapit 
+        // Order diri dapit
         $order = $provider->createOrder([
             "intent" => "CAPTURE",
             "purchase_units" => [
@@ -426,7 +426,7 @@ class CheckoutController extends Controller
                     return redirect()->away($link['href']);
                 }
             }
-            
+
 
             //Callback ni dire dapit
             return redirect()
@@ -440,7 +440,7 @@ class CheckoutController extends Controller
     }
 
 
-   
+
     public function paypalSuccess(Request $request)
     {
         $provider = new PayPalClient;

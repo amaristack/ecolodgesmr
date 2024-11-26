@@ -15,9 +15,11 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::all();
+        // Fetch rooms where 'room_type' is not null
+        $rooms = Room::whereNotNull('room_type')->get();
         return view('user.user_rooms', ['rooms' => $rooms]);
     }
+
 
     /**
      * Show the form for creating a new resource.

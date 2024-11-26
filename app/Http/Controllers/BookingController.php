@@ -20,13 +20,15 @@ class BookingController extends Controller
 
     public function showAll()
     {
-        $rooms = Room::all();
-        $activities = Activity::all();
-        $cottages = Pool::all();
-        $halls = Hall::all();
+        // Fetch records with no null values based on earlier requirements
+        $rooms = Room::whereNotNull('room_type')->get();
+        $activities = Activity::all(); // Assuming no null filtering is needed for activities
+        $cottages = Pool::whereNotNull('cottage_type')->get();
+        $halls = Hall::whereNotNull('hall_name')->get();
 
         return view('user.book', compact('rooms', 'activities', 'cottages', 'halls'));
     }
+
 
     public function viewDetailedBooking($id)
     {
