@@ -29,7 +29,7 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300">
                     <!-- Image -->
                     <div class="relative">
-                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->name) . '.jpg' }}"
                              alt="{{ $room->room_type }}"
                              class="w-full h-56 sm:h-64 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
                              style="object-position: center 40%;">
@@ -40,7 +40,7 @@
                     </div>
                     <!-- Room Details -->
                     <div class="p-4 sm:p-6">
-                        <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{{ $room->room_type }}</h3>
+                        <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{{ $room->name }}</h3>
                         <p class="text-green-600 font-bold text-lg mb-3">PHP {{ $room->rate }} / Night</p>
 
                         <!-- Highlights -->

@@ -114,7 +114,7 @@
                             <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->room_type) . '.jpg' }}"
                                  alt="Room Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->room_name }}</h3>
-                            <p class="font-bold">PHP {{ $item->price }} / Night</p>
+                            <p class="font-bold">PHP {{ $item->rate }} / Night</p>
                             <p>Capacity: {{ $item->capacity }} People</p>
                             <input type="hidden" name="room_id" value="{{ $item->room_id }}">
                         @elseif($type == 'cottages')
@@ -122,14 +122,14 @@
                             <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->cottage_name) . '.jpg' }}"
                                  alt="Cottage Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->cottage_name }}</h3>
-                            <p class="font-bold">PHP {{ $item->price }} / Day</p>
+                            <p class="font-bold">PHP {{ $item->rate }} / Day</p>
                             <input type="hidden" name="pool_id" value="{{ $item->pool_id }}">
                         @elseif($type == 'activity')
                             <!-- For Activities -->
                             <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->activity_name) . '.jpg' }}"
                                  alt="Activity Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->activity_name }}</h3>
-                            <p class="font-bold">PHP {{ $item->price }} per Person</p>
+                            <p class="font-bold">PHP {{ $item->rate }} per Person</p>
                             <p>Duration: {{ $item->duration }} Hours</p>
                             <input type="hidden" name="activity_id" value="{{ $item->activity_id }}">
                         @elseif($type == 'hall')
@@ -137,7 +137,7 @@
                             <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->hall_name) . '.jpg' }}"
                                  alt="Hall Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->hall_name }}</h3>
-                            <p class="font-bold">PHP {{ $item->price }} / Event</p>
+                            <p class="font-bold">PHP {{ $item->rate }} / Event</p>
                             <input type="hidden" name="hall_id" value="{{ $item->hall_id }}">
                         @endif
                     </div>

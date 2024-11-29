@@ -101,7 +101,7 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $act->activity_name }}</h3>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $act->price }} / Person</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $act->rate }} / Person</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="/activities/{{ $act->activity_id }}"
                                class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
@@ -126,13 +126,13 @@
             @foreach($rooms as $room)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="zoom-in-up">
                     <div class="relative">
-                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
-                             alt="{{ $room->room_type }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->name) . '.jpg' }}"
+                             alt="{{ $room->name }}"
                              class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $room->room_type }}</h3>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $room->price }} / Night</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $room->rate }} / Night</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="/rooms/{{ $room->room_id }}"
                                class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>

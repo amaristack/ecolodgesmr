@@ -21,7 +21,7 @@
                             <p class="text-gray-700 text-base">
                                 {{ Str::limit($room->description, 100) }}
                             </p>
-                            <p class="text-gray-900 font-semibold mt-2">Price: ${{ number_format($room->price, 2) }}</p>
+                            <p class="text-gray-900 font-semibold mt-2">Price: PHP{{ number_format($room->rate, 2) }}</p>
                         </div>
                         <div class="px-6 py-4">
                             <a href="{{ route('rooms.show', $room->room_id) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -80,7 +80,7 @@
                             <p class="text-gray-700 text-base">
                                 {{ Str::limit($cottage->description, 100) }}
                             </p>
-                            <p class="text-gray-900 font-semibold mt-2">Price: ${{ number_format($cottage->price, 2) }}</p>
+                            <p class="text-gray-900 font-semibold mt-2">Price: PHP{{ number_format($cottage->rate, 2) }}</p>
                         </div>
                         <div class="px-6 py-4">
                             <a href="{{ route('pools.show', $cottage->pool_id) }}" class="inline-block bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">

@@ -16,7 +16,7 @@ class RoomController extends Controller
     public function index()
     {
         // Fetch rooms where 'room_type' is not null
-        $rooms = Room::whereNotNull('room_type')->get();
+        $rooms = Room::whereNotNull('name')->get();
         return view('user.user_rooms', ['rooms' => $rooms]);
     }
 
