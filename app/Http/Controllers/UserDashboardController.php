@@ -14,9 +14,10 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
+        $rooms = Room::whereNotNull('room_type')->get(); // Only include rooms with non-null room_type
         $activities = Activity::all(); // Fetch activities data as well
         return view('user.user-welcome', ['rooms' => $rooms, 'activities' => $activities]);
+
     }
 
 

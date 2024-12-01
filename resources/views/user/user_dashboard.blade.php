@@ -1,7 +1,7 @@
 <x-layout>
     <x-navbar />
     <div class="relative bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
+         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg?t=2024-11-30T15%3A26%3A27.929Z');">
         <div class="absolute inset-0 bg-blue-500 opacity-50"></div>
         <div class="container mx-auto relative z-10 flex items-center justify-center">
             <div class="text-center text-white">

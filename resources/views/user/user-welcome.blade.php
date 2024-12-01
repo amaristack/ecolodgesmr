@@ -127,7 +127,7 @@
                 <div class="bg-white rounded-lg shadow-md overflow-hidden group" data-aos="zoom-in-up">
                     <div class="relative">
                         <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->name) . '.jpg' }}"
-                             alt="{{ $room->name }}"
+                             alt="{{ $room->room_type }}"
                              class="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:scale-105">
                     </div>
                     <div class="p-6">

@@ -214,7 +214,7 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $act->activity_name }}</h3>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $act->price }} / Person</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $act->rate }} / Person</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="/activities/{{ $act->activity_id }}"
                                class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
@@ -246,7 +246,7 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $room->room_type }}</h3>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $room->price }} / Night</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP{{ $room->rate }} / Night</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="/rooms/{{ $room->room_id }}"
                                class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>

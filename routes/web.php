@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 // Public Pages (Accessible by guests)
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
-        $rooms = Room::all();
-        $activities = Activity::all();
-        return view('welcome', ['rooms' => $rooms, 'activities' => $activities]);
+        $rooms = Room::whereNotNull('room_type')->get(); // Only include rooms with non-null room_type
+        $activities = Activity::all(); // Fetch activities data as well
+        return view('user.user-welcome', ['rooms' => $rooms, 'activities' => $activities]);
     });
 
     Route::get('/aboutus', fn() => view('about_us'));

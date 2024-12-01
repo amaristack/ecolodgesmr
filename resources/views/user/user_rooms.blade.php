@@ -29,7 +29,7 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300">
                     <!-- Image -->
                     <div class="relative">
-                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->name) . '.jpg' }}"
+                        <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
                              alt="{{ $room->room_type }}"
                              class="w-full h-56 sm:h-64 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
                              style="object-position: center 40%;">
