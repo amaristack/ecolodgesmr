@@ -1,12 +1,14 @@
 <x-layout>
     <x-navbar/>
-    <div class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
-         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
+    <div
+        class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
+        style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-black opacity-30"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-bold mb-4">Join us in Ecolodge SMR </h1>
             <nav class="text-lg mb-6">
-                <a href="/dashboard" class="hover:underline">Home</a> / <a href="/register" class="underline text-yellow-500">Register</a>
+                <a href="/dashboard" class="hover:underline">Home</a> / <a href="/register"
+                                                                           class="underline text-yellow-500">Register</a>
             </nav>
         </div>
     </div>
@@ -75,19 +77,27 @@
             </div>
             <x-fields_error name="email"/>
 
-            <div class="mb-6">
+            <div class="mb-6 relative">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"
                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                        placeholder="•••••••••" required/>
+                <span id="togglePassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
+        <i class="fas fa-eye text-gray-500"></i>
+    </span>
             </div>
             <x-fields_error name="password"/>
 
-            <div class="mb-6">
-                <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
+            <div class="mb-6 relative">
+                <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Confirm
+                    Password</label>
                 <input type="password" id="confirm_password" name="password_confirmation"
                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                        placeholder="•••••••••" required/>
+                <span id="toggleConfirmPassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
+        <i class="fas fa-eye text-gray-500"></i>
+    </span>
+                <p id="password-match" class="text-sm mt-2"></p>
             </div>
             <x-fields_error name="password_confirmation"/>
 
@@ -95,21 +105,113 @@
                 <input id="remember" type="checkbox" value=""
                        class="w-4 h-4 border border-gray-300 rounded bg-gray-100 focus:ring-3 focus:ring-green-300"
                        required/>
-                <label for="remember" class="ml-2 text-sm font-medium text-gray-700">I agree with the <a href="{{ route('terms_and_condition') }}"
-                                                                                                         class="text-blue-600 hover:underline">terms and conditions</a>.
+                <label for="remember" class="ml-2 text-sm font-medium text-gray-700">I agree with the <a
+                        href="{{ route('terms_and_condition') }}"
+                        class="text-blue-600 hover:underline">terms and conditions</a>.
                 </label>
             </div>
 
-            <button type="submit"
-                    class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300">
+            <button id="registerButton" type="submit"
+                    class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
                 Register Now
             </button>
 
             <p class="mt-4 text-center text-sm text-gray-700">Already have an account? <a href="/login"
-                                                                                          class="text-blue-600 hover:underline">Log in here</a>.
+                                                                                          class="text-blue-600 hover:underline">Log
+                    in here</a>.
             </p>
         </form>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+        const passwordMatchIndicator = document.getElementById('password-match');
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const termsCheckbox = document.getElementById('remember');
+        const registerButton = document.getElementById('registerButton');
+        const birthDateInput = document.getElementById('birth_date');
+        const ageInput = document.getElementById('age');
+
+        // Function to check if passwords match
+        function checkPasswordMatch() {
+            const passwordsMatch = passwordInput.value === confirmPasswordInput.value && passwordInput.value !== "";
+            if (passwordsMatch) {
+                passwordMatchIndicator.textContent = "Passwords match";
+                passwordMatchIndicator.classList.add("text-green-600");
+                passwordMatchIndicator.classList.remove("text-red-600");
+            } else {
+                passwordMatchIndicator.textContent = passwordInput.value && confirmPasswordInput.value
+                    ? "Passwords do not match"
+                    : "";
+                passwordMatchIndicator.classList.add("text-red-600");
+                passwordMatchIndicator.classList.remove("text-green-600");
+            }
+            updateRegisterButtonState();
+        }
+
+        // Function to calculate age based on birth date
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birthDateObj = new Date(birthDate);
+            let age = today.getFullYear() - birthDateObj.getFullYear();
+            const monthDiff = today.getMonth() - birthDateObj.getMonth();
+            const dayDiff = today.getDate() - birthDateObj.getDate();
+
+            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                age--;
+            }
+            return age;
+        }
+
+        // Event listener to update the age field when birth date changes
+        birthDateInput.addEventListener('input', () => {
+            const birthDateValue = birthDateInput.value;
+            if (birthDateValue) {
+                const age = calculateAge(birthDateValue);
+                ageInput.value = age >= 0 ? age : ''; // Clear age input if date is invalid
+            } else {
+                ageInput.value = ''; // Clear age input if no date is selected
+            }
+            // No need to update register button state based on birth/age anymore
+        });
+
+        // Function to update the register button's disabled state
+        function updateRegisterButtonState() {
+            const passwordsMatch = passwordInput.value === confirmPasswordInput.value && passwordInput.value !== "";
+            const termsChecked = termsCheckbox.checked;
+            registerButton.disabled = !(passwordsMatch && termsChecked);
+        }
+
+        // Event listeners for input and checkbox changes
+        passwordInput.addEventListener('input', checkPasswordMatch);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+        termsCheckbox.addEventListener('change', updateRegisterButtonState);
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            togglePassword.innerHTML = type === 'password'
+                ? '<i class="fas fa-eye text-gray-500"></i>'
+                : '<i class="fas fa-eye-slash text-gray-500"></i>';
+        });
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+            confirmPasswordInput.type = type;
+            toggleConfirmPassword.innerHTML = type === 'password'
+                ? '<i class="fas fa-eye text-gray-500"></i>'
+                : '<i class="fas fa-eye-slash text-gray-500"></i>';
+        });
+
+
+        updateRegisterButtonState();
+
+    </script>
+
+
     <x-newsletter/>
     <x-footer/>
 </x-layout>

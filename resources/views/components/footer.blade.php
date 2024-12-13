@@ -4,7 +4,7 @@
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
                 <a href="https://flowbite.com/" class="flex items-center">
-                    <img src="{{ Vite::asset('resources/images/logo1.jpg') }}" class="h-14 me-3" alt="FlowBite Logo" />
+                    <img src="https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/logo1.jpg" class="h-14 me-3" alt="FlowBite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap text-[#1f3347]">Ecolodge SMR</span>
                 </a>
             </div>
