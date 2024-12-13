@@ -1,4 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4fd97ec1a5f765f655414db069bfd8bcae28866934b64b6b667207f0b9cb08cf
-size 362
+* filter=lfs diff=lfs merge=lfs -text
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+project_sibugay/** filter=lfs diff=lfs merge=lfs -text
+public/videos/sibugay.mp4 filter=lfs diff=lfs merge=lfs -text
 * !text !filter !merge !diff

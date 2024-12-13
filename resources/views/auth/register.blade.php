@@ -73,7 +73,7 @@
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
                 <input type="email" id="email" name="email"
                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                       placeholder="john.doe@example.com" required/>
+                       placeholder="john.doe@example.com" required value="{{ old('email', session('verified_email')) }}" readonly/>
             </div>
             <x-fields_error name="email"/>
 
@@ -81,7 +81,7 @@
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"
                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                       placeholder="•••••••••" required/>
+                       placeholder="•••••••••" required />
                 <span id="togglePassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
         <i class="fas fa-eye text-gray-500"></i>
     </span>

@@ -51,7 +51,7 @@
                         class="w-1/2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all font-bold">
                     Login
                 </button>
-                <a href="/register"
+                <a href="{{ route('verify.email') }}"
                    class="w-1/2 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-all text-center flex items-center justify-center">
                     Signup
                 </a>
