@@ -8,7 +8,7 @@
         </div>
         @guest
             <div class="bg-yellow-500 p-1.5 rounded-lg">
-                <a class="text-white font-bold" href="/register">
+                <a class="text-white font-bold" href="{{ route('verify.email') }}">
                     Register Now
                 </a>
             </div>
