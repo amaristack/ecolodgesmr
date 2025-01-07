@@ -6,6 +6,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HallController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PoolController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoomController;
@@ -32,7 +33,19 @@ Route::middleware('guest')->group(function () {
     // Authentication routes for login, register, forgot password
     Route::get('/login', [UserController::class, 'index'])->name('login');
     Route::post('/login', [UserController::class, 'store']);
-    Route::get('/register', [UserRegisterController::class, 'index']);
+    // Show the email verification page
+    Route::get('/verify-email', [OtpController::class, 'showVerifyEmailForm'])->name('verify.email');
+
+    // Handle the OTP sending
+    Route::post('/send-otp', [OtpController::class, 'sendOtp'])->name('send.otp');
+
+    // Show the OTP verification form
+    Route::get('/verify-otp', [OtpController::class, 'showVerifyOtpForm'])->name('verify.otp');
+
+    // Handle the OTP verification
+    Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('verify.otp.post');
+
+    Route::get('/register', [UserRegisterController::class, 'index'])->name('register');
     Route::post('/register', [UserRegisterController::class, 'store']);
     Route::view('/forgot-password', 'auth.forgot-password')->name('password.request');
     Route::post('/forgot-password', [ResetPasswordController::class, 'passwordEmail']);
