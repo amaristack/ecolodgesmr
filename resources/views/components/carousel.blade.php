@@ -11,7 +11,7 @@
             class="flex flex-col md:flex-row md:items-center md:justify-center w-full max-w-6xl mx-auto space-y-8 md:space-y-0 md:space-x-12">
             <!-- Text Content -->
             <div class="flex-1 text-center md:text-left">
-                <h1 class="text-4xl font-bold text-white mb-4">Welcome to Ecolodge Mountain Resort</h1>
+                <h1 class="text-4xl font-bold text-white mb-4">Welcome to Ecolodge Mountain Resorts</h1>
                 <p class="text-lg text-gray-200 mb-6">Experience luxury, comfort, and beauty like never before.</p>
                 <a href="{{ route('user.book') }}"
                    class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-full font-semibold">Book Your
