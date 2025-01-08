@@ -45,7 +45,9 @@ jobs:
           mkdir -p ~/.sshuser
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.sshuser/id_user
           chmod 600 ~/.sshuser/id_user
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh  # Ensure the ~/.ssh directory exists
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts  # Add the host to known_hosts
+
 
       - name: Synchronize Files to Server
         uses: easingthemes/ssh-deploy@v2.1.5
