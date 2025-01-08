@@ -19,7 +19,19 @@ jobs:
           php-version: '8.3'
           extensions: pgsql
 
+      - name: Clear Laravel Cache
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+
       - name: Install Composer Dependencies
+        env:
+            DB_CONNECTION: pgsql
+            DB_HOST: ${{ secrets.DB_HOST }}
+            DB_PORT: 5432
+            DB_DATABASE: ${{ secrets.DB_DATABASE }}
+            DB_USERNAME: ${{ secrets.DB_USERNAME }}
+            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist
 
       - name: Install Node.js
