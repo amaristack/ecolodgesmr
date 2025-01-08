@@ -40,6 +40,13 @@ jobs:
       - name: Build NPM Assets
         run: npm run build
 
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.sshuser
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.sshuser/id_user
+          chmod 600 ~/.sshuser/id_user
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
       - name: Synchronize Files to Server
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
@@ -48,13 +55,14 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: "/var/www/html/ecolodgesmr"
+          SSH_KEY_PATH: "~/.sshuser/id_user"  # Correct path to your private key
 
       - name: Run Remote/Artisan Commands
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: "~/.sshuser/id_user"  # Correct path to your private key
           script: |
             cd /var/www/html/ecolodgesmr
             php artisan optimize
