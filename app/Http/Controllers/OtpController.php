@@ -67,7 +67,7 @@ class OtpController extends Controller
             return redirect()->route('verify.email')->with('error', 'Please verify your email first.');
         }
 
-        return redirect()->route('verify.otp');
+        return view('auth.verify-otp');
     }
 
     // Handle OTP verification
