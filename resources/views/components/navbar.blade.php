@@ -39,7 +39,7 @@
                 <x-nav_design href="/activities" :active="request()->is('activities')">Activities</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
+                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottage</x-nav_design>
             </li>
             <li>
                 <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
