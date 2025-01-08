@@ -59,4 +59,4 @@ jobs:
             cd /var/www/html/ecolodgesmr
             php artisan config:cache
             php artisan route:cache
-
+            php artisan view:cache

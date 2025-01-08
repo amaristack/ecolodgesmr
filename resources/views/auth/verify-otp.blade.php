@@ -1,8 +1,9 @@
 <!-- resources/views/auth/verify-otp.blade.php -->
 <x-layout>
+    <x-navbar />
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-lg max-w-md w-full mx-4 sm:mx-auto text-center">
-            <x-navbar />
+
 
             <h1 class="mb-4 text-xl font-bold">Verify Your OTP</h1>
 
@@ -54,7 +55,8 @@
                 </button>
             </form>
 
-            <x-footer />
+
         </div>
     </div>
+    <x-footer />
 </x-layout>
