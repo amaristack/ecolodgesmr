@@ -40,6 +40,12 @@ jobs:
       - name: Build NPM Assets
         run: npm run build
 
+      - name: Fix Permissions on Target Directories
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chown -R www-data:www-data /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chmod -R 775 /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
+
+
       - name: Synchronize Files to Server
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
@@ -48,11 +54,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: "/var/www/html/ecolodgesmr"
-
-      - name: Fix Permissions on Target Directories
-        run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chown -R www-data:www-data /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chmod -R 775 /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
 
       - name: Run Remote/Artisan Commands
         uses: appleboy/ssh-action@v0.1.6
