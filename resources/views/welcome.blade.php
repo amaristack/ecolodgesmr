@@ -356,7 +356,7 @@
         </div>
     </section>
 
-    <x-newsletter/>
+
 
     <x-footer/>
 

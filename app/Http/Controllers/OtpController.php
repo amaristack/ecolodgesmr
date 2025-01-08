@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
-
 class OtpController extends Controller
 {
     // Show the email verification form
@@ -21,45 +20,54 @@ class OtpController extends Controller
     // Handle sending OTP
     public function sendOtp(Request $request)
     {
+        // Validate basic email format only
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:otp_table,email',
+            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->with('error', 'Email already in use');
+            return redirect()->back()->with('error', 'Invalid email format');
         }
 
+        // Check if the email exists in the users table using the User model
         $email = $request->email;
+        $userExists = \App\Models\User::where('email', $email)->exists();
 
-        // Generate a 6-digit OTP without leading zeros
+        // If the email exists in users table, show an error message
+        if ($userExists) {
+            return redirect()->back()->with('error', 'Email is already in use');
+        }
+
+        // If the email does not exist, proceed with generating and sending the OTP
         $otp = rand(100000, 999999); // Always 6 digits
 
-        // Create or update the OTP record
-        Otp::updateOrCreate(
+        \App\Models\Otp::updateOrCreate(
             ['email' => $email],
             [
-                'otp' => $otp, // Stored as integer
-                'expires_at' => Carbon::now()->addMinutes(10),
+                'otp' => $otp,
+                'expires_at' => \Carbon\Carbon::now()->addMinutes(10),
             ]
         );
 
-        // Send the OTP to the user's email
+        // Send OTP to the email
         Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($email) {
-            $message->to($email)
-                    ->subject('Your OTP Code');
+            $message->to($email)->subject('Your OTP Code');
         });
 
-        return redirect()->route('verify.otp')->with('success', 'OTP sent successfully');
+        // Store email in session for verification step
+        $request->session()->put('verified_email', $email);
+
+        // Redirect to OTP verification page
+        return redirect()->route('verify.otp')->with('success', 'OTP sent. Please verify your email.');
     }
 
-    // Show the OTP verification form
     public function showVerifyOtpForm(Request $request)
     {
         if (!$request->session()->has('verified_email')) {
             return redirect()->route('verify.email')->with('error', 'Please verify your email first.');
         }
 
-        return view('auth.verify-otp');
+        return redirect()->route('verify.otp');
     }
 
     // Handle OTP verification

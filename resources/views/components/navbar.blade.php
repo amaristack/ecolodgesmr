@@ -46,7 +46,7 @@
                 </x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
+                <x-nav_design href="/calendar" :active="request()->is('calendar')">Announcements</x-nav_design>
             </li>
             @guest
                 <li>

@@ -49,6 +49,11 @@ jobs:
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: "/var/www/html/ecolodgesmr"
 
+      - name: Fix Permissions on Target Directories
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chown -R www-data:www-data /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo chmod -R 775 /var/www/html/ecolodgesmr/storage /var/www/html/ecolodgesmr/bootstrap/cache"
+
       - name: Run Remote/Artisan Commands
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -59,4 +64,3 @@ jobs:
             cd /var/www/html/ecolodgesmr
             php artisan config:cache
             php artisan route:cache
-
