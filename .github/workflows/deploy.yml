@@ -40,31 +40,12 @@ jobs:
       - name: Build NPM Assets
         run: npm run build
 
-      - name: Setup SSH Key
+      - name: Synchronize Files to Server (Password-based SSH)
         run: |
-          mkdir -p ~/.sshuser
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.sshuser/id_user
-          chmod 600 ~/.sshuser/id_user
-          mkdir -p ~/.ssh  # Ensure the ~/.ssh directory exists
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts  # Add the host to known_hosts
-
-
-      - name: Synchronize Files to Server
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: "."
-          REMOTE_HOST: ${{ secrets.VPS_HOST }}
-          REMOTE_USER: ${{ secrets.VPS_USER }}
-          TARGET: "/var/www/html/ecolodgesmr"
-          SSH_KEY_PATH: "~/.sshuser/id_user"  # Correct path to your private key
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" rsync -avz -e "ssh -p 22" ./ ${VPS_USER}@${VPS_HOST}:/var/www/html/ecolodgesmr
 
       - name: Run Remote/Artisan Commands
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: "~/.sshuser/id_user"  # Correct path to your private key
-          script: |
-            cd /var/www/html/ecolodgesmr
-            php artisan optimize
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${VPS_USER}@${VPS_HOST} "cd /var/www/html/ecolodgesmr && php artisan optimize"
