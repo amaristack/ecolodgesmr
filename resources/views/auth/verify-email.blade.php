@@ -1,12 +1,8 @@
-<!-- resources/views/auth/verify-email.blade.php -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Verify Email</title>
-    <!-- Include your CSS here -->
-</head>
-<body>
-    <h1>Verify Your Email</h1>
+<x-layout>
+
+<x-navbar />
+
+<h1>Verify Your Email</h1>
 
     @if(session('success'))
         <div style="color: green;">
@@ -29,5 +25,6 @@
         @enderror
         <button type="submit">Send OTP</button>
     </form>
-</body>
-</html>
+
+</x-layout>
+

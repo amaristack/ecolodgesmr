@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 
 class OtpController extends Controller
@@ -20,10 +21,13 @@ class OtpController extends Controller
     // Handle sending OTP
     public function sendOtp(Request $request)
     {
-        // Validate the email
-        $request->validate([
-            'email' => 'required|email',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:otp_table,email',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Email already in use');
+        }
 
         $email = $request->email;
 
@@ -45,10 +49,7 @@ class OtpController extends Controller
                     ->subject('Your OTP Code');
         });
 
-        // Store the email in session
-        $request->session()->put('verified_email', $email);
-
-        return redirect()->route('verify.otp')->with('success', 'OTP has been sent to your email.');
+        return redirect()->route('verify.otp')->with('success', 'OTP sent successfully');
     }
 
     // Show the OTP verification form
