@@ -4,7 +4,7 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-lg max-w-md w-full mx-4 sm:mx-auto text-center">
 
-        <h1 class="mb-4 text-xl font-bold">Verify Your Email</h1>
+        <h1 class="mb-4 text-xl font-bold">Verify Your Email!</h1>
 
         @if(session('success'))
             <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
