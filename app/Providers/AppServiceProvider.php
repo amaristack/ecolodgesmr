@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             $notifications = Booking::where('payment_status', 'Fully Paid')
-                ->where('booking_status', 'Approved')
+                ->where('booking_status', 'Success')
                 ->get();
             $view->with('notifications', $notifications);
         });
