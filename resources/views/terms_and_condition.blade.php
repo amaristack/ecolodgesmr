@@ -18,51 +18,58 @@
         <!-- Heading -->
         <h1 class="text-2xl font-bold mb-4">Terms and Conditions</h1>
 
-        <!-- Section 1 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">1. Introduction</h2>
+        <!-- Welcome Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Welcome!</h2>
         <p class="text-gray-700 mb-4">
-            These Terms and Conditions govern the use of our website and services. By accessing or using our platform,
-            you agree to abide by the terms set forth here.
+            Before using our platform, please carefully read and understand the terms and conditions below.
+            These terms are in compliance with the Data Privacy Act of 2012, ensuring the confidentiality and security of your personal information.
         </p>
 
-        <!-- Section 2 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">2. User Responsibilities</h2>
+        <!-- Personal Data We Collect Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Personal Data We Collect</h2>
         <p class="text-gray-700 mb-4">
-            Users must provide accurate information and refrain from misusing our services. Failure to comply may result
-            in account suspension or termination.
+            We collect personal information such as your full name, email address, contact number, residential address, and payment details.
+            This information is required for account creation, booking management, and service personalization.
         </p>
 
-        <!-- Section 3 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">3. Prohibited Activities</h2>
+        <!-- How We Use Your Data Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">How We Use Your Data</h2>
+        <p class="text-gray-700 mb-4">
+            Your personal data is processed to facilitate bookings, manage your account, and improve our services.
+            We will never share your information with unauthorized third parties without your consent, except as required by law.
+        </p>
+
+        <!-- Your Rights Under the DPA Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Your Rights Under the DPA</h2>
+        <p class="text-gray-700 mb-4">
+            You have the following rights concerning your personal data:
+        </p>
         <ul class="list-disc list-inside mb-4 text-gray-700">
-            <li>Posting unlawful content</li>
-            <li>Attempting to compromise the website’s security</li>
-            <li>Engaging in fraudulent activities</li>
+            <li>The right to access your data.</li>
+            <li>The right to correct inaccuracies in your data.</li>
+            <li>The right to request deletion of your data, subject to applicable laws.</li>
+            <li>The right to withdraw consent for data processing at any time.</li>
         </ul>
 
-        <!-- Section 4 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">4. Intellectual Property</h2>
+        <!-- Security Measures Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Security Measures</h2>
         <p class="text-gray-700 mb-4">
-            All content on this website, including text, images, and other media, is protected by intellectual property
-            laws. You may not reproduce, distribute, or create derivative works without permission.
+            We implement industry-standard security measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction.
         </p>
 
-        <!-- Section 5 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">5. Limitation of Liability</h2>
+        <!-- Data Retention Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Data Retention</h2>
         <p class="text-gray-700 mb-4">
-            We are not liable for any damages arising from the use of our services. Your use of the site is at your own
-            risk.
+            Your personal data will be retained only for as long as necessary to fulfill the purposes outlined above or as required by law.
         </p>
 
-        <!-- Section 6 -->
-        <h2 class="text-xl font-semibold mt-6 mb-2">6. Changes to Terms</h2>
+        <!-- Contact Us Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Contact Us</h2>
         <p class="text-gray-700 mb-4">
-            We reserve the right to modify these terms at any time. It is your responsibility to stay updated with any
-            changes.
+            If you have questions or concerns about your personal data or this policy, feel free to contact us via the provided channels in the app.
         </p>
-
     </div>
 
-    <x-newsletter/>
+
     <x-footer/>
 </x-layout>

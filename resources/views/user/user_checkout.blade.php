@@ -182,11 +182,6 @@
                                    required
                                    value="{{ \Carbon\Carbon::now()->addDay()->format('Y-m-d') }}">
                         </div>
-                        <div class="mb-4">
-                            <label for="quantity" class="block font-semibold">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" value="1" min="1"
-                                   class="w-full p-3 border rounded-md">
-                        </div>
                     @endif
 
                     <!-- Hidden input to pass the price -->
@@ -221,7 +216,6 @@
             const guestListContainer = document.getElementById('guest_list');
             const checkinInput = document.getElementById('checkin');
             const checkoutInput = document.getElementById('checkout');
-            const quantityInput = document.getElementById('quantity');
             const rateInput = document.querySelector('input[name="rate"]');
             const subtotalSpan = document.getElementById('subtotal');
             const discountSpan = document.getElementById('discount');
@@ -264,9 +258,8 @@
 
             function updatePricing() {
                 const rate = parseFloat(rateInput.value) || 0;
-                const quantity = parseInt(quantityInput.value) || 1;
                 const days = calculateDays();
-                const subtotal = rate * days * quantity;
+                const subtotal = rate * days;
                 const discount = 0; // Update this if discount logic is required
                 const total = subtotal - discount;
 
@@ -287,10 +280,9 @@
             updatePricing();
 
             // Update pricing when check-in, check-out, or quantity changes
-            if (checkinInput && checkoutInput && quantityInput) {
+            if (checkinInput && checkoutInput) {
                 checkinInput.addEventListener('change', updatePricing);
                 checkoutInput.addEventListener('change', updatePricing);
-                quantityInput.addEventListener('input', updatePricing);
             }
         });
     </script>

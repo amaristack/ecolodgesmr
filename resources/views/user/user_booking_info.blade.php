@@ -82,7 +82,7 @@
                 <p><strong>Name:</strong> {{ $booking->user->first_name }} {{ $booking->user->last_name }}</p>
                 <p><strong>Email:</strong> {{ $booking->user->email }}</p>
                 <p><strong>Contact Number:</strong> {{ $booking->user->phone_number }}</p>
-                <p><strong>Special Requests:</strong> {{ $booking->special_requests ?? 'None' }}</p>
+
             </div>
         </div>
 
@@ -123,7 +123,7 @@
                     </span>
                 </p>
                 <p><strong>Total Amount:</strong> PHP {{ $booking->total_amount }}</p>
-                <p><strong>Paid Amount:</strong> PHP {{ $booking->payment_amount }}</p>
+                <p><strong>Paid Amount:</strong> PHP {{ $booking->down_payment }}</p>
                 <p><strong>Balance:</strong> PHP {{ $booking->total_amount - $booking->balance_due }}</p>
             </div>
         </div>
@@ -138,7 +138,7 @@
         @if($booking->payment_status == 'Partial' && $booking->booking_status != 'Cancelled')
             <!-- Cancel Booking Button -->
             <button id="cancel-button" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition">
-                Cancel Booking
+                Cancel/Refund
             </button>
         @endif
 
@@ -151,27 +151,45 @@
     <!-- Flowbite Modal for Confirmation -->
     <div id="cancel-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 class="text-xl font-semibold text-gray-700">Confirm Cancellation</h2>
-            <p class="mt-2 text-gray-600">Are you sure you want to cancel this booking?</p>
+            <h2 class="text-xl font-semibold text-gray-700">Confirm Refund?</h2>
+            <p class="mt-2 text-gray-600">Are you sure you want to cancel and refund this booking?</p>
 
-            <!-- Form to confirm the cancellation -->
             <form id="cancel-form" action="{{ route('cancel.booking', ['booking_id' => $booking->booking_id]) }}" method="POST">
                 @csrf
-                @method('POST') <!-- Using POST request for form submission -->
+                @method('POST')
                 <div class="flex justify-end gap-4 mt-4">
                     <button type="button" onclick="closeModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-md">
                         Cancel
                     </button>
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md">
-                        Yes, Cancel Booking
+                        Yes
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Refund Request Sent Modal -->
+    <div id="refund-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-xl font-semibold text-gray-700">Refund Request Sent</h2>
+            <p class="mt-2 text-gray-600">Please wait for approval. We will email you once approved.</p>
+            <div class="flex justify-end mt-4">
+                <button type="button" onclick="redirectBack()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if(session('refund_request_sent'))
+        <script>
+            document.getElementById('refund-modal').classList.remove('hidden');
+        </script>
+    @endif
+
     <!-- Feedback Modal -->
-    @if($booking->payment_status === 'Fully Paid' && $booking->booking_status === 'Approved' && !$feedbackExists)
+    @if($booking->payment_status === 'Fully Paid' && $booking->booking_status === 'Success' && !$feedbackExists)
         <div id="feedback-modal" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="relative bg-white rounded-lg shadow-lg w-full max-w-lg">
                 <!-- Modal Header -->
@@ -283,6 +301,15 @@
             document.getElementById('cancel-modal').classList.add('hidden');
         }
 
+        function showRefundModal(event) {
+            event.preventDefault();
+            // Submit the form via AJAX or proceed with form submission
+            // After successful submission, show the refund modal
+            document.getElementById('refund-modal').classList.remove('hidden');
+        }
 
+        function redirectBack() {
+            window.location.href = "{{ route('view.booking') }}";
+        }
     </script>
 </x-layout>

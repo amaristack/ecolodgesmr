@@ -25,7 +25,6 @@ class CheckoutController extends Controller
             $validatedData = $request->validate([
                 'item_type' => 'required|string|in:rooms,cottages,activity,hall',
                 'item_id' => 'required|integer',
-                'quantity' => 'required|integer|min:1',
                 'check_in' => 'required|date',
                 'check_out' => 'required|date|after_or_equal:check_in',
                 'number_of_person' => 'required_if:item_type,rooms|integer|min:1',
@@ -62,8 +61,7 @@ class CheckoutController extends Controller
 
             // Calculate subtotal
             $rate = $item->rate; // Ensure the model has a 'rate' attribute
-            $quantity = $validatedData['quantity'];
-            $subtotal = $rate * $days * $quantity;
+            $subtotal = $rate * $days;
 
             // Calculate discount (if any)
             $discount = 0; // Modify this if discount logic is implemented
@@ -88,7 +86,6 @@ class CheckoutController extends Controller
             $bookingData = [
                 'user_id' => Auth::id(),
                 'note' => $validatedData['note'] ?? null,
-                'quantity' => $quantity,
                 'check_in' => $validatedData['check_in'],
                 'check_out' => $validatedData['check_out'],
                 'subtotal' => $subtotal,
@@ -146,8 +143,7 @@ class CheckoutController extends Controller
 
             // Recalculate subtotal based on days
             $rate = $item->rate;
-            $quantity = $bookingData['quantity'];
-            $subtotal = $rate * $days * $quantity;
+            $subtotal = $rate * $days;
 
             // Calculate discount (if any)
             $discount = $bookingData['discount'] ?? 0; // Adjust if you have discount logic
@@ -489,6 +485,37 @@ class CheckoutController extends Controller
 
             // Save the booking to the database
             $booking->save();
+
+            switch ($booking->item_type) {
+                case 'rooms':
+                    $room = Room::find($booking->item_id);
+                    if ($room) {
+                        $room->availability -= 1;
+                        $room->save();
+                    }
+                    break;
+                case 'cottage':
+                    $cottage = Pool::find($booking->item_id);
+                    if ($cottage) {
+                        $cottage->availability -= 1;
+                        $cottage->save();
+                    }
+                    break;
+                case 'activity':
+                    $activity = Activity::find($booking->item_id);
+                    if ($activity) {
+                        $activity->availability -= 1;
+                        $activity->save();
+                    }
+                    break;
+                case 'function hall':
+                    $functionHall = Hall::find($booking->item_id);
+                    if ($functionHall) {
+                        $functionHall->availability -= 1;
+                        $functionHall->save();
+                    }
+                    break;
+            }
 
             Log::info('Booking saved successfully:', ['booking_id' => $booking->booking_id]);
 

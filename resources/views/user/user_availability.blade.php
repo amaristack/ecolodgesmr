@@ -52,7 +52,7 @@
                             <a href="{{ route('rooms.show', $item->room_id) }}"
                                class="block p-4 bg-white rounded-lg shadow-md text-center hover:bg-gradient-to-r hover:from-blue-200 hover:to-teal-200 transition">
                                 <img src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($item->room_type) . '.jpg' }}" alt="{{ $item->room_type }}" class="w-full h-48 object-cover rounded-lg mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Room: {{ $item->room_name }}</h3>
+                                <h3 class="text-lg font-semibold text-gray-800">Room: {{ $item->name }}</h3>
                                 <p class="text-gray-600">Availability: {{ $item->availability }}</p>
                             </a>
                         @elseif($category === 'activity')

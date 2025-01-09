@@ -69,6 +69,6 @@
     </div>
 
 
-    <x-newsletter />
+
     <x-footer/>
 </x-layout>

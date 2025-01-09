@@ -12,12 +12,12 @@
 
                         <img class="w-full h-48 object-cover"
                              src="{{ 'https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/' . ($room->room_type) . '.jpg' }}"
-                             alt="{{ $room->room_name }}"
+                             alt="{{ $room->name }}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ asset('images/default-room.jpg') }}'">
 
                         <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">{{ $room->room_name }}</div>
+                            <div class="font-bold text-xl mb-2">{{ $room->name }}</div>
                             <p class="text-gray-700 text-base">
                                 {{ Str::limit($room->description, 100) }}
                             </p>

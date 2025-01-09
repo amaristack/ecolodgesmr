@@ -43,8 +43,8 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($booking_id);
 
-        // Update the payment_status and booking_status to "Cancelled"
-        $booking->payment_status = 'Refunded';
+
+        $booking->payment_status = 'Refund';
         $booking->booking_status = 'Cancelled';
         $booking->save();
 
@@ -57,7 +57,9 @@ class BookingController extends Controller
 
         // Retrieve items based on selected category, only if availability is greater than zero
         if ($category === 'rooms') {
-            $items = Room::where('availability', '>', 0)->get();
+            $items = Room::where('availability', '>', 0)
+                         ->whereNotNull('room_type') // Exclude rooms with null room_type
+                         ->get();
         } elseif ($category === 'activity') {
             $items = Activity::where('availability', '>', 0)->get();
         } elseif ($category === 'cottages') {

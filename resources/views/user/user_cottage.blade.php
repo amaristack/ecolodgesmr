@@ -23,7 +23,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @php
                 // Array of dynamic highlights and descriptions
-                $highlights = ['Best for Families', 'Beachside Comfort', 'Budget-Friendly', 'Hidden Gem', 'Exclusive Retreat', 'Nature Escape', 'Luxurious Stay', 'Cozy Ambiance'];
+                $highlights = ['Best for Families', 'Budget-Friendly', 'Hidden Gem', 'Exclusive Retreat', 'Nature Escape', 'Luxurious Stay', 'Cozy Ambiance'];
                 $descriptions = [
                     'Enjoy a spacious cottage ideal for families, complete with breathtaking views and cozy amenities.',
                     'Relax in this charming beachside cottage that offers comfort and stunning sea views.',

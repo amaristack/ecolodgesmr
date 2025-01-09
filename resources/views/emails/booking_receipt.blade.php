@@ -19,7 +19,7 @@ Thank you for your booking! Here are your booking details:
 | **Booking Status**   | {{ $booking->booking_status }}          |
 | **Payment Status**   | {{ $booking->payment_status }}          |
 | **Total Amount**     | PHP {{ number_format($booking->total_amount, 2) }}       |
-| **Paid Amount**      | PHP {{ number_format($booking->payment_amount, 2) }}     |
+| **Paid Amount**      | PHP {{ number_format($booking->down_payment, 2) }}     |
 | **Balance Due**      | PHP {{ number_format($booking->balance_due, 2) }}       |
 @endcomponent
 

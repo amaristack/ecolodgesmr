@@ -51,7 +51,7 @@
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $hall->hall_type }}</h3>
                         <p class="text-gray-700 mb-3">{{ $description }}</p>
-                        <p class="text-green-600 font-bold text-xl mb-1">PHP {{ number_format($hall->price, 2) }} Rent</p>
+                        <p class="text-green-600 font-bold text-xl mb-1">PHP {{ number_format($hall->rate, 2) }} Rent</p>
                         <div class="flex justify-between items-center mb-4">
                             <a href="{{ route('function-hall.show', ['hall_id' => $hall->hall_id]) }}" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-md transition hover:bg-yellow-600">Details</a>
                             <span class="text-yellow-500 text-sm font-semibold">{{ $highlight }}</span>

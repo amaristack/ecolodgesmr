@@ -62,15 +62,8 @@
                     <li>Free Wi-Fi</li>
                     <li>24/7 Room Service</li>
                     <li>Flat-screen TV</li>
-                    <li>Mini-bar</li>
                     <li>Air Conditioning</li>
                 </ul>
-            </div>
-
-            <!-- Complements -->
-            <div class="p-5 bg-white shadow-md rounded-lg">
-                <h3 class="text-lg sm:text-xl font-semibold mb-2">Complements</h3>
-                <p class="text-gray-700">Enjoy complimentary wine and a fruit basket on arrival. Special arrangements for anniversaries or birthdays can be made on request.</p>
             </div>
 
             <!-- Beds -->

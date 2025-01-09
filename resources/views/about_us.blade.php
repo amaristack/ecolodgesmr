@@ -48,6 +48,5 @@
         </div>
     </div>
 
-    <x-newsletter class="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-10"/>
     <x-footer/>
 </x-layout>
