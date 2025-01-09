@@ -27,11 +27,14 @@ class Booking extends Model
         'check_out',
         'note',
         'paymongo_link_id',
-        'decline_reason'// Added: Additional notes
+        'decline_reason',
+        'number_of_person',
+        'guest_names',// Added: Additional notes
         // Remove 'status' if it's replaced by 'payment_status' and 'booking_status'
     ];
 
     protected $casts = [
+        'guest_names' => 'array',  // Ensure this is an array
         'check_in' => 'datetime',  // Ensure this is a DateTime instance
     ];
 

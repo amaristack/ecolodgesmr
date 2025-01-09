@@ -11,11 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use App\Mail\BookingReceipt;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
-
     public function book(Request $request)
     {
         try {
@@ -26,6 +28,9 @@ class CheckoutController extends Controller
                 'quantity' => 'required|integer|min:1',
                 'check_in' => 'required|date',
                 'check_out' => 'required|date|after_or_equal:check_in',
+                'number_of_person' => 'required_if:item_type,rooms|integer|min:1',
+                'guest_names' => 'required_if:item_type,rooms|array',
+                'guest_names.*' => 'required_if:item_type,rooms|string|max:255',
                 'note' => 'nullable|string|max:255',
             ]);
 
@@ -50,20 +55,50 @@ class CheckoutController extends Controller
                 throw new \Exception('No valid item ID provided.');
             }
 
-            // Calculate the payment amount based on the item's price
-            $paymentAmount = $item->price * $request->input('quantity', 1);
+            // Calculate the number of days
+            $checkIn = Carbon::parse($validatedData['check_in']);
+            $checkOut = Carbon::parse($validatedData['check_out']);
+            $days = $checkIn->diffInDays($checkOut) ?: 1;
 
-            // Store booking data in the session
+            // Calculate subtotal
+            $rate = $item->rate; // Ensure the model has a 'rate' attribute
+            $quantity = $validatedData['quantity'];
+            $subtotal = $rate * $days * $quantity;
+
+            // Calculate discount (if any)
+            $discount = 0; // Modify this if discount logic is implemented
+
+            // Calculate total
+            $total = $subtotal - $discount;
+
+            // Additional validation for rooms
+            if ($type === 'rooms') {
+                $numberOfPersons = $validatedData['number_of_person'];
+                if ($numberOfPersons > $item->max_people) {
+                    return back()->withErrors(['number_of_person' => 'Number of persons exceeds the maximum allowed.']);
+                }
+
+                $guestNames = $validatedData['guest_names'];
+                if (count($guestNames) != $numberOfPersons) {
+                    return back()->withErrors(['guest_names' => 'Guest names count does not match the number of persons.']);
+                }
+            }
+
+            // Store booking data in the session without setting 'payment_method' here
             $bookingData = [
                 'user_id' => Auth::id(),
-                'note' => $request->input('note'),
-                'quantity' => $request->input('quantity', 1),
-                'check_in' => $request->input('check_in'),
-                'check_out' => $request->input('check_out'),
-                'payment_amount' => $paymentAmount, // Ensure 'payment_amount' key exists
-                'payment_method' => 'Gcash', // Default payment method
+                'note' => $validatedData['note'] ?? null,
+                'quantity' => $quantity,
+                'check_in' => $validatedData['check_in'],
+                'check_out' => $validatedData['check_out'],
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'total' => $total,
+                // Removed 'payment_method' => 'Gcash', // Remove default payment method
                 'item_type' => $type,
                 'item_id' => $itemId,
+                'number_of_person' => $type === 'rooms' ? $numberOfPersons : null,
+                'guest_names' => $type === 'rooms' ? $guestNames : null,
             ];
 
             $request->session()->put('booking_data', $bookingData);
@@ -71,11 +106,10 @@ class CheckoutController extends Controller
             // Redirect to the payment options page
             return redirect()->route('user_paynow');
         } catch (\Exception $e) {
-            Log::error('Booking failed: ' . $e->getMessage());
-            return redirect()->route('payment-failure')->with('error', $e->getMessage());
+            Log::error('Booking Error: ' . $e->getMessage());
+            return back()->with('error', 'An error occurred while processing your booking.');
         }
     }
-
 
     public function userPaynow()
     {
@@ -101,31 +135,51 @@ class CheckoutController extends Controller
                 $item = Hall::findOrFail($bookingData['item_id']);
                 break;
             default:
-                $item = null;
-                break;
+                return redirect()->route('home')->with('error', 'Invalid item type selected.');
         }
 
-        // Calculate the total amount
-        $subtotal = $item->price * $bookingData['quantity'];
-        $downpayment = $subtotal * 0.5; // 50% downpayment
+        try {
+            // Calculate the number of days based on check-in and check-out dates
+            $checkIn = Carbon::parse($bookingData['check_in']);
+            $checkOut = Carbon::parse($bookingData['check_out']);
+            $days = $checkIn->diffInDays($checkOut) ?: 1;
 
-        // Update booking data in the session
-        $bookingData['subtotal'] = $subtotal;
-        $bookingData['downpayment'] = $downpayment;
+            // Recalculate subtotal based on days
+            $rate = $item->rate;
+            $quantity = $bookingData['quantity'];
+            $subtotal = $rate * $days * $quantity;
 
-        // Update the payment amount to the downpayment
-        $bookingData['payment_amount'] = $downpayment;
+            // Calculate discount (if any)
+            $discount = $bookingData['discount'] ?? 0; // Adjust if you have discount logic
 
-        // Save updated booking data back to session
-        session(['booking_data' => $bookingData]);
+            // Calculate total
+            $total = $subtotal - $discount;
 
-        return view('user.user_paynow', [
-            'bookingData' => $bookingData,
-            'item' => $item,
-            'type' => $bookingData['item_type'],
-        ]);
+            // Calculate downpayment (50% of subtotal)
+            $downpayment = $subtotal * 0.5;
+
+            // Update booking data with recalculated values
+            $bookingData['days'] = $days;
+            $bookingData['subtotal'] = $subtotal;
+            $bookingData['discount'] = $discount;
+            $bookingData['total'] = $total;
+            $bookingData['downpayment'] = $downpayment;
+            $bookingData['payment_amount'] = $downpayment; // Set payment amount to downpayment
+
+            // Save updated booking data back to session
+            session(['booking_data' => $bookingData]);
+
+            // Pass the updated data to the view
+            return view('user.user_paynow', [
+                'bookingData' => $bookingData,
+                'item' => $item,
+                'type' => $bookingData['item_type'],
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Payment Calculation Error: ' . $e->getMessage());
+            return redirect()->route('home')->with('error', 'An error occurred while processing your payment.');
+        }
     }
-
 
     public function payWithPayMongo()
     {
@@ -134,9 +188,11 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
+        // Set 'payment_method' to 'Gcash'
+        $bookingData['payment_method'] = 'Gcash';
+        session(['booking_data' => $bookingData]);
 
-        $amountInCentavos = (int)round($bookingData['payment_amount'] * 100);
-
+        $amountInCentavos = (int) round($bookingData['payment_amount'] * 100);
 
         $payload = [
             'data' => [
@@ -151,7 +207,6 @@ class CheckoutController extends Controller
                 ],
             ],
         ];
-
 
         Log::info('PayMongo Payload:', $payload);
 
@@ -180,6 +235,59 @@ class CheckoutController extends Controller
         }
     }
 
+    public function payWithCard()
+    {
+        $bookingData = session('booking_data');
+        if (!$bookingData) {
+            return redirect()->route('home')->with('error', 'No booking data found.');
+        }
+
+        // Set 'payment_method' to 'Credit Card'
+        $bookingData['payment_method'] = 'Credit Card';
+        session(['booking_data' => $bookingData]);
+
+        $amountInCentavos = (int) round($bookingData['payment_amount'] * 100);
+
+        $payload = [
+            'data' => [
+                'attributes' => [
+                    'amount' => $amountInCentavos, // Amount in centavos as integer
+                    'redirect' => [
+                        'success' => route('payment-success'),
+                        'failed' => route('payment-failure'),
+                    ],
+                    'type' => 'grab_pay',
+                    'currency' => 'PHP',
+                ],
+            ],
+        ];
+
+        Log::info('PayMongo Payload:', $payload);
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
+            'Content-Type' => 'application/json',
+        ])->post('https://api.paymongo.com/v1/sources', $payload);
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            $responseData = $response->json();
+            $checkoutUrl = $responseData['data']['attributes']['redirect']['checkout_url'];
+
+            // Redirect to GrabPay checkout page
+            return redirect($checkoutUrl);
+        } else {
+            // Log the error response for debugging
+            Log::error('PayMongo Source Creation Failed:', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+            ]);
+
+            // Handle failed API request
+            return redirect()->route('payment-failure')->with('error', 'Failed to create payment source');
+        }
+    }
 
     public function success(Request $request)
     {
@@ -226,7 +334,7 @@ class CheckoutController extends Controller
                     $paymentPayload = [
                         'data' => [
                             'attributes' => [
-                                'amount' => (int)round($bookingData['payment_amount'] * 100), // Downpayment amount in centavos
+                                'amount' => (int) round($bookingData['payment_amount'] * 100), // Downpayment amount in centavos
                                 'source' => [
                                     'id' => $sourceId,
                                     'type' => 'source',
@@ -284,7 +392,6 @@ class CheckoutController extends Controller
         }
     }
 
-
     public function paymentFailure(Request $request)
     {
         $bookingData = $request->session()->get('booking_data');
@@ -306,7 +413,6 @@ class CheckoutController extends Controller
             'id' => $id,
         ])->with('error', session('error', 'There was an issue processing your payment. Please try again.'));
     }
-
 
     public function checkout($type, $id)
     {
@@ -337,7 +443,7 @@ class CheckoutController extends Controller
      * Create a new booking record in the database.
      *
      * @param array $bookingData
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function createBooking(array $bookingData)
     {
@@ -345,14 +451,23 @@ class CheckoutController extends Controller
             $booking = new Booking();
             $booking->user_id = $bookingData['user_id'];
             $booking->total_amount = $bookingData['subtotal'];
-            $booking->payment_amount = $bookingData['payment_amount']; // Corrected
+            $booking->down_payment = $bookingData['payment_amount'];
             $booking->balance_due = $bookingData['subtotal'] - $bookingData['payment_amount'];
             $booking->payment_method = $bookingData['payment_method'];
             $booking->check_in = $bookingData['check_in'];
             $booking->check_out = $bookingData['check_out'];
-            $booking->payment_status = 'Partial'; // Indicate partial payment
-            $booking->booking_status = 'Pending'; // Set status to 'Pending' for admin approval
+            $booking->payment_status = 'Partial';
+            $booking->booking_status = 'Success';
             $booking->note = $bookingData['note'];
+            $booking->number_of_person = $bookingData['number_of_person'];
+
+            // Process guest_names only if item_type is 'rooms' and guest_names is provided
+            if (isset($bookingData['item_type']) && $bookingData['item_type'] === 'rooms' && is_array($bookingData['guest_names'])) {
+                $guestNames = array_values($bookingData['guest_names']);
+                $booking->guest_names = $guestNames;
+            } else {
+                $booking->guest_names = null;
+            }
 
             // Assign foreign key based on item type
             switch ($bookingData['item_type']) {
@@ -375,17 +490,24 @@ class CheckoutController extends Controller
             // Save the booking to the database
             $booking->save();
 
+            Log::info('Booking saved successfully:', ['booking_id' => $booking->booking_id]);
+
+            // Send the receipt email to the user
+            Mail::to($booking->user->email)->send(new BookingReceipt($booking));
+
+            Log::info('Booking receipt email sent to user:', ['email' => $booking->user->email]);
+
             // Clear booking data from session
             session()->forget('booking_data');
 
-            Log::info('Booking created successfully:', ['booking_id' => $booking->booking_id]);
+            Log::info('Booking data cleared from session:', ['booking_id' => $booking->booking_id]);
+
+            return redirect()->route('user_paynow')->with('success', 'Booking created successfully! A receipt has been sent to your email.');
         } catch (\Exception $e) {
-            Log::error('Failed to create booking:', ['error' => $e->getMessage()]);
-            // Optionally, handle the exception by notifying the user or retrying
-            throw $e; // Re-throwing the exception to be handled upstream
+            Log::error('Failed to create booking or send receipt email:', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'An error occurred while processing your booking.');
         }
     }
-
 
     public function payWithPayPal()
     {
@@ -394,29 +516,27 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-
-        $provider = new PayPalClient;
+        $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
-
 
         $formattedAmount = number_format($bookingData['payment_amount'], 2, '.', '');
 
         // Order diri dapit
         $order = $provider->createOrder([
-            "intent" => "CAPTURE",
-            "purchase_units" => [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [
                 [
-                    "amount" => [
-                        "currency_code" => config('paypal.currency'),
-                        "value" => $formattedAmount,
-                    ]
-                ]
+                    'amount' => [
+                        'currency_code' => config('paypal.currency'),
+                        'value' => $formattedAmount,
+                    ],
+                ],
             ],
-            "application_context" => [
-                "return_url" => route('paypal.success'),
-                "cancel_url" => route('paypal.cancel'),
-            ]
+            'application_context' => [
+                'return_url' => route('paypal.success'),
+                'cancel_url' => route('paypal.cancel'),
+            ],
         ]);
 
         if (isset($order['id']) && $order['id'] != null) {
@@ -427,11 +547,8 @@ class CheckoutController extends Controller
                 }
             }
 
-
             //Callback ni dire dapit
-            return redirect()
-                ->route('payment-failure')
-                ->with('error', 'Something went wrong.');
+            return redirect()->route('payment-failure')->with('error', 'Something went wrong.');
         } else {
             return redirect()
                 ->route('payment-failure')
@@ -439,11 +556,9 @@ class CheckoutController extends Controller
         }
     }
 
-
-
     public function paypalSuccess(Request $request)
     {
-        $provider = new PayPalClient;
+        $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
 
@@ -484,11 +599,11 @@ class CheckoutController extends Controller
             // Log the error message from PayPal
             Log::error('PayPal Capture Failed:', ['response' => $response]);
 
-            return redirect()->route('payment-failure')->with('error', $response['message'] ?? 'Payment failed.');
+            return redirect()
+                ->route('payment-failure')
+                ->with('error', $response['message'] ?? 'Payment failed.');
         }
     }
-
-
 
     public function paypalCancel()
     {
@@ -498,5 +613,4 @@ class CheckoutController extends Controller
     /**
      * Handle PayPal webhooks (Optional).
      */
-
 }

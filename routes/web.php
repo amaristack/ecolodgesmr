@@ -18,6 +18,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Activity;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnnouncementController;
 
 // Public Pages (Accessible by guests)
 Route::middleware('guest')->group(function () {
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/{type}/{id}', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::get('/user_paynow', [CheckoutController::class, 'userPaynow'])->name('user_paynow');
     Route::get('/pay-with-gcash', [CheckoutController::class, 'payWithPayMongo'])->name('pay-with-gcash');
+    Route::get('/pay-with-card', [CheckoutController::class, 'payWithCard'])->name('pay-with-card');
     Route::get('/payment-success', [CheckoutController::class, 'success'])->name('payment-success');
     Route::get('/payment-failure', [CheckoutController::class, 'paymentFailure'])->name('payment-failure');
     Route::post('/webhook/paymongo', [CheckoutController::class, 'handleWebhook']);
@@ -101,10 +103,10 @@ Route::get('/function_hall', [HallController::class, 'index']);
 Route::get('/function_hall/{hall_id}', [HallController::class, 'show'])->name('function-hall.show');
 Route::get('/privacy', fn() => view('privacy'));
 Route::get('/terms', fn() => view('terms_and_condition'))->name('terms_and_condition');
-Route::get('/calendar', [CalendarController::class, 'index']);
 
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
 Route::get('/bookings', [BookingController::class, 'showAll'])->name('user.book');
+Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
 
 // Newsletter Subscription (Accessible by both guests and authenticated users)

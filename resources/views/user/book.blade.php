@@ -106,11 +106,11 @@
                              onerror="this.onerror=null; this.src='{{ asset('images/default-hall.jpg') }}'">
 
                         <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">{{ $hall->name }}</div>
+                            <div class="font-bold text-xl mb-2">{{ $hall->hall_name }}</div>
                             <p class="text-gray-700 text-base">
                                 {{ Str::limit($hall->description, 100) }}
                             </p>
-                            <p class="text-gray-900 font-semibold mt-2">Capacity: {{ $hall->capacity }} people</p>
+                            <p class="text-gray-900 font-semibold mt-2">Price: {{ $hall->rate }}</p>
                         </div>
                         <div class="px-6 py-4">
                             <a href="{{ route('function-hall.show', $hall->hall_id) }}" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">

@@ -44,7 +44,7 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($booking_id);
 
         // Update the payment_status and booking_status to "Cancelled"
-        $booking->payment_status = 'Cancelled';
+        $booking->payment_status = 'Refunded';
         $booking->booking_status = 'Cancelled';
         $booking->save();
 

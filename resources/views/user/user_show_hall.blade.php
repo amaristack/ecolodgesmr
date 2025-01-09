@@ -29,7 +29,7 @@
                 <div>
                     <h3 class="text-lg sm:text-xl font-bold text-gray-900">{{ $hall->hall_name }}</h3>
                     <p class="text-gray-700">
-                        <span class="font-bold">{{ $hall->price }}</span> / Night
+                        <span class="font-bold">{{ $hall->rate }}</span> / Day
                     </p>
                 </div>
 

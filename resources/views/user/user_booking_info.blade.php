@@ -100,9 +100,8 @@
                 </p>
                 <p><strong>Booking Status:</strong>
                     <span class="px-2 py-1 text-xs font-semibold rounded-full
-                        @if($booking->booking_status == 'Approved') bg-green-500 text-white
-                        @elseif($booking->booking_status == 'Pending') bg-yellow-500 text-white
-                        @else bg-red-500 text-white
+                        @if($booking->booking_status == 'Success') bg-green-500 text-white
+                        @elseif($booking->booking_status == 'Cancelled') bg-red-500 text-white
                         @endif">
                         {{ $booking->booking_status }}
                     </span>
@@ -117,7 +116,7 @@
                 <p><strong>Payment Status:</strong>
                     <span class="px-2 py-1 text-xs font-semibold rounded-full
                         @if($booking->payment_status == 'Fully Paid') bg-green-500 text-white
-                        @elseif($booking->payment_status == 'Partial') bg-yellow-500 text-white
+                        @elseif($booking->payment_status == 'Refunded') bg-orange-500 text-white
                         @else bg-red-500 text-white
                         @endif">
                         {{ $booking->payment_status }}

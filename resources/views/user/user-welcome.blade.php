@@ -27,10 +27,9 @@
                 </div>
                 <div class="flex flex-col justify-center" data-aos="fade-up">
                     <h2 class="text-4xl font-bold mb-4 text-gray-800">Welcome to Ecolodge - Sibugay Mountain Resort</h2>
-                    <p class="mb-6 text-gray-600">Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                        unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum
-                        is simply dummy text of the printing and typesetting industry.</p>
+                    <p class="mb-6 text-gray-600">
+                        Nestled in the heart of nature, Ecolodge - Sibugay Mountain Resort offers a serene escape from the hustle and bustle of everyday life. Our resort is designed to provide you with the ultimate relaxation experience, surrounded by lush greenery and breathtaking views. Whether you're looking to unwind by our pristine pool, indulge in gourmet dining, or embark on an adventurous canyoning expedition, we have something for everyone. Our canyoning tours take you through stunning canyons, where you can experience the thrill of rappelling down waterfalls and exploring hidden natural wonders. Join us for an unforgettable stay where luxury meets adventure.
+                    </p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" data-aos="fade-up">
                         <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-md" data-aos="zoom-in">
                             <svg class="w-10 h-10 text-yellow-400 mb-2" fill="none" stroke="currentColor"
@@ -88,8 +87,7 @@
         <div class="text-center mb-8">
             <h2 class="text-lg text-yellow-500 font-semibold">Choose Your Activities</h2>
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Featured Outdoor Activity</h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry...</p>
+            <p class="text-gray-600 max-w-2xl mx-auto">Experience the thrill and Excitement with thes Outdoor Activities</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach($activities as $act)
@@ -118,8 +116,7 @@
         <div class="text-center mb-8" data-aos="fade-up">
             <h2 class="text-lg text-yellow-500 font-semibold">Choose Your Rooms</h2>
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Featured Rooms</h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry...</p>
+            <p class="text-gray-600 max-w-2xl mx-auto">Relax and Chill in our Hotel</p>
         </div>
         <!-- Room Cards Section -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -196,7 +193,7 @@
         </div>
     </section>
 
-    <x-newsletter/>
+
     <x-footer/>
 
 </x-layout>

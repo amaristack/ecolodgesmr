@@ -28,7 +28,7 @@
             <div class="flex flex-col items-start p-6 bg-white shadow-xl rounded-lg space-y-4">
                 <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $pool->cottage_name }}</h3>
                 <p class="text-lg text-gray-800">
-                    <span class="font-semibold text-yellow-600">{{ $pool->price }}</span> / Night
+                    <span class="font-semibold text-yellow-600">{{ $pool->rate }}</span> / Day
                 </p>
                 <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
                    class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">

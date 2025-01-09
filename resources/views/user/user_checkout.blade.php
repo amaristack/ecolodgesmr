@@ -80,6 +80,32 @@
                                value="{{ $users->address }}">
                     </div>
 
+                    @if($type == 'rooms')
+                        <div class="mb-4">
+                            <label for="number_of_persons" class="block mb-2 font-medium text-gray-700">
+                                Number of Persons (Max {{ $item->max_people }}):
+                            </label>
+                            <input
+                                type="number"
+                                name="number_of_person"
+                                id="number_of_persons"
+                                min="1"
+                                max="{{ $item->max_people }}"
+                                value="{{ old('number_of_person', 1) }}"
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                required
+                            />
+                            @error('number_of_persons')
+                                <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Guest List Container -->
+                        <div class="mb-4" id="guest_list">
+                            <!-- Guest name inputs will be injected here by JavaScript -->
+                        </div>
+                    @endif
+
                     <!-- Note Field -->
                     <div class="mb-4">
                         <textarea name="note" placeholder="Note" class="w-full p-3 border rounded-md"></textarea>
@@ -115,7 +141,7 @@
                                  alt="Room Image" class="w-full rounded-lg mb-4">
                             <h3 class="text-lg font-semibold">{{ $item->room_name }}</h3>
                             <p class="font-bold">PHP {{ $item->rate }} / Night</p>
-                            <p>Capacity: {{ $item->capacity }} People</p>
+                            <p>Capacity: {{ $item->max_people }} People</p>
                             <input type="hidden" name="room_id" value="{{ $item->room_id }}">
                         @elseif($type == 'cottages')
                             <!-- For Cottages -->
@@ -163,9 +189,8 @@
                         </div>
                     @endif
 
-
                     <!-- Hidden input to pass the price -->
-                    <input type="hidden" name="price" value="{{ $item->price }}">
+                    <input type="hidden" name="rate" value="{{ $item->rate }}">
 
                     <!-- Availability and Pricing -->
                     <div class="mb-4">
@@ -173,9 +198,9 @@
                                 class="font-semibold">{{ $item->availability }} {{ ucfirst($type) }}</span></p>
                     </div>
                     <div class="mb-4">
-                        <p>Subtotal: PHP <span id="subtotal">{{ $item->price }}</span></p>
+                        <p>Subtotal: PHP <span id="subtotal">{{ $item->rate }}</span></p>
                         <p>Discount: PHP <span id="discount">0</span></p>
-                        <p>Total: PHP <span id="total">{{ $item->price }}</span></p>
+                        <p>Total: PHP <span id="total">{{ $item->rate }}</span></p>
                     </div>
 
                     <button type="submit" class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 mt-4">
@@ -183,10 +208,90 @@
                     </button>
 
                 </div>
-            </div>
-        </form>
-        <!-- End Form wrapping both sections -->
+            </form>
+            <!-- End Form wrapping both sections -->
     </div>
 
     <x-footer/>
+
+    <!-- JavaScript to Handle Dynamic Guest List and Pricing -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const numberOfPersonsInput = document.getElementById('number_of_persons');
+            const guestListContainer = document.getElementById('guest_list');
+            const checkinInput = document.getElementById('checkin');
+            const checkoutInput = document.getElementById('checkout');
+            const quantityInput = document.getElementById('quantity');
+            const rateInput = document.querySelector('input[name="rate"]');
+            const subtotalSpan = document.getElementById('subtotal');
+            const discountSpan = document.getElementById('discount');
+            const totalSpan = document.getElementById('total');
+
+            function updateGuestList() {
+                const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
+                guestListContainer.innerHTML = ''; // Clear existing guest inputs
+
+                for (let i = 1; i <= numberOfPersons; i++) {
+                    const guestDiv = document.createElement('div');
+                    guestDiv.classList.add('mb-2');
+
+                    const guestLabel = document.createElement('label');
+                    guestLabel.setAttribute('for', `guest_name_${i}`);
+                    guestLabel.classList.add('block', 'mb-1', 'font-medium', 'text-gray-700');
+                    guestLabel.textContent = `Guest ${i} Name:`;
+
+                    const guestInput = document.createElement('input');
+                    guestInput.type = 'text';
+                    guestInput.name = `guest_names[${i}]`;
+                    guestInput.id = `guest_name_${i}`;
+                    guestInput.placeholder = `Enter name for Guest ${i}`;
+                    guestInput.classList.add('w-full', 'p-2', 'border', 'rounded-md');
+                    guestInput.required = true;
+
+                    guestDiv.appendChild(guestLabel);
+                    guestDiv.appendChild(guestInput);
+                    guestListContainer.appendChild(guestDiv);
+                }
+            }
+
+            function calculateDays() {
+                const checkinDate = new Date(checkinInput.value);
+                const checkoutDate = new Date(checkoutInput.value);
+                const timeDiff = checkoutDate - checkinDate;
+                const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                return days > 0 ? days : 1;
+            }
+
+            function updatePricing() {
+                const rate = parseFloat(rateInput.value) || 0;
+                const quantity = parseInt(quantityInput.value) || 1;
+                const days = calculateDays();
+                const subtotal = rate * days * quantity;
+                const discount = 0; // Update this if discount logic is required
+                const total = subtotal - discount;
+
+                subtotalSpan.textContent = subtotal.toFixed(2);
+                discountSpan.textContent = discount.toFixed(2);
+                totalSpan.textContent = total.toFixed(2);
+            }
+
+            if (numberOfPersonsInput) {
+                // Initialize guest list on page load
+                updateGuestList();
+
+                // Update guest list when number of persons changes
+                numberOfPersonsInput.addEventListener('input', updateGuestList);
+            }
+
+            // Initialize pricing on page load
+            updatePricing();
+
+            // Update pricing when check-in, check-out, or quantity changes
+            if (checkinInput && checkoutInput && quantityInput) {
+                checkinInput.addEventListener('change', updatePricing);
+                checkoutInput.addEventListener('change', updatePricing);
+                quantityInput.addEventListener('input', updatePricing);
+            }
+        });
+    </script>
 </x-layout>

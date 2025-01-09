@@ -29,7 +29,7 @@
                 <div>
                     <h3 class="text-lg sm:text-xl font-bold text-gray-900">{{ $activity->activity_name }}</h3>
                     <p class="text-gray-700">
-                        <span class="font-bold">{{ $activity->price }}</span> / Activity
+                        <span class="font-bold">{{ $activity->rate }}</span> / Activity
                     </p>
                 </div>
 

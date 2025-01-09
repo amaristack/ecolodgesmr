@@ -46,7 +46,7 @@
                 </x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/calendar" :active="request()->is('calendar')">Announcements</x-nav_design>
+                <x-nav_design href="{{ route('announcements.index')}}" :active="request()->is('announcement')">Announcements</x-nav_design>
             </li>
             @guest
                 <li>
@@ -213,7 +213,7 @@
                 </x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/calendar" :active="request()->is('calendar')">Calendar</x-nav_design>
+                <x-nav_design href="{{ route('announcements.index')}}" :active="request()->is('calendar')">Announcements</x-nav_design>
             </li>
             @guest
                 <li><a href="/login" class="text-black text-[18px] font-medium hover:text-yellow-500">Login</a></li>
