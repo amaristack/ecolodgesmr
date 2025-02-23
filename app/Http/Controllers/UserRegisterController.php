@@ -23,7 +23,8 @@ class UserRegisterController extends Controller
             'age' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'g-recaptcha-response' => 'required|recaptcha'
         ]);
 
         User::create($validate);

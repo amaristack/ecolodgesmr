@@ -111,6 +111,11 @@
                 </label>
             </div>
 
+            <div class="mb-6">
+                {!!htmlFormSnippet()!!}
+                <x-fields_error name="g-recaptcha-response"/>
+            </div>
+
             <button id="registerButton" type="submit"
                     class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>
@@ -182,8 +187,31 @@
         function updateRegisterButtonState() {
             const passwordsMatch = passwordInput.value === confirmPasswordInput.value && passwordInput.value !== "";
             const termsChecked = termsCheckbox.checked;
-            registerButton.disabled = !(passwordsMatch && termsChecked);
+            let captchaResponse = false;
+
+            try {
+                if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse) {
+                    captchaResponse = grecaptcha.getResponse().length > 0;
+                }
+            } catch (e) {
+                console.log("reCAPTCHA not yet loaded");
+            }
+
+            registerButton.disabled = !(passwordsMatch && termsChecked && captchaResponse);
         }
+
+        // Initialize reCAPTCHA when the API is ready
+        window.onloadCallback = function() {
+            grecaptcha.render('g-recaptcha', {
+                'sitekey': 'YOUR_SITE_KEY_HERE',
+                'callback': function(response) {
+                    updateRegisterButtonState();
+                },
+                'expired-callback': function() {
+                    updateRegisterButtonState();
+                }
+            });
+        };
 
         // Event listeners for input and checkbox changes
         passwordInput.addEventListener('input', checkPasswordMatch);
@@ -206,8 +234,19 @@
                 : '<i class="fas fa-eye-slash text-gray-500"></i>';
         });
 
+        // Add captcha callback
+        window.onRecaptchaSuccess = function() {
+            updateRegisterButtonState();
+        };
 
-        updateRegisterButtonState();
+        window.onRecaptchaExpired = function() {
+            updateRegisterButtonState();
+        };
+
+        // Initial button state update
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRegisterButtonState();
+        });
 
     </script>
 
