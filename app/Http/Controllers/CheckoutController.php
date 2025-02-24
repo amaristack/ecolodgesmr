@@ -31,6 +31,7 @@ class CheckoutController extends Controller
                 'guest_names' => 'required_if:item_type,rooms|array',
                 'guest_names.*' => 'required_if:item_type,rooms|string|max:255',
                 'note' => 'nullable|string|max:255',
+                'quantity' => 'required|integer|min:1', // Validate quantity
             ]);
 
             // Assign foreign key based on item type in the request
@@ -59,9 +60,10 @@ class CheckoutController extends Controller
             $checkOut = Carbon::parse($validatedData['check_out']);
             $days = $checkIn->diffInDays($checkOut) ?: 1;
 
-            // Calculate subtotal
-            $rate = $item->rate; // Ensure the model has a 'rate' attribute
-            $subtotal = $rate * $days;
+            // Factor in quantity
+            $quantity = $validatedData['quantity'];
+            $rate = $item->rate;
+            $subtotal = $rate * $days * $quantity;
 
             // Calculate discount (if any)
             $discount = 0; // Modify this if discount logic is implemented
@@ -91,7 +93,7 @@ class CheckoutController extends Controller
                 'subtotal' => $subtotal,
                 'discount' => $discount,
                 'total' => $total,
-                // Removed 'payment_method' => 'Gcash', // Remove default payment method
+                'quantity' => $quantity,
                 'item_type' => $type,
                 'item_id' => $itemId,
                 'number_of_person' => $type === 'rooms' ? $numberOfPersons : null,
@@ -141,18 +143,21 @@ class CheckoutController extends Controller
             $checkOut = Carbon::parse($bookingData['check_out']);
             $days = $checkIn->diffInDays($checkOut) ?: 1;
 
-            // Recalculate subtotal based on days
+            // Get quantity from booking data
+            $quantity = $bookingData['quantity'] ?? 1;
+
+            // Recalculate subtotal based on days and quantity
             $rate = $item->rate;
-            $subtotal = $rate * $days;
+            $subtotal = $rate * $days * $quantity;
 
             // Calculate discount (if any)
-            $discount = $bookingData['discount'] ?? 0; // Adjust if you have discount logic
+            $discount = $bookingData['discount'] ?? 0;
 
             // Calculate total
             $total = $subtotal - $discount;
 
-            // Calculate downpayment (50% of subtotal)
-            $downpayment = $subtotal * 0.5;
+            // Calculate downpayment (50% of total)
+            $downpayment = $total * 0.5;
 
             // Update booking data with recalculated values
             $bookingData['days'] = $days;
@@ -160,7 +165,8 @@ class CheckoutController extends Controller
             $bookingData['discount'] = $discount;
             $bookingData['total'] = $total;
             $bookingData['downpayment'] = $downpayment;
-            $bookingData['payment_amount'] = $downpayment; // Set payment amount to downpayment
+            $bookingData['payment_amount'] = $downpayment;
+            $bookingData['quantity'] = $quantity;
 
             // Save updated booking data back to session
             session(['booking_data' => $bookingData]);
@@ -452,6 +458,8 @@ class CheckoutController extends Controller
             $booking->payment_method = $bookingData['payment_method'];
             $booking->check_in = $bookingData['check_in'];
             $booking->check_out = $bookingData['check_out'];
+            // Ensure quantity is properly set from booking data
+            $booking->quantity = isset($bookingData['quantity']) ? (int)$bookingData['quantity'] : 1;
             $booking->payment_status = 'Partial';
             $booking->booking_status = 'Success';
             $booking->note = $bookingData['note'];
@@ -486,33 +494,62 @@ class CheckoutController extends Controller
             // Save the booking to the database
             $booking->save();
 
-            switch ($booking->item_type) {
+            // Update availability based on quantity
+            switch ($bookingData['item_type']) {
                 case 'rooms':
-                    $room = Room::find($booking->item_id);
+                    $room = Room::find($bookingData['item_id']);
                     if ($room) {
-                        $room->availability -= 1;
+                        $newAvailability = max(0, $room->availability - $bookingData['quantity']);
+                        $room->availability = $newAvailability;
                         $room->save();
+                        Log::info('Room availability updated:', [
+                            'room_id' => $room->room_id,
+                            'old_availability' => $room->availability + $bookingData['quantity'],
+                            'new_availability' => $newAvailability,
+                            'quantity_booked' => $bookingData['quantity']
+                        ]);
                     }
                     break;
-                case 'cottage':
-                    $cottage = Pool::find($booking->item_id);
+                case 'cottages':
+                    $cottage = Pool::find($bookingData['item_id']);
                     if ($cottage) {
-                        $cottage->availability -= 1;
+                        $newAvailability = max(0, $cottage->availability - $bookingData['quantity']);
+                        $cottage->availability = $newAvailability;
                         $cottage->save();
+                        Log::info('Cottage availability updated:', [
+                            'cottage_id' => $cottage->pool_id,
+                            'old_availability' => $cottage->availability + $bookingData['quantity'],
+                            'new_availability' => $newAvailability,
+                            'quantity_booked' => $bookingData['quantity']
+                        ]);
                     }
                     break;
                 case 'activity':
-                    $activity = Activity::find($booking->item_id);
+                    $activity = Activity::find($bookingData['item_id']);
                     if ($activity) {
-                        $activity->availability -= 1;
+                        $newAvailability = max(0, $activity->availability - $bookingData['quantity']);
+                        $activity->availability = $newAvailability;
                         $activity->save();
+                        Log::info('Activity availability updated:', [
+                            'activity_id' => $activity->activity_id,
+                            'old_availability' => $activity->availability + $bookingData['quantity'],
+                            'new_availability' => $newAvailability,
+                            'quantity_booked' => $bookingData['quantity']
+                        ]);
                     }
                     break;
-                case 'function hall':
-                    $functionHall = Hall::find($booking->item_id);
-                    if ($functionHall) {
-                        $functionHall->availability -= 1;
-                        $functionHall->save();
+                case 'hall':
+                    $hall = Hall::find($bookingData['item_id']);
+                    if ($hall) {
+                        $newAvailability = max(0, $hall->availability - $bookingData['quantity']);
+                        $hall->availability = $newAvailability;
+                        $hall->save();
+                        Log::info('Hall availability updated:', [
+                            'hall_id' => $hall->hall_id,
+                            'old_availability' => $hall->availability + $bookingData['quantity'],
+                            'new_availability' => $newAvailability,
+                            'quantity_booked' => $bookingData['quantity']
+                        ]);
                     }
                     break;
             }

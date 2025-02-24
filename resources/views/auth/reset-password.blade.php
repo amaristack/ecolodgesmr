@@ -50,6 +50,5 @@
             </button>
         </form>
     </div>
-    <x-newsletter/>
     <x-footer/>
 </x-layout>

@@ -172,15 +172,26 @@
                     @if($type == 'rooms' || $type == 'cottages' || $type == 'activity' || $type == 'hall')
                         <div class="mb-4">
                             <label for="checkin" class="block font-semibold">Check In</label>
-                            <input type="date" name="check_in" id="checkin" class="w-full p-3 border rounded-md"
+                            <input type="date" name="check_in" id="checkin"
+                                   min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                   class="w-full p-3 border rounded-md"
                                    required
                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                         </div>
                         <div class="mb-4">
                             <label for="checkout" class="block font-semibold">Check Out</label>
-                            <input type="date" name="check_out" id="checkout" class="w-full p-3 border rounded-md"
+                            <input type="date" name="check_out" id="checkout"
+                                   min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                   class="w-full p-3 border rounded-md"
                                    required
                                    value="{{ \Carbon\Carbon::now()->addDay()->format('Y-m-d') }}">
+                        </div>
+                        <!-- Quantity Field -->
+                        <div class="mb-4">
+                            <label for="quantity" class="block font-semibold">Quantity</label>
+                            <input type="number" name="quantity" id="quantity" min="1" value="1"
+                                   class="w-full p-3 border rounded-md"
+                                   required>
                         </div>
                     @endif
 
@@ -220,6 +231,7 @@
             const subtotalSpan = document.getElementById('subtotal');
             const discountSpan = document.getElementById('discount');
             const totalSpan = document.getElementById('total');
+            const quantityInput = document.getElementById('quantity');
 
             function updateGuestList() {
                 const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
@@ -259,8 +271,9 @@
             function updatePricing() {
                 const rate = parseFloat(rateInput.value) || 0;
                 const days = calculateDays();
-                const subtotal = rate * days;
-                const discount = 0; // Update this if discount logic is required
+                const quantity = parseInt(quantityInput.value) || 1;
+                const subtotal = rate * days * quantity;
+                const discount = 0; // adjust if needed
                 const total = subtotal - discount;
 
                 subtotalSpan.textContent = subtotal.toFixed(2);
@@ -280,9 +293,10 @@
             updatePricing();
 
             // Update pricing when check-in, check-out, or quantity changes
-            if (checkinInput && checkoutInput) {
+            if (checkinInput && checkoutInput && quantityInput) {
                 checkinInput.addEventListener('change', updatePricing);
                 checkoutInput.addEventListener('change', updatePricing);
+                quantityInput.addEventListener('change', updatePricing);
             }
         });
     </script>

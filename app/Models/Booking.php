@@ -29,7 +29,8 @@ class Booking extends Model
         'paymongo_link_id',
         'decline_reason',
         'number_of_person',
-        'guest_names',// Added: Additional notes
+        'guest_names',
+        'quantity'// Added: Additional notes
         // Remove 'status' if it's replaced by 'payment_status' and 'booking_status'
     ];
 
