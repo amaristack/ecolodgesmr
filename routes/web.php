@@ -107,7 +107,3 @@ Route::get('/terms', fn() => view('terms_and_condition'))->name('terms_and_condi
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
 Route::get('/bookings', [BookingController::class, 'showAll'])->name('user.book');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
-
-
-// Newsletter Subscription (Accessible by both guests and authenticated users)
-Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
