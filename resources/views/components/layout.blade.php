@@ -14,18 +14,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=book" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {!!htmlScriptTagJsApi()!!}
+    @livewireStyles
 </head>
 <body>
 <!-- Preloader -->
-<div id="preloader">
+{{-- <div id="preloader">
     <div class="dot-container">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
     </div>
-</div>
+</div> --}}
 {{ $slot }}
 
+@livewireScripts
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>

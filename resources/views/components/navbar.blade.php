@@ -33,13 +33,13 @@
                 </li>
             @endauth
             <li>
-                <x-nav_design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav_design>
+                <x-nav_design href="/rooms" wire:navigate :active="request()->is('rooms')" onclick="routeToRooms(e)">Rooms</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/activities" :active="request()->is('activities')">Activities</x-nav_design>
+                <x-nav_design href="/activities" wire:navigate :active="request()->is('activities')">Activities</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottage</x-nav_design>
+                <x-nav_design href="/cottages" wire:navigate :active="request()->is('cottages')">Cottage</x-nav_design>
             </li>
             <li>
                 <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
