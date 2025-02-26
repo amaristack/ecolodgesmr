@@ -7,7 +7,7 @@
         </div>
         @guest
             <div class="bg-yellow-500 p-1.5 rounded-lg">
-                <a class="text-white font-bold" href="{{ route('verify.email') }}">
+                <a class="text-white font-bold" href="{{ route('verify.email') }}" wire:navigate>
                     Register Now
                 </a>
             </div>
@@ -24,12 +24,12 @@
         <ul id="menu" class="hidden md:flex space-x-6 p-1.5 mx-auto">
             @guest
                 <li>
-                    <x-nav_design href="/" :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endguest
             @auth
                 <li>
-                    <x-nav_design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/dashboard" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endauth
             <li>
@@ -42,15 +42,15 @@
                 <x-nav_design href="/cottages" wire:navigate :active="request()->is('cottages')">Cottage</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
+                <x-nav_design href="/function_hall" wire:navigate :active="request()->is('function_hall')">Function Hall
                 </x-nav_design>
             </li>
             <li>
-                <x-nav_design href="{{ route('announcements.index') }}" :active="request()->is('announcement')">Announcements</x-nav_design>
+                <x-nav_design href="{{ route('announcements.index') }}" wire:navigate :active="request()->is('announcement')">Announcements</x-nav_design>
             </li>
             @guest
                 <li>
-                    <x-nav_design href="/login" :active="request()->is('login')">Log in</x-nav_design>
+                    <x-nav_design href="/login" wire:navigate :active="request()->is('login')">Log in</x-nav_design>
                 </li>
             @endguest
         </ul>
@@ -179,7 +179,7 @@
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                            <a href="/user/{{ $users->id }}"
+                            <a href="/user/{{ $users->id }}" wire:navigate
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                         </li>
                         <li>
@@ -211,32 +211,32 @@
         <ul class="space-y-4">
             @guest
                 <li>
-                    <x-nav_design href="/" :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endguest
             @auth
                 <li>
-                    <x-nav_design href="/dashboard" :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/dashboard" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endauth
             <li>
-                <x-nav_design href="/rooms" :active="request()->is('rooms')">Rooms</x-nav_design>
+                <x-nav_design href="/rooms" wire:navigate :active="request()->is('rooms')">Rooms</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/activities" :active="request()->is('activities')">Activities</x-nav_design>
+                <x-nav_design href="/activities" wire:navigate :active="request()->is('activities')">Activities</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/cottages" :active="request()->is('cottages')">Cottages</x-nav_design>
+                <x-nav_design href="/cottages" wire:navigate :active="request()->is('cottages')">Cottages</x-nav_design>
             </li>
             <li>
-                <x-nav_design href="/function_hall" :active="request()->is('function_hall')">Function Hall
+                <x-nav_design href="/function_hall" wire:navigate :active="request()->is('function_hall')">Function Hall
                 </x-nav_design>
             </li>
             <li>
-                <x-nav_design href="{{ route('announcements.index') }}" :active="request()->is('calendar')">Announcements</x-nav_design>
+                <x-nav_design href="{{ route('announcements.index') }}" wire:navigate :active="request()->is('calendar')">Announcements</x-nav_design>
             </li>
             @guest
-                <li><a href="/login" class="text-black text-[18px] font-medium hover:text-yellow-500">Login</a></li>
+                <li><a href="/login" wire:navigate class="text-black text-[18px] font-medium hover:text-yellow-500">Login</a></li>
             @endguest
         </ul>
     </div>
