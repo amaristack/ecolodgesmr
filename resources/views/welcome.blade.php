@@ -1,108 +1,11 @@
 <x-layout>
-    <!-- Header for Contact Info -->
     <x-navbar />
     <section class="h-full relative">
         <x-carousel />
     </section>
 
-
-    <div id="hotel-service-modal" tabindex="-1" aria-hidden="true"
-        class="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-4xl h-[80vh] overflow-y-auto max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Hotel and Resort Terms of Service
-                    </h3>
-                    <button type="button" id="close-modal"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-
-                <div class="p-4 md:p-5 space-y-4">
-                    <!-- Welcome Section -->
-                    <h2 class="text-xl font-semibold mb-2">Welcome!</h2>
-                    <p class="text-gray-700 mb-4">
-                        Before using our platform, please carefully read and understand the terms and conditions below.
-                        These terms are in compliance with the Data Privacy Act of 2012, ensuring the confidentiality
-                        and security of your personal information.
-                    </p>
-
-                    <!-- Personal Data We Collect Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">Personal Data We Collect</h2>
-                    <p class="text-gray-700 mb-4">
-                        We collect personal information such as your full name, email address, contact number,
-                        residential address, and payment details.
-                        This information is required for account creation, booking management, and service
-                        personalization.
-                    </p>
-
-                    <!-- How We Use Your Data Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">How We Use Your Data</h2>
-                    <p class="text-gray-700 mb-4">
-                        Your personal data is processed to facilitate bookings, manage your account, and improve our
-                        services.
-                        We will never share your information with unauthorized third parties without your consent,
-                        except as required by law.
-                    </p>
-
-                    <!-- Your Rights Under the DPA Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">Your Rights Under the DPA</h2>
-                    <p class="text-gray-700 mb-4">
-                        You have the following rights concerning your personal data:
-                    </p>
-                    <ul class="list-disc list-inside mb-4 text-gray-700">
-                        <li>The right to access your data.</li>
-                        <li>The right to correct inaccuracies in your data.</li>
-                        <li>The right to request deletion of your data, subject to applicable laws.</li>
-                        <li>The right to withdraw consent for data processing at any time.</li>
-                    </ul>
-
-                    <!-- Security Measures Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">Security Measures</h2>
-                    <p class="text-gray-700 mb-4">
-                        We implement industry-standard security measures to protect your personal data from unauthorized
-                        access, alteration, disclosure, or destruction.
-                    </p>
-
-                    <!-- Data Retention Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">Data Retention</h2>
-                    <p class="text-gray-700 mb-4">
-                        Your personal data will be retained only for as long as necessary to fulfill the purposes
-                        outlined above or as required by law.
-                    </p>
-
-                    <!-- Contact Us Section -->
-                    <h2 class="text-xl font-semibold mt-6 mb-2">Contact Us</h2>
-                    <p class="text-gray-700 mb-4">
-                        If you have questions or concerns about your personal data or this policy, feel free to contact
-                        us via the provided channels in the app.
-                    </p>
-                </div>
-            </div>
-
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button id="accept-modal" type="button"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    I accept
-                </button>
-                <button id="decline-modal" type="button"
-                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    Decline
-                </button>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
+    <!-- Replace the old modal with Livewire component -->
+    <livewire:terms-modal />
 
     <div id="cookie-consent-modal" class="fixed bottom-4 left-4 z-50 hidden bg-gray-800 p-4 rounded-lg shadow-lg w-64">
         <p class="text-sm text-white">
