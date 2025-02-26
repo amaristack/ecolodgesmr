@@ -24,12 +24,12 @@
         <ul id="menu" class="hidden md:flex space-x-6 p-1.5 mx-auto">
             @guest
                 <li>
-                    <x-nav_design href="/" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/" :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endguest
             @auth
                 <li>
-                    <x-nav_design href="/dashboard" wire:navigate :active="request()->is('/dashboard')">Home</x-nav_design>
+                    <x-nav_design href="/dashboard"  :active="request()->is('/dashboard')">Home</x-nav_design>
                 </li>
             @endauth
             <li>
