@@ -19,8 +19,17 @@
 
 </head>
 <body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="dot-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
 {{ $slot }}
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 @livewireScripts
 
 

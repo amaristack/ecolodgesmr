@@ -10,7 +10,6 @@
         "biscolab/laravel-recaptcha": "^6.1",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.6",
         "paymongo/paymongo-php": "^0.0.0",
         "paypal/paypal-checkout-sdk": "^1.0",
         "srmklive/paypal": "^3.0"
