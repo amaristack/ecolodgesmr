@@ -85,13 +85,6 @@
                 <span id="togglePassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
         <i class="fas fa-eye text-gray-500"></i>
     </span>
-                <!-- Add password requirements -->
-                <ul class="mt-2 text-sm text-gray-600 list-disc list-inside">
-                    <li>At least 8 characters long</li>
-                    <li>Must include at least one uppercase letter</li>
-                    <li>Must include at least one number</li>
-                    <li>Must include at least one special character (!@#$%^&*)</li>
-                </ul>
             </div>
             <x-fields_error name="password"/>
 

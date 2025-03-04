@@ -159,19 +159,21 @@ return [
         /**
          * The name of your callback function, executed when the user submits a successful response.
          * The g-recaptcha-response token is passed to your callback.
+         * DO NOT SET "biscolabOnloadCallback"
          */
-        'callback'         => 'onRecaptchaSuccess',
+        'callback'         => null,
 
         /**
-         * The name of your callback function, executed when the reCAPTCHA response expires.
+         * The name of your callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.
+         * DO NOT SET "biscolabOnloadCallback"
          */
-        'expired-callback' => 'onRecaptchaExpired',
+        'expired-callback' => null,
 
         /**
-         * The name of your callback function, executed when reCAPTCHA encounters an error.
+         * The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored.
+         * If you specify a function here, you are responsible for informing the user that they should retry.
+         * DO NOT SET "biscolabOnloadCallback"
          */
-        'error-callback'   => 'onRecaptchaError',
-    ],
-
-
+        'error-callback'   => null,
+    ]
 ];

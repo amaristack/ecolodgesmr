@@ -49,26 +49,4 @@
     </div>
 </div>
 <x-footer />
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const submitButton = document.querySelector('button[type="submit"]');
-
-        // Disable button by default
-        submitButton.disabled = true;
-        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
-
-        // Callback for reCAPTCHA success
-        window.onRecaptchaSuccess = function() {
-            submitButton.disabled = false;
-            submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
-        };
-
-        // Callback for reCAPTCHA expiry
-        window.onRecaptchaExpired = function() {
-            submitButton.disabled = true;
-            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
-        };
-    });
-</script>
 </x-layout>
