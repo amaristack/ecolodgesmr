@@ -1,14 +1,13 @@
 <x-layout>
-    <x-navbar/>
-    <div
-        class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
+    <x-navbar />
+    <div class="relative bg-gradient-to-br from-blue-500 to-green-400 bg-cover bg-center h-[300px] flex items-center justify-center"
         style="background-image: url('https://vnfoxcdnoahqenfjssdv.supabase.co/storage/v1/object/public/ecolodgesmr/images/main.jpg');">
         <div class="absolute inset-0 bg-black opacity-30"></div>
         <div class="container mx-auto relative z-10 text-center text-white">
             <h1 class="text-5xl font-bold mb-4">Join us in Ecolodge SMR </h1>
             <nav class="text-lg mb-6">
                 <a href="/dashboard" class="hover:underline">Home</a> / <a href="/register"
-                                                                           class="underline text-yellow-500">Register</a>
+                    class="underline text-yellow-500">Register</a>
             </nav>
         </div>
     </div>
@@ -21,109 +20,113 @@
                 <div>
                     <label for="first_name" class="block mb-2 text-sm font-medium text-gray-700">First Name</label>
                     <input type="text" id="first_name" name="first_name"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           placeholder="John" required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        placeholder="John" required />
                 </div>
-                <x-fields_error name="first_name"/>
+                <x-fields_error name="first_name" />
                 <div>
                     <label for="middle_name" class="block mb-2 text-sm font-medium text-gray-700">Middle Initial</label>
                     <input type="text" id="middle_name" name="middle_name"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           placeholder="A." required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        placeholder="A." required />
                 </div>
-                <x-fields_error name="middle_name"/>
+                <x-fields_error name="middle_name" />
                 <div>
                     <label for="last_name" class="block mb-2 text-sm font-medium text-gray-700">Last Name</label>
                     <input type="text" id="last_name" name="last_name"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           placeholder="Doe" required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        placeholder="Doe" required />
                 </div>
-                <x-fields_error name="last_name"/>
+                <x-fields_error name="last_name" />
                 <div>
                     <label for="address" class="block mb-2 text-sm font-medium text-gray-700">Address</label>
                     <input type="text" id="address" name="address"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           placeholder="123 Main St." required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        placeholder="123 Main St." required />
                 </div>
-                <x-fields_error name="address"/>
+                <x-fields_error name="address" />
                 <div>
                     <label for="birth_date" class="block mb-2 text-sm font-medium text-gray-700">Birth Date</label>
                     <input type="date" id="birth_date" name="birth_date"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        required />
                 </div>
-                <x-fields_error name="birth_date"/>
+                <x-fields_error name="birth_date" />
                 <div>
                     <label for="age" class="block mb-2 text-sm font-medium text-gray-700">Age</label>
                     <input type="number" id="age" name="age"
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        required />
                 </div>
-                <x-fields_error name="age"/>
+                <x-fields_error name="age" />
                 <div>
                     <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
                     <input type="number" id="phone_number" name="phone_number" placeholder="09...."
-                           class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                           required/>
+                        class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                        required />
                 </div>
-                <x-fields_error name="phone_number"/>
+                <x-fields_error name="phone_number" />
             </div>
 
             <div class="mb-6">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
                 <input type="email" id="email" name="email"
-                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                       placeholder="john.doe@example.com" required value="{{ old('email', session('verified_email')) }}" readonly/>
+                    class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                    placeholder="john.doe@example.com" required value="{{ old('email', session('verified_email')) }}"
+                    readonly />
             </div>
-            <x-fields_error name="email"/>
+            <x-fields_error name="email" />
 
             <div class="mb-6 relative">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"
-                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                       placeholder="•••••••••" required />
+                    class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                    placeholder="•••••••••" required />
                 <span id="togglePassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
-        <i class="fas fa-eye text-gray-500"></i>
-    </span>
+                    <i class="fas fa-eye text-gray-500"></i>
+                </span>
             </div>
-            <x-fields_error name="password"/>
+            <x-fields_error name="password" />
 
             <div class="mb-6 relative">
                 <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Confirm
                     Password</label>
                 <input type="password" id="confirm_password" name="password_confirmation"
-                       class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                       placeholder="•••••••••" required/>
-                <span id="toggleConfirmPassword" class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
-        <i class="fas fa-eye text-gray-500"></i>
-    </span>
+                    class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                    placeholder="•••••••••" required />
+                <span id="toggleConfirmPassword"
+                    class="absolute inset-y-0 right-4 flex items-center cursor-pointer mt-6">
+                    <i class="fas fa-eye text-gray-500"></i>
+                </span>
                 <p id="password-match" class="text-sm mt-2"></p>
             </div>
-            <x-fields_error name="password_confirmation"/>
+            <x-fields_error name="password_confirmation" />
 
             <div class="flex items-start mb-6">
                 <input id="remember" type="checkbox" value=""
-                       class="w-4 h-4 border border-gray-300 rounded bg-gray-100 focus:ring-3 focus:ring-green-300"
-                       required/>
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-100 focus:ring-3 focus:ring-green-300"
+                    required />
                 <label for="remember" class="ml-2 text-sm font-medium text-gray-700">I agree with the <a
-                        href="{{ route('terms_and_condition') }}"
-                        class="text-blue-600 hover:underline">terms and conditions</a>.
+                        href="{{ route('terms_and_condition') }}" class="text-blue-600 hover:underline">terms and
+                        conditions</a>.
                 </label>
             </div>
 
+
             <div class="mb-6">
-                {!!htmlFormSnippet()!!}
-                <x-fields_error name="g-recaptcha-response"/>
+                {!! htmlFormSnippet() !!}
+                <x-fields_error name="g-recaptcha-response" />
             </div>
 
+
             <button id="registerButton" type="submit"
-                    class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
+                class="w-full text-white bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg py-3 text-center transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled>
                 Register Now
             </button>
 
             <p class="mt-4 text-center text-sm text-gray-700">Already have an account? <a href="/login"
-                                                                                          class="text-blue-600 hover:underline">Log
+                    class="text-blue-600 hover:underline">Log
                     in here</a>.
             </p>
         </form>
@@ -148,13 +151,12 @@
                 passwordMatchIndicator.classList.add("text-green-600");
                 passwordMatchIndicator.classList.remove("text-red-600");
             } else {
-                passwordMatchIndicator.textContent = passwordInput.value && confirmPasswordInput.value
-                    ? "Passwords do not match"
-                    : "";
+                passwordMatchIndicator.textContent = passwordInput.value && confirmPasswordInput.value ?
+                    "Passwords do not match" : "";
                 passwordMatchIndicator.classList.add("text-red-600");
                 passwordMatchIndicator.classList.remove("text-green-600");
             }
-            updateRegisterButtonState();
+            return passwordsMatch;
         }
 
         // Function to calculate age based on birth date
@@ -171,86 +173,69 @@
             return age;
         }
 
-        // Event listener to update the age field when birth date changes
+        // Function to check if reCAPTCHA is completed
+        function isRecaptchaCompleted() {
+            try {
+                return grecaptcha && grecaptcha.getResponse().length > 0;
+            } catch (e) {
+                console.log("reCAPTCHA not yet loaded");
+                return false;
+            }
+        }
+
+        // Function to update the register button's disabled state
+        function updateRegisterButtonState() {
+            const passwordsMatch = checkPasswordMatch();
+            const termsChecked = termsCheckbox.checked;
+            const captchaCompleted = isRecaptchaCompleted();
+
+            const shouldEnable = passwordsMatch && termsChecked && captchaCompleted;
+            registerButton.disabled = !shouldEnable;
+        }
+
+        // Event listeners
+        passwordInput.addEventListener('input', updateRegisterButtonState);
+        confirmPasswordInput.addEventListener('input', updateRegisterButtonState);
+        termsCheckbox.addEventListener('change', updateRegisterButtonState);
+
         birthDateInput.addEventListener('input', () => {
             const birthDateValue = birthDateInput.value;
             if (birthDateValue) {
                 const age = calculateAge(birthDateValue);
-                ageInput.value = age >= 0 ? age : ''; // Clear age input if date is invalid
+                ageInput.value = age >= 0 ? age : '';
             } else {
-                ageInput.value = ''; // Clear age input if no date is selected
+                ageInput.value = '';
             }
-            // No need to update register button state based on birth/age anymore
         });
-
-        // Function to update the register button's disabled state
-        function updateRegisterButtonState() {
-            const passwordsMatch = passwordInput.value === confirmPasswordInput.value && passwordInput.value !== "";
-            const termsChecked = termsCheckbox.checked;
-            let captchaResponse = false;
-
-            try {
-                if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse) {
-                    captchaResponse = grecaptcha.getResponse().length > 0;
-                }
-            } catch (e) {
-                console.log("reCAPTCHA not yet loaded");
-            }
-
-            registerButton.disabled = !(passwordsMatch && termsChecked && captchaResponse);
-        }
-
-        // Initialize reCAPTCHA when the API is ready
-        window.onloadCallback = function() {
-            grecaptcha.render('g-recaptcha', {
-                'sitekey': 'YOUR_SITE_KEY_HERE',
-                'callback': function(response) {
-                    updateRegisterButtonState();
-                },
-                'expired-callback': function() {
-                    updateRegisterButtonState();
-                }
-            });
-        };
-
-        // Event listeners for input and checkbox changes
-        passwordInput.addEventListener('input', checkPasswordMatch);
-        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
-        termsCheckbox.addEventListener('change', updateRegisterButtonState);
 
         togglePassword.addEventListener('click', () => {
             const type = passwordInput.type === 'password' ? 'text' : 'password';
             passwordInput.type = type;
-            togglePassword.innerHTML = type === 'password'
-                ? '<i class="fas fa-eye text-gray-500"></i>'
-                : '<i class="fas fa-eye-slash text-gray-500"></i>';
+            togglePassword.innerHTML = type === 'password' ?
+                '<i class="fas fa-eye text-gray-500"></i>' :
+                '<i class="fas fa-eye-slash text-gray-500"></i>';
         });
 
         toggleConfirmPassword.addEventListener('click', () => {
             const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
             confirmPasswordInput.type = type;
-            toggleConfirmPassword.innerHTML = type === 'password'
-                ? '<i class="fas fa-eye text-gray-500"></i>'
-                : '<i class="fas fa-eye-slash text-gray-500"></i>';
+            toggleConfirmPassword.innerHTML = type === 'password' ?
+                '<i class="fas fa-eye text-gray-500"></i>' :
+                '<i class="fas fa-eye-slash text-gray-500"></i>';
         });
 
-        // Add captcha callback
-        window.onRecaptchaSuccess = function() {
-            updateRegisterButtonState();
+        // Initialize reCAPTCHA callback
+        window.onloadCallback = function() {
+            grecaptcha.render('g-recaptcha', {
+                'sitekey': '6LezP98qAAAAAGswvCXvKZnMZVaP56xy59tkWzY0',
+                'callback': updateRegisterButtonState,
+                'expired-callback': updateRegisterButtonState
+            });
         };
 
-        window.onRecaptchaExpired = function() {
-            updateRegisterButtonState();
-        };
-
-        // Initial button state update
-        document.addEventListener('DOMContentLoaded', function() {
-            updateRegisterButtonState();
-        });
-
+        // Initial state check
+        updateRegisterButtonState();
     </script>
 
-
-
-    <x-footer/>
+    <x-footer />
 </x-layout>
