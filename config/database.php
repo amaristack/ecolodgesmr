@@ -87,7 +87,8 @@ return [
             'sslmode' => 'prefer',
             'persistent' => false,
             'options'   => [
-            PDO::ATTR_TIMEOUT => 30, // Timeout after 30 seconds
+            PDO::ATTR_TIMEOUT => 30,
+            PDO::ATTR_EMULATE_PREPARES => true, // Timeout after 30 seconds
             ],
         ],
 

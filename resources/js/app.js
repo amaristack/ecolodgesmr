@@ -1,14 +1,13 @@
-import Choices from 'choices.js';
-import 'choices.js/public/assets/styles/choices.css';
-import './bootstrap';
-import 'flowbite';
-
-
+import Choices from "choices.js";
+import "choices.js/public/assets/styles/choices.css";
+import "./bootstrap";
+import "flowbite";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 // Preloader Fade-Out
-$(window).on('load', function () {
+$(window).on("load", function () {
     setTimeout(function () {
-        $('#preloader').fadeOut('slow', function () {
+        $("#preloader").fadeOut("slow", function () {
             $(this).remove();
         });
     }, 1000);
@@ -35,21 +34,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Initialize AOS (Animate On Scroll)
-window.onload = function() {
+window.onload = function () {
     AOS.init({
         duration: 1000,
-        easing: 'ease-in-out',
+        easing: "ease-in-out",
         once: true,
         offset: 200,
-        anchorPlacement: 'top-bottom',
+        anchorPlacement: "top-bottom",
     });
     AOS.refresh();
 };
 
 // Modal Handling for Cookie and Terms
-window.addEventListener('load', function() {
-    const modalElement = document.getElementById('hotel-service-modal');
-    const cookieModal = document.getElementById('cookie-consent-modal');
+window.addEventListener("load", function () {
+    const modalElement = document.getElementById("hotel-service-modal");
+    const cookieModal = document.getElementById("cookie-consent-modal");
 
     if (modalElement && cookieModal) {
         const modal = new Modal(modalElement);
@@ -57,14 +56,14 @@ window.addEventListener('load', function() {
 
         // Show Cookie Modal After Terms Modal Closes
         function showCookieModal() {
-            cookieModal.classList.remove('hidden');
+            cookieModal.classList.remove("hidden");
         }
 
         // Event Listeners for Terms Modal Buttons
-        ['accept-modal', 'decline-modal', 'close-modal'].forEach(id => {
+        ["accept-modal", "decline-modal", "close-modal"].forEach((id) => {
             const btn = document.getElementById(id);
             if (btn) {
-                btn.addEventListener('click', function() {
+                btn.addEventListener("click", function () {
                     modal.hide();
                     showCookieModal();
                 });
@@ -72,11 +71,11 @@ window.addEventListener('load', function() {
         });
 
         // Event Listeners for Cookie Modal Buttons
-        ['accept-cookies', 'decline-cookies'].forEach(id => {
+        ["accept-cookies", "decline-cookies"].forEach((id) => {
             const btn = document.getElementById(id);
             if (btn) {
-                btn.addEventListener('click', function() {
-                    cookieModal.classList.add('hidden');
+                btn.addEventListener("click", function () {
+                    cookieModal.classList.add("hidden");
                 });
             }
         });
@@ -84,24 +83,24 @@ window.addEventListener('load', function() {
 });
 
 // Mobile Menu Toggle
-document.addEventListener('DOMContentLoaded', function () {
-    const navbarToggler = document.getElementById('navbar-toggler');
-    const mobileMenu = document.getElementById('mobile-menu');
+document.addEventListener("DOMContentLoaded", function () {
+    const navbarToggler = document.getElementById("navbar-toggler");
+    const mobileMenu = document.getElementById("mobile-menu");
 
     if (navbarToggler && mobileMenu) {
-        navbarToggler.addEventListener('click', function () {
-            mobileMenu.classList.toggle('hidden');
+        navbarToggler.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
         });
     }
 });
 
 // Alert Box Functionality
 function showAlert() {
-    const alertBox = document.getElementById('custom-alert');
+    const alertBox = document.getElementById("custom-alert");
     if (alertBox) {
-        alertBox.classList.remove('hidden');
+        alertBox.classList.remove("hidden");
         setTimeout(() => {
-            alertBox.classList.add('hidden');
+            alertBox.classList.add("hidden");
         }, 5000);
     }
 }
@@ -109,32 +108,32 @@ function showAlert() {
 // Date Formatting Function (Not needed if using Flowbite's Datepicker)
 function formatDate(date) {
     const year = date.getFullYear();
-    const month = (`0${date.getMonth() + 1}`).slice(-2); // Months are zero-based
-    const day = (`0${date.getDate()}`).slice(-2);
+    const month = `0${date.getMonth() + 1}`.slice(-2); // Months are zero-based
+    const day = `0${date.getDate()}`.slice(-2);
     return `${year}-${month}-${day}`;
 }
 
 // Combined DOMContentLoaded for Booking Form and Choices.js
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // Booking Form Elements
-    const checkinInput = document.getElementById('checkin');
-    const checkoutInput = document.getElementById('checkout');
-    const categorySelect = document.getElementById('category');
-    const typeSelect = document.getElementById('type');
+    const checkinInput = document.getElementById("checkin");
+    const checkoutInput = document.getElementById("checkout");
+    const categorySelect = document.getElementById("category");
+    const typeSelect = document.getElementById("type");
 
     // Ensure all elements are present
     if (!checkinInput || !checkoutInput || !categorySelect || !typeSelect) {
-        console.warn('Booking form elements are missing.');
+        console.warn("Booking form elements are missing.");
         return;
     }
 
     // Initialize Flowbite's Datepicker
     if (window.Flowbite && window.Flowbite.Datepicker) {
         const checkinDatepicker = new window.Flowbite.Datepicker(checkinInput, {
-            dateFormat: 'Y-m-d',
+            dateFormat: "Y-m-d",
             minDate: new Date(),
             autoHide: true,
-            theme: 'light', // Customize as needed
+            theme: "light", // Customize as needed
             onSelect: (selectedDate) => {
                 if (selectedDate) {
                     // Create a new date object for the day after the selected check-in date
@@ -142,66 +141,67 @@ document.addEventListener('DOMContentLoaded', () => {
                     nextDay.setDate(nextDay.getDate() + 1);
                     // Update the minDate of checkout
                     checkoutDatepicker.setOptions({
-                        minDate: nextDay
+                        minDate: nextDay,
                     });
                 } else {
                     // Reset to default minDate if no date is selected
                     checkoutDatepicker.setOptions({
-                        minDate: new Date(Date.now() + 86400000) // Tomorrow
+                        minDate: new Date(Date.now() + 86400000), // Tomorrow
                     });
                 }
-            }
+            },
         });
 
-        const checkoutDatepicker = new window.Flowbite.Datepicker(checkoutInput, {
-            dateFormat: 'Y-m-d',
-            minDate: new Date(Date.now() + 86400000), // Tomorrow
-            autoHide: true,
-            theme: 'light', // Customize as needed
-        });
+        const checkoutDatepicker = new window.Flowbite.Datepicker(
+            checkoutInput,
+            {
+                dateFormat: "Y-m-d",
+                minDate: new Date(Date.now() + 86400000), // Tomorrow
+                autoHide: true,
+                theme: "light", // Customize as needed
+            }
+        );
     } else {
-        console.error('Flowbite Datepicker is not available.');
+        console.error("Flowbite Datepicker is not available.");
     }
 
     // Define Type Options Based on Category
     const typeOptions = {
         rooms: [
-            { value: 'single_bedroom', label: 'Single Bedroom' },
-            { value: 'triple_bedroom', label: 'Triple Bedroom' },
-            { value: 'dormitory_type', label: 'Dormitory Type' }
+            { value: "single_bedroom", label: "Single Bedroom" },
+            { value: "triple_bedroom", label: "Triple Bedroom" },
+            { value: "dormitory_type", label: "Dormitory Type" },
         ],
         activity: [
-            { value: 'package_1', label: 'Package 1' },
-            { value: 'package_2', label: 'Package 2' },
-            { value: 'package_3', label: 'Package 3' },
-            { value: 'package_4', label: 'Package 4' }
+            { value: "package_1", label: "Package 1" },
+            { value: "package_2", label: "Package 2" },
+            { value: "package_3", label: "Package 3" },
+            { value: "package_4", label: "Package 4" },
         ],
         cottages: [
-            { value: 'umbrella', label: 'Umbrella' },
-            { value: 'small', label: 'Small' },
-            { value: 'big', label: 'Big' },
-            { value: 'deluxe', label: 'Deluxe' }
+            { value: "umbrella", label: "Umbrella" },
+            { value: "small", label: "Small" },
+            { value: "big", label: "Big" },
+            { value: "deluxe", label: "Deluxe" },
         ],
-        function_hall: [
-            { value: 'function_hall_1', label: 'Function Hall 1' }
-        ]
+        function_hall: [{ value: "function_hall_1", label: "Function Hall 1" }],
     };
 
     // Initialize Choices.js for Category and Type
     const categoryChoices = new Choices(categorySelect, {
         searchEnabled: false,
         placeholder: true,
-        placeholderValue: 'Select Category',
+        placeholderValue: "Select Category",
         shouldSort: false,
-        itemSelectText: '',
+        itemSelectText: "",
     });
 
     const typeChoices = new Choices(typeSelect, {
         searchEnabled: false,
         placeholder: true,
-        placeholderValue: 'Select Type',
+        placeholderValue: "Select Type",
         shouldSort: false,
-        itemSelectText: '',
+        itemSelectText: "",
     });
 
     // Function to Populate Type Options
@@ -209,22 +209,79 @@ document.addEventListener('DOMContentLoaded', () => {
         typeChoices.clearChoices();
 
         if (typeOptions[category]) {
-            typeChoices.setChoices(typeOptions[category], 'value', 'label', true);
+            typeChoices.setChoices(
+                typeOptions[category],
+                "value",
+                "label",
+                true
+            );
         }
 
         // Optionally, reset the selection to placeholder
-        typeChoices.setChoiceByValue('');
+        typeChoices.setChoiceByValue("");
     }
 
     // Event Listener for Category Change
-    categorySelect.addEventListener('change', (event) => {
+    categorySelect.addEventListener("change", (event) => {
         // Choices.js provides the selected value in event.detail.value
         const selectedCategory = event.detail.value;
         populateTypeOptions(selectedCategory);
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the terms checkbox and payment buttons
+    const termsCheckbox = document.getElementById("terms-agreement");
+    const cardPayBtn = document.getElementById("card-pay-btn");
+    const gcashPayBtn = document.getElementById("gcash-pay-btn");
 
+    // Remove the data attributes and handle modal display in JavaScript
+    cardPayBtn.removeAttribute("data-modal-target");
+    cardPayBtn.removeAttribute("data-modal-toggle");
+    gcashPayBtn.removeAttribute("data-modal-target");
+    gcashPayBtn.removeAttribute("data-modal-toggle");
 
+    // Add click event listeners to payment buttons
+    cardPayBtn.addEventListener("click", function (e) {
+        if (!termsCheckbox.checked) {
+            showTermsAlert();
+        } else {
+            // Open the card payment modal using Flowbite's modal API
+            const modal = document.getElementById("paymentCardModal");
+            const modalOptions = {
+                backdrop: "dynamic",
+                backdropClasses:
+                    "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
+            };
+            const modalInstance = new Modal(modal, modalOptions);
+            modalInstance.show();
+        }
+    });
 
+    gcashPayBtn.addEventListener("click", function (e) {
+        if (!termsCheckbox.checked) {
+            showTermsAlert();
+        } else {
+            // Open the GCash payment modal using Flowbite's modal API
+            const modal = document.getElementById("paymentGCashModal");
+            const modalOptions = {
+                backdrop: "dynamic",
+                backdropClasses:
+                    "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
+            };
+            const modalInstance = new Modal(modal, modalOptions);
+            modalInstance.show();
+        }
+    });
 
+    // Function to show SweetAlert2 modal
+    function showTermsAlert() {
+        Swal.fire({
+            icon: "warning",
+            title: "Terms & Conditions Required",
+            text: "Please agree to the Terms & Conditions before proceeding with payment.",
+            confirmButtonColor: "#f59e0b",
+            confirmButtonText: "Understand",
+        });
+    }
+});

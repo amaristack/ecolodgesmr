@@ -23,7 +23,7 @@ class UserRegisterController extends Controller
             'age' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:8',
             'g-recaptcha-response' => 'required|recaptcha'
         ]);
 

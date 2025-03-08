@@ -159,13 +159,22 @@ class CheckoutController extends Controller
             // Calculate downpayment (50% of total)
             $downpayment = $total * 0.5;
 
+            // Get payment preference from request (if exists)
+            $isFullPayment = request()->has('full_payment') ? true : false;
+
+            // Set payment amount based on preference
+            $paymentAmount = $isFullPayment ? $total : $downpayment;
+            $paymentStatus = $isFullPayment ? 'Paid' : 'Partial';
+
             // Update booking data with recalculated values
             $bookingData['days'] = $days;
             $bookingData['subtotal'] = $subtotal;
             $bookingData['discount'] = $discount;
             $bookingData['total'] = $total;
             $bookingData['downpayment'] = $downpayment;
-            $bookingData['payment_amount'] = $downpayment;
+            $bookingData['payment_amount'] = $paymentAmount;
+            $bookingData['is_full_payment'] = $isFullPayment;
+            $bookingData['payment_status'] = $paymentStatus;
             $bookingData['quantity'] = $quantity;
 
             // Save updated booking data back to session
@@ -183,23 +192,45 @@ class CheckoutController extends Controller
         }
     }
 
-    public function payWithPayMongo()
+    public function payWithPayMongo(Request $request)
     {
         $bookingData = session('booking_data');
         if (!$bookingData) {
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-        // Set 'payment_method' to 'Gcash'
+        // Update payment amount based on payment option
+        $paymentOption = $request->input('payment-option');
+        $isFullPayment = $paymentOption === 'full';
+
+        // Calculate payment amount
+        $paymentAmount = $isFullPayment ? $bookingData['total'] : $bookingData['downpayment'];
+
+        // Update booking data with new payment amount and status
+        $bookingData['payment_amount'] = $paymentAmount;
+        $bookingData['is_full_payment'] = $isFullPayment;
+        $bookingData['payment_status'] = $isFullPayment ? 'Fully Paid' : 'Partial';
         $bookingData['payment_method'] = 'Gcash';
+
+        // Update session with new booking data
         session(['booking_data' => $bookingData]);
 
-        $amountInCentavos = (int) round($bookingData['payment_amount'] * 100);
+        $amountInCentavos = (int) round($paymentAmount * 100);
+
+        // Log payment details for debugging
+        Log::info('PayMongo Payment Details:', [
+            'payment_option' => $paymentOption,
+            'is_full_payment' => $isFullPayment,
+            'amount' => $paymentAmount,
+            'amount_in_centavos' => $amountInCentavos,
+            'total_amount' => $bookingData['total'],
+            'downpayment_amount' => $bookingData['downpayment']
+        ]);
 
         $payload = [
             'data' => [
                 'attributes' => [
-                    'amount' => $amountInCentavos, // Amount in centavos as integer
+                    'amount' => $amountInCentavos,
                     'redirect' => [
                         'success' => route('payment-success'),
                         'failed' => route('payment-failure'),
@@ -237,23 +268,44 @@ class CheckoutController extends Controller
         }
     }
 
-    public function payWithCard()
+    public function payWithCard(Request $request)
     {
         $bookingData = session('booking_data');
         if (!$bookingData) {
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-        // Set 'payment_method' to 'Credit Card'
+        // Update payment amount based on payment option
+        $paymentOption = $request->input('payment-option');
+        $isFullPayment = $paymentOption === 'full';
+
+        // Calculate payment amount
+        $paymentAmount = $isFullPayment ? $bookingData['subtotal'] : $bookingData['downpayment'];
+
+        // Update booking data with new payment amount and status
+        $bookingData['payment_amount'] = $paymentAmount;
+        $bookingData['is_full_payment'] = $isFullPayment;
+        $bookingData['payment_status'] = $isFullPayment ? 'Fully Paid' : 'Partial';
         $bookingData['payment_method'] = 'Credit Card';
+
+        // Update session with new booking data
         session(['booking_data' => $bookingData]);
 
-        $amountInCentavos = (int) round($bookingData['payment_amount'] * 100);
+        // Convert amount to centavos for PayMongo
+        $amountInCentavos = (int) round($paymentAmount * 100);
+
+        // Log payment details for debugging
+        Log::info('Card Payment Details:', [
+            'payment_option' => $paymentOption,
+            'is_full_payment' => $isFullPayment,
+            'amount' => $paymentAmount,
+            'amount_in_centavos' => $amountInCentavos
+        ]);
 
         $payload = [
             'data' => [
                 'attributes' => [
-                    'amount' => $amountInCentavos, // Amount in centavos as integer
+                    'amount' => $amountInCentavos,
                     'redirect' => [
                         'success' => route('payment-success'),
                         'failed' => route('payment-failure'),
@@ -291,6 +343,81 @@ class CheckoutController extends Controller
         }
     }
 
+    public function payWithGCash(Request $request)
+    {
+        $bookingData = session('booking_data');
+        if (!$bookingData) {
+            return redirect()->route('home')->with('error', 'No booking data found.');
+        }
+
+        // Update payment amount based on payment option
+        $paymentOption = $request->input('payment-option');
+        $isFullPayment = $paymentOption === 'full';
+
+        // Calculate payment amount
+        $paymentAmount = $isFullPayment ? $bookingData['subtotal'] : $bookingData['downpayment'];
+
+        // Update booking data with new payment amount and status
+        $bookingData['payment_amount'] = $paymentAmount;
+        $bookingData['is_full_payment'] = $isFullPayment;
+        $bookingData['payment_status'] = $isFullPayment ? 'Paid' : 'Partial';
+        $bookingData['payment_method'] = 'GCash';
+
+        // Update session with new booking data
+        session(['booking_data' => $bookingData]);
+
+        // Convert amount to centavos for PayMongo
+        $amountInCentavos = (int) round($paymentAmount * 100);
+
+        // Log payment details for debugging
+        Log::info('GCash Payment Details:', [
+            'payment_option' => $paymentOption,
+            'is_full_payment' => $isFullPayment,
+            'amount' => $paymentAmount,
+            'amount_in_centavos' => $amountInCentavos
+        ]);
+
+        $payload = [
+            'data' => [
+                'attributes' => [
+                    'amount' => $amountInCentavos,
+                    'redirect' => [
+                        'success' => route('payment-success'),
+                        'failed' => route('payment-failure'),
+                    ],
+                    'type' => 'gcash',
+                    'currency' => 'PHP',
+                ],
+            ],
+        ];
+
+        Log::info('PayMongo Payload:', $payload);
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
+            'Content-Type' => 'application/json',
+        ])->post('https://api.paymongo.com/v1/sources', $payload);
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            $responseData = $response->json();
+            $checkoutUrl = $responseData['data']['attributes']['redirect']['checkout_url'];
+
+            // Redirect to GCash checkout page
+            return redirect($checkoutUrl);
+        } else {
+            // Log the error response for debugging
+            Log::error('PayMongo Source Creation Failed:', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+            ]);
+
+            // Handle failed API request
+            return redirect()->route('payment-failure')->with('error', 'Failed to create payment source');
+        }
+    }
+
     public function success(Request $request)
     {
         $bookingData = session('booking_data');
@@ -298,99 +425,78 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'No booking data found.');
         }
 
-        // Check if the application is in local environment
-        if (app()->environment('local')) {
-            // Simulate payment verification success
-            $paymentStatus = 'paid'; // Simulate a successful payment status
-            Log::info('Simulating payment success for local environment.');
-        } else {
-            // Production environment - perform actual payment verification
-            $sourceId = $request->query('source');
-            if (!$sourceId) {
-                return redirect()->route('payment-failure')->with('error', 'Payment source not found.');
-            }
-
-            // Retrieve the PayMongo secret key from the configuration
-            $secretKey = config('services.paymongo.secret_key');
-
-            if (!$secretKey) {
-                Log::error('PayMongo Secret Key is not set in the configuration.');
-                return redirect()->route('payment-failure')->with('error', 'Payment configuration error.');
-            }
-
-            // Verify the source status with PayMongo
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Authorization' => 'Basic ' . base64_encode($secretKey . ':'),
-            ])->get("https://api.paymongo.com/v1/sources/{$sourceId}");
-
-            if ($response->successful()) {
-                $responseData = $response->json();
-                $status = $responseData['data']['attributes']['status'];
-
-                // Log the source response
-                Log::info('Source Response:', $responseData);
-
-                if ($status === 'chargeable') {
-                    // Create a Payment using the chargeable source
-                    $paymentPayload = [
-                        'data' => [
-                            'attributes' => [
-                                'amount' => (int) round($bookingData['payment_amount'] * 100), // Downpayment amount in centavos
-                                'source' => [
-                                    'id' => $sourceId,
-                                    'type' => 'source',
-                                ],
-                                'currency' => 'PHP',
-                            ],
-                        ],
-                    ];
-
-                    $paymentResponse = Http::withHeaders([
-                        'Accept' => 'application/json',
-                        'Authorization' => 'Basic ' . base64_encode($secretKey . ':'),
-                        'Content-Type' => 'application/json',
-                    ])->post('https://api.paymongo.com/v1/payments', $paymentPayload);
-
-                    if ($paymentResponse->successful()) {
-                        $paymentData = $paymentResponse->json();
-                        $paymentStatus = $paymentData['data']['attributes']['status'];
-
-                        // Log the payment response
-                        Log::info('Payment Response:', $paymentData);
-
-                        if ($paymentStatus === 'paid') {
-                            // Payment successful, proceed to create booking
-                            $this->createBooking($bookingData);
-
-                            // Redirect to success page
-                            return view('payment.payment-success');
-                        } else {
-                            return redirect()->route('payment-failure')->with('error', 'Payment was not successful.');
-                        }
-                    } else {
-                        // Log payment creation failure
-                        Log::error('Payment creation failed:', $paymentResponse->json());
-                        return redirect()->route('payment-failure')->with('error', 'Failed to create payment.');
-                    }
-                } else {
-                    return redirect()->route('payment-failure')->with('error', 'Payment was not successful.');
-                }
+        try {
+            // Check if the application is in local environment
+            if (app()->environment('local')) {
+                $paymentStatus = 'paid';
+                Log::info('Simulating payment success for local environment.');
             } else {
-                // Log source verification failure
-                Log::error('Source verification failed:', $response->json());
-                return redirect()->route('payment-failure')->with('error', 'Failed to verify payment status.');
+                $sourceId = $request->query('source');
+                if (!$sourceId) {
+                    return redirect()->route('payment-failure')->with('error', 'Payment source not found.');
+                }
+
+                // Verify payment status with PayMongo
+                $response = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
+                ])->get("https://api.paymongo.com/v1/sources/{$sourceId}");
+
+                if (!$response->successful()) {
+                    Log::error('PayMongo verification failed:', $response->json());
+                    return redirect()->route('payment-failure')->with('error', 'Payment verification failed.');
+                }
+
+                $paymentStatus = $response->json()['data']['attributes']['status'];
             }
-        }
 
-        if ($paymentStatus === 'paid') {
-            // Proceed to create the booking
-            $this->createBooking($bookingData);
+            // If payment is successful, create the booking
+            if ($paymentStatus === 'paid' || $paymentStatus === 'chargeable') {
+                // Ensure payment method is set
+                if (!isset($bookingData['payment_method'])) {
+                    $bookingData['payment_method'] = 'GCash'; // Default to GCash if not set
+                }
 
-            // Redirect to success page
-            return view('payment.payment-success');
-        } else {
+                // Update session with payment method
+                session(['booking_data' => $bookingData]);
+
+                Log::info('Booking data before creation:', $bookingData);
+
+                // Create booking
+                $booking = $this->createBooking($bookingData);
+
+                if ($booking) {
+                    // Update item availability
+                    $this->updateItemAvailability($bookingData);
+
+                    // Send booking receipt email
+                    try {
+                        Mail::to($booking->user->email)->send(new BookingReceipt($booking));
+                        Log::info('Booking receipt email sent to user:', ['email' => $booking->user->email]);
+                    } catch (\Exception $e) {
+                        Log::error('Failed to send booking receipt email:', ['error' => $e->getMessage()]);
+                    }
+
+                    // Clear session after successful booking
+                    session()->forget('booking_data');
+                    Log::info('Booking data cleared from session:', ['booking_id' => $booking->id]);
+
+                    // Redirect to success page
+                    return view('payment.payment-success', [
+                        'booking' => $booking
+                    ]);
+                }
+            }
+
+            Log::error('Payment status not successful', ['status' => $paymentStatus]);
             return redirect()->route('payment-failure')->with('error', 'Payment was not successful.');
+
+        } catch (\Exception $e) {
+            Log::error('Payment processing error:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('payment-failure')->with('error', 'An error occurred while processing your payment.');
         }
     }
 
@@ -441,39 +547,34 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Create a new booking record in the database.
-     *
-     * @param array $bookingData
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     protected function createBooking(array $bookingData)
     {
         try {
+            // Log the incoming booking data (excluding sensitive information)
+            $logData = array_merge($bookingData, ['guest_names' => '[REDACTED]']);
+            Log::info('Creating booking with data:', $logData);
+
             $booking = new Booking();
             $booking->user_id = $bookingData['user_id'];
-            $booking->total_amount = $bookingData['subtotal'];
+            $booking->total_amount = $bookingData['total'];
             $booking->down_payment = $bookingData['payment_amount'];
-            $booking->balance_due = $bookingData['subtotal'] - $bookingData['payment_amount'];
-            $booking->payment_method = $bookingData['payment_method'];
+            $booking->balance_due = $bookingData['total'] - $bookingData['payment_amount'];
+            $booking->payment_method = $bookingData['payment_method'] ?? 'GCash';
+            $booking->payment_status = $bookingData['payment_status'];
+            $booking->booking_status = 'Success';
             $booking->check_in = $bookingData['check_in'];
             $booking->check_out = $bookingData['check_out'];
-            // Ensure quantity is properly set from booking data
-            $booking->quantity = isset($bookingData['quantity']) ? (int)$bookingData['quantity'] : 1;
-            $booking->payment_status = 'Partial';
-            $booking->booking_status = 'Success';
-            $booking->note = $bookingData['note'];
-            $booking->number_of_person = $bookingData['number_of_person'];
+            $booking->quantity = $bookingData['quantity'] ?? 1;
+            $booking->note = $bookingData['note'] ?? null;
+            $booking->number_of_person = $bookingData['number_of_person'] ?? null;
 
-            // Process guest_names only if item_type is 'rooms' and guest_names is provided
-            if (isset($bookingData['item_type']) && $bookingData['item_type'] === 'rooms' && is_array($bookingData['guest_names'])) {
-                $guestNames = array_values($bookingData['guest_names']);
-                $booking->guest_names = $guestNames;
-            } else {
-                $booking->guest_names = null;
+            // Handle guest names if present
+            if (isset($bookingData['guest_names']) && is_array($bookingData['guest_names'])) {
+                $booking->guest_names = json_encode($bookingData['guest_names']);
             }
 
-            // Assign foreign key based on item type
+            // Set the appropriate ID based on item type
             switch ($bookingData['item_type']) {
                 case 'rooms':
                     $booking->room_id = $bookingData['item_id'];
@@ -487,89 +588,20 @@ class CheckoutController extends Controller
                 case 'hall':
                     $booking->hall_id = $bookingData['item_id'];
                     break;
-                default:
-                    throw new \Exception('Invalid item type.');
             }
 
-            // Save the booking to the database
             $booking->save();
 
-            // Update availability based on quantity
-            switch ($bookingData['item_type']) {
-                case 'rooms':
-                    $room = Room::find($bookingData['item_id']);
-                    if ($room) {
-                        $newAvailability = max(0, $room->availability - $bookingData['quantity']);
-                        $room->availability = $newAvailability;
-                        $room->save();
-                        Log::info('Room availability updated:', [
-                            'room_id' => $room->room_id,
-                            'old_availability' => $room->availability + $bookingData['quantity'],
-                            'new_availability' => $newAvailability,
-                            'quantity_booked' => $bookingData['quantity']
-                        ]);
-                    }
-                    break;
-                case 'cottages':
-                    $cottage = Pool::find($bookingData['item_id']);
-                    if ($cottage) {
-                        $newAvailability = max(0, $cottage->availability - $bookingData['quantity']);
-                        $cottage->availability = $newAvailability;
-                        $cottage->save();
-                        Log::info('Cottage availability updated:', [
-                            'cottage_id' => $cottage->pool_id,
-                            'old_availability' => $cottage->availability + $bookingData['quantity'],
-                            'new_availability' => $newAvailability,
-                            'quantity_booked' => $bookingData['quantity']
-                        ]);
-                    }
-                    break;
-                case 'activity':
-                    $activity = Activity::find($bookingData['item_id']);
-                    if ($activity) {
-                        $newAvailability = max(0, $activity->availability - $bookingData['quantity']);
-                        $activity->availability = $newAvailability;
-                        $activity->save();
-                        Log::info('Activity availability updated:', [
-                            'activity_id' => $activity->activity_id,
-                            'old_availability' => $activity->availability + $bookingData['quantity'],
-                            'new_availability' => $newAvailability,
-                            'quantity_booked' => $bookingData['quantity']
-                        ]);
-                    }
-                    break;
-                case 'hall':
-                    $hall = Hall::find($bookingData['item_id']);
-                    if ($hall) {
-                        $newAvailability = max(0, $hall->availability - $bookingData['quantity']);
-                        $hall->availability = $newAvailability;
-                        $hall->save();
-                        Log::info('Hall availability updated:', [
-                            'hall_id' => $hall->hall_id,
-                            'old_availability' => $hall->availability + $bookingData['quantity'],
-                            'new_availability' => $newAvailability,
-                            'quantity_booked' => $bookingData['quantity']
-                        ]);
-                    }
-                    break;
-            }
+            Log::info('Booking saved successfully:', ['booking_id' => $booking->id]);
 
-            Log::info('Booking saved successfully:', ['booking_id' => $booking->booking_id]);
+            return $booking;
 
-            // Send the receipt email to the user
-            Mail::to($booking->user->email)->send(new BookingReceipt($booking));
-
-            Log::info('Booking receipt email sent to user:', ['email' => $booking->user->email]);
-
-            // Clear booking data from session
-            session()->forget('booking_data');
-
-            Log::info('Booking data cleared from session:', ['booking_id' => $booking->booking_id]);
-
-            return redirect()->route('user_paynow')->with('success', 'Booking created successfully! A receipt has been sent to your email.');
         } catch (\Exception $e) {
-            Log::error('Failed to create booking or send receipt email:', ['error' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'An error occurred while processing your booking.');
+            Log::error('Booking creation failed:', [
+                'error' => $e->getMessage(),
+                'booking_data' => array_merge($bookingData, ['guest_names' => '[REDACTED]'])
+            ]);
+            throw $e;
         }
     }
 
@@ -677,4 +709,119 @@ class CheckoutController extends Controller
     /**
      * Handle PayPal webhooks (Optional).
      */
+
+    public function updatePaymentAmount(Request $request)
+    {
+        $bookingData = session('booking_data');
+
+        if (!$bookingData) {
+            return response()->json(['error' => 'No booking data found'], 404);
+        }
+
+        $isFullPayment = $request->input('is_full_payment', false);
+
+        if ($isFullPayment) {
+            // Set payment amount to full subtotal
+            $bookingData['payment_amount'] = $bookingData['subtotal'];
+            $bookingData['is_full_payment'] = true;
+            $paymentStatus = $isFullPayment ? 'Paid' : 'Partial';
+        } else {
+            // Set payment amount to downpayment (50%)
+            $bookingData['payment_amount'] = $bookingData['downpayment'];
+            $bookingData['is_full_payment'] = false;
+            $paymentStatus = 'Partial';
+        }
+
+        // Update payment status based on full/partial payment
+        $bookingData['payment_status'] = $paymentStatus;
+
+        // Save updated booking data back to session
+        session(['booking_data' => $bookingData]);
+
+        return response()->json([
+            'success' => true,
+            'payment_amount' => $bookingData['payment_amount'],
+            'is_full_payment' => $bookingData['is_full_payment']
+        ]);
+    }
+
+    protected function updateItemAvailability(array $bookingData)
+    {
+        try {
+            switch ($bookingData['item_type']) {
+                case 'rooms':
+                    $item = Room::findOrFail($bookingData['item_id']);
+                    $oldAvailability = $item->availability;
+                    $quantityBooked = $bookingData['quantity'] ?? 1;
+                    $item->availability = max(0, $oldAvailability - $quantityBooked);
+                    $item->save();
+
+                    Log::info('Room availability updated:', [
+                        'room_id' => $item->id,
+                        'old_availability' => $oldAvailability,
+                        'new_availability' => $item->availability,
+                        'quantity_booked' => $quantityBooked
+                    ]);
+                    break;
+
+                case 'cottages':
+                    $item = Pool::findOrFail($bookingData['item_id']);
+                    $oldAvailability = $item->availability;
+                    $quantityBooked = $bookingData['quantity'] ?? 1;
+                    $item->availability = max(0, $oldAvailability - $quantityBooked);
+                    $item->save();
+
+                    Log::info('Cottage availability updated:', [
+                        'cottage_id' => $item->id,
+                        'old_availability' => $oldAvailability,
+                        'new_availability' => $item->availability,
+                        'quantity_booked' => $quantityBooked
+                    ]);
+                    break;
+
+                case 'activity':
+                    $item = Activity::findOrFail($bookingData['item_id']);
+                    $oldAvailability = $item->availability;
+                    $quantityBooked = $bookingData['quantity'] ?? 1;
+                    $item->availability = max(0, $oldAvailability - $quantityBooked);
+                    $item->save();
+
+                    Log::info('Activity availability updated:', [
+                        'activity_id' => $item->id,
+                        'old_availability' => $oldAvailability,
+                        'new_availability' => $item->availability,
+                        'quantity_booked' => $quantityBooked
+                    ]);
+                    break;
+
+                case 'hall':
+                    $item = Hall::findOrFail($bookingData['item_id']);
+                    $oldAvailability = $item->availability;
+                    $quantityBooked = $bookingData['quantity'] ?? 1;
+                    $item->availability = max(0, $oldAvailability - $quantityBooked);
+                    $item->save();
+
+                    Log::info('Hall availability updated:', [
+                        'hall_id' => $item->id,
+                        'old_availability' => $oldAvailability,
+                        'new_availability' => $item->availability,
+                        'quantity_booked' => $quantityBooked
+                    ]);
+                    break;
+
+                default:
+                    Log::warning('Unknown item type for availability update:', [
+                        'item_type' => $bookingData['item_type']
+                    ]);
+                    break;
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to update item availability:', [
+                'error' => $e->getMessage(),
+                'item_type' => $bookingData['item_type'],
+                'item_id' => $bookingData['item_id']
+            ]);
+            throw $e;
+        }
+    }
 }

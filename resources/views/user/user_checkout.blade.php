@@ -121,7 +121,11 @@
                             <h3 class="text-lg font-medium">Important Booking Information</h3>
                         </div>
                         <div class="mt-2 mb-4 text-sm">
-                            Please note that a 50% down payment is required to confirm your booking. Once the down payment is received, your booking will be finalized. The remaining balance can be settled upon check-in or as per our terms.
+                            <p class="mb-2">You'll have two payment options on the next page:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>Down Payment (50%):</strong> Pay half now to secure your booking. The remaining balance can be settled upon check-in.</li>
+                                <li><strong>Full Payment:</strong> Pay the entire amount now for convenience and faster check-in.</li>
+                            </ul>
                         </div>
                         <div class="flex">
                             <a href="{{ route('terms_and_condition') }}" class="text-white bg-blue-800 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-xs px-3 py-1.5 me-2 text-center inline-flex items-center">
@@ -279,6 +283,24 @@
                 subtotalSpan.textContent = subtotal.toFixed(2);
                 discountSpan.textContent = discount.toFixed(2);
                 totalSpan.textContent = total.toFixed(2);
+
+                // Add hidden fields to store calculated values for the backend
+                updateOrCreateHiddenInput('calculated_subtotal', subtotal);
+                updateOrCreateHiddenInput('calculated_days', days);
+                updateOrCreateHiddenInput('calculated_quantity', quantity);
+                updateOrCreateHiddenInput('calculated_total', total);
+            }
+
+            // Helper function to create or update hidden input fields
+            function updateOrCreateHiddenInput(name, value) {
+                let input = document.querySelector(`input[name="${name}"]`);
+                if (!input) {
+                    input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    document.querySelector('form').appendChild(input);
+                }
+                input.value = value;
             }
 
             if (numberOfPersonsInput) {
@@ -298,6 +320,11 @@
                 checkoutInput.addEventListener('change', updatePricing);
                 quantityInput.addEventListener('change', updatePricing);
             }
+
+            // When form submits, ensure all calculated values are included
+            document.querySelector('form').addEventListener('submit', function() {
+                updatePricing(); // Ensure latest calculations are included
+            });
         });
     </script>
 </x-layout>

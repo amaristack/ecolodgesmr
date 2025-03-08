@@ -4,7 +4,115 @@
         <x-carousel />
     </section>
 
+    <!-- Terms Modal -->
+    <div id="termsModal" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm"></div>
+            </div>
 
+            <div
+                class="inline-block align-bottom bg-yellow-600 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border-t-4 border-yellow-400">
+                <!-- Modal header with resort branding -->
+                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-white" id="modal-title">
+                            <span class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Terms and Conditions
+                            </span>
+                        </h3>
+                        <div class="flex-shrink-0">
+                            <svg class="w-6 h-6 text-white opacity-80" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal content -->
+                <div class="bg-white px-6 py-5">
+                    <div class="max-h-80 overflow-y-auto pr-2 text-gray-700 custom-scrollbar">
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">1. Introduction</h4>
+                        <p class="mb-4">Welcome to Ecolodge - Sibugay Mountain Resort. These Terms and Conditions
+                            govern your use of our services, including our website, mobile application, and physical
+                            premises. By accessing or using our services, you agree to be bound by these Terms.</p>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">2. Data Collection & Privacy</h4>
+                        <p class="mb-4">In compliance with the Data Privacy Act of 2012 (Republic Act No. 10173), we
+                            collect personal information including but not limited to names, addresses, contact details,
+                            identification documents, payment information, and stay preferences for the following
+                            purposes:</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li>Processing reservations and providing accommodation services</li>
+                            <li>Ensuring security and verification of identity</li>
+                            <li>Processing payments and maintaining financial records</li>
+                            <li>Improving our services based on guest feedback and preferences</li>
+                            <li>Communicating about promotions, events, or services (with your consent)</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">3. Data Retention & Security</h4>
+                        <p class="mb-4">We retain personal information for as long as necessary to fulfill the
+                            purposes for which it was collected, or as required by applicable laws and regulations. We
+                            implement reasonable security measures to protect your data from unauthorized access,
+                            disclosure, alteration, or destruction.</p>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">4. Your Rights</h4>
+                        <p class="mb-4">Under the DPA 2012, you have the right to:</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li>Be informed about how your data is being processed</li>
+                            <li>Access your personal information</li>
+                            <li>Object to the processing of your personal data</li>
+                            <li>Request correction of inaccurate or incomplete data</li>
+                            <li>Request erasure or blocking of your personal data</li>
+                            <li>File a complaint for violations of your data privacy rights</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">5. Reservations & Cancellations</h4>
+                        <p class="mb-4">Reservations are subject to availability and confirmation. Cancellation
+                            policies vary by room type and rate plan. Please refer to your booking confirmation for
+                            specific details.</p>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">6. Resort Rules & Regulations</h4>
+                        <p class="mb-4">Guests must comply with all resort rules and regulations, including
+                            check-in/check-out times, pool and facility usage guidelines, and behavior standards.</p>
+
+                        <h4 class="text-lg font-semibold mb-2 text-yellow-600">7. Contact Information</h4>
+                        <p class="mb-4">For questions or concerns regarding these Terms and Conditions or our data
+                            privacy practices, please contact:</p>
+                        <p class="mb-4 bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400">
+                            <strong>Ecolodge - Sibugay Mountain Resort</strong><br>
+                            Purok 1, Albuera, Leyte Province, Philippines<br>
+                            Email: sibugaymountainresort@gmail.com<br>
+                            Phone: 0915 502 2154
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="bg-gray-50 px-6 py-4 flex justify-between">
+                    <p class="text-xs text-gray-500 italic">Ecolodge - Sibugay Mountain Resort</p>
+                    <button type="button" id="acceptTermsBtn"
+                        class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg focus:ring-4 focus:ring-yellow-300 transition-all">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        I Accept the Terms
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="container mx-auto px-4 py-8" data-aos="fade-up">
         <div class="w-full mx-auto p-8" data-aos="fade-up">
@@ -230,5 +338,55 @@
 
 
     <x-footer />
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('termsModal');
+        const acceptButton = document.getElementById('acceptTermsBtn');
+
+        // Modal is shown by default (no hidden class)
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+
+        acceptButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Re-enable scrolling
+
+            // Set a localStorage item to remember that terms were accepted
+            localStorage.setItem('termsAccepted', 'true');
+
+            // Check if the terms were already accepted before showing the modal
+            if (localStorage.getItem('termsAccepted')) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        // Show modal only if terms haven't been accepted yet
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('termsAccepted')) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f7f7f7;
+            border-radius: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #d97706;
+        }
+    </style>
 
 </x-layout>
