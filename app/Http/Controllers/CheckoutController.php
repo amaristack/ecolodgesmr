@@ -524,6 +524,10 @@ class CheckoutController extends Controller
 
     public function checkout($type, $id)
     {
+        // Add some debugging
+        Log::info("Checkout attempted with type: {$type}, id: {$id}");
+
+        // Your existing checkout logic
         switch ($type) {
             case 'rooms':
                 $item = Room::findOrFail($id);

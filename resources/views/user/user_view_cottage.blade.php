@@ -30,10 +30,19 @@
                 <p class="text-lg text-gray-800">
                     <span class="font-semibold text-yellow-600">{{ $pool->rate }}</span> / Day
                 </p>
-                <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
-                   class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">
-                    Book Now
-                </a>
+
+                @if(auth()->check())
+                    <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
+                       class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">
+                        Book Now
+                    </a>
+                @else
+                    <a href="{{ route('guest.book', ['type' => 'cottages', 'id' => $pool->pool_id]) }}"
+                       class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
+                        Book Now
+                    </a>
+                @endif
+
                 <div class="flex space-x-3 text-gray-600">
                     <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow-md">Relaxing</span>
                     <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow-md">Pool View</span>

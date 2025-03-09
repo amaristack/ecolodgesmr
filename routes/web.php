@@ -33,7 +33,7 @@ Route::middleware('guest')->group(function () {
 
     // Authentication routes for login, register, forgot password
     Route::get('/login', [UserController::class, 'index'])->name('login');
-    Route::post('/login', [UserController::class, 'store']);
+    Route::post('/login', [UserController::class, 'store'])->name('login.store');
     // Show the email verification page
     Route::get('/verify-email', [OtpController::class, 'showVerifyEmailForm'])->name('verify.email');
 
@@ -74,7 +74,6 @@ Route::middleware('auth')->group(function () {
 
 
     // Booking and checkout
-    Route::post('/book', [CheckoutController::class, 'book'])->name('book');
     Route::get('/checkout/{type}/{id}', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::get('/user_paynow', [CheckoutController::class, 'userPaynow'])->name('user_paynow');
     Route::get('/pay-with-gcash', [CheckoutController::class, 'payWithPayMongo'])->name('pay-with-gcash');
@@ -107,3 +106,17 @@ Route::get('/terms', fn() => view('terms_and_condition'))->name('terms_and_condi
 Route::post('/check-availability', [BookingController::class, 'checkAvailability'])->name('checkAvailability');
 Route::get('/bookings', [BookingController::class, 'showAll'])->name('user.book');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+
+// Move this route outside the auth middleware group
+Route::post('/book', [CheckoutController::class, 'book'])
+    ->middleware('auth')
+    ->name('book');
+
+// Add this route for handling unauthorized booking attempts
+Route::get('/book/{type}/{id}', function($type, $id) {
+    session(['intended_checkout' => [
+        'type' => $type,
+        'id' => $id
+    ]]);
+    return redirect()->route('login');
+})->name('guest.book');

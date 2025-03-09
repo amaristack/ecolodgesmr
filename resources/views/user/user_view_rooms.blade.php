@@ -43,10 +43,18 @@
                 <p class="text-gray-700 mt-2">
                     <span class="text-xl sm:text-2xl font-bold">{{ $room->rate }}</span> / Night
                 </p>
+
+                @if(auth()->check())
                 <a href="{{ url('/checkout/rooms/' . $room->room_id) }}"
-                   class="block bg-yellow-500 text-white font-semibold py-2 mt-4 rounded-lg text-center hover:bg-yellow-600 transition-all">
-                    Book Now
-                </a>
+                    class="block bg-yellow-500 text-white font-semibold py-2 mt-4 rounded-lg text-center hover:bg-yellow-600 transition-all">
+                     Book Now
+                 </a>
+                @else
+                    <a href="{{ route('guest.book', ['type' => 'rooms', 'id' => $room->room_id]) }}"
+                       class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
+                        Book Now
+                    </a>
+                @endif
             </div>
 
             <!-- Room Description -->

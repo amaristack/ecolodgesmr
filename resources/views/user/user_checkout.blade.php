@@ -176,7 +176,9 @@
                     @if($type == 'rooms' || $type == 'cottages' || $type == 'activity' || $type == 'hall')
                         <div class="mb-4">
                             <label for="checkin" class="block font-semibold">Check In</label>
-                            <input type="date" name="check_in" id="checkin"
+                            <input type="date"
+                                   name="check_in"
+                                   id="checkin"
                                    min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                    class="w-full p-3 border rounded-md"
                                    required
@@ -184,11 +186,12 @@
                         </div>
                         <div class="mb-4">
                             <label for="checkout" class="block font-semibold">Check Out</label>
-                            <input type="date" name="check_out" id="checkout"
-                                   min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                   class="w-full p-3 border rounded-md"
+                            <input type="date"
+                                   name="check_out"
+                                   id="checkout"
+                                   class="w-full p-3 border rounded-md disabled:bg-gray-100 disabled:cursor-not-allowed"
                                    required
-                                   value="{{ \Carbon\Carbon::now()->addDay()->format('Y-m-d') }}">
+                                   disabled>
                         </div>
                         <!-- Quantity Field -->
                         <div class="mb-4">
@@ -203,17 +206,66 @@
                     <input type="hidden" name="rate" value="{{ $item->rate }}">
 
                     <!-- Availability and Pricing -->
-                    <div class="mb-4">
-                        <p>Availability: <span
-                                class="font-semibold">{{ $item->availability }} {{ ucfirst($type) }}</span></p>
-                    </div>
-                    <div class="mb-4">
-                        <p>Subtotal: PHP <span id="subtotal">{{ $item->rate }}</span></p>
-                        <p>Discount: PHP <span id="discount">0</span></p>
-                        <p>Total: PHP <span id="total">{{ $item->rate }}</span></p>
+                    <div class="space-y-6">
+                        <!-- Availability Status -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="text-gray-700">
+                                    Available Units:
+                                    <span class="font-semibold text-green-600">
+                                        {{ $item->availability }} {{ ucfirst($type) }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Pricing Summary -->
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">
+                                Pricing Summary
+                            </h3>
+
+                            <div class="space-y-3">
+                                <!-- Subtotal Row -->
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-gray-500 mr-1">PHP</span>
+                                        <span id="subtotal" class="font-semibold text-gray-900">
+                                            {{ $item->rate }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Discount Row -->
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Discount</span>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-gray-500 mr-1">PHP</span>
+                                        <span id="discount" class="font-semibold text-red-500">0</span>
+                                    </div>
+                                </div>
+
+                                <!-- Total Row -->
+                                <div class="mt-4 pt-3 border-t">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-semibold text-gray-900">Total</span>
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-500 mr-1">PHP</span>
+                                            <span id="total" class="text-xl font-bold text-gray-900">
+                                                {{ $item->rate }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 mt-4">
+                    <button type="submit" class="w-full bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-600 mt-4">
                         Pay Now
                     </button>
 
@@ -324,6 +376,27 @@
             // When form submits, ensure all calculated values are included
             document.querySelector('form').addEventListener('submit', function() {
                 updatePricing(); // Ensure latest calculations are included
+            });
+
+            // Disable checkout date initially
+            checkoutInput.disabled = true;
+
+            // Update checkout min date when checkin changes
+            checkinInput.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                const nextDay = new Date(checkinDate);
+                nextDay.setDate(checkinDate.getDate() + 1);
+
+                // Format the date to YYYY-MM-DD
+                const formattedDate = nextDay.toISOString().split('T')[0];
+
+                // Enable checkout and set minimum date
+                checkoutInput.disabled = false;
+                checkoutInput.min = formattedDate;
+                checkoutInput.value = formattedDate;
+
+                // Update pricing after setting new dates
+                updatePricing();
             });
         });
     </script>

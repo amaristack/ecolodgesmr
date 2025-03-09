@@ -15,57 +15,31 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        // Validate input
-        $validate = request()->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6', // Adjust validation rules as needed
+        $formFields = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => 'required'
         ]);
 
-        // Check if 'remember' input is present in the request
-        $remember = request()->has('remember');
+        if(auth()->attempt($formFields)) {
+            $request->session()->regenerate();
 
-        // Retrieve the user by email
-        $user = \App\Models\User::where('email', $validate['email'])->first();
+            // Check if there's an intended checkout
+            if ($intended = session('intended_checkout')) {
+                session()->forget('intended_checkout');
+                // Make sure we're using the correct route parameters
+                return redirect()->route('checkout', [
+                    'type' => strtolower($intended['type']), // ensure lowercase
+                    'id' => $intended['id']
+                ]);
+            }
 
-        if (!$user) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            return redirect('/dashboard');
         }
 
-        // Get the stored hashed password
-        $hashedPassword = $user->password;
-
-        // Replace $2a$ with $2y$ if necessary
-        if (Str::startsWith($hashedPassword, '$2a$')) {
-            $hashedPassword = '$2y$' . substr($hashedPassword, 4);
-        }
-
-        // Check if the password is correct
-        if (!Hash::check($validate['password'], $hashedPassword)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        // Optionally, rehash the password and update the stored hash
-        if (Hash::needsRehash($hashedPassword)) {
-            $user->password = Hash::make($validate['password']);
-            $user->save();
-        }
-
-        // Log the user in
-        Auth::login($user, $remember);
-
-        // Regenerate the session to prevent session fixation attacks
-        request()->session()->regenerate();
-
-        // Redirect to the dashboard after successful login
-        return redirect('/dashboard');
+        return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
-
 
     public function destroy()
     {
