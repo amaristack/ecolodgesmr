@@ -42,7 +42,11 @@ class PoolController extends Controller
     {
         {
             $pool = Pool::findOrFail($id);
-            return view('user.user_view_cottage', ['pool' => $pool]);
+            $isAvailable = $pool->availability > 0;
+            return view('user.user_view_cottage', [
+                'pool' => $pool,
+                'isAvailable' => $isAvailable
+            ]);
         }
     }
 

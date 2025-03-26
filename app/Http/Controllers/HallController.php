@@ -40,8 +40,12 @@ class HallController extends Controller
      */
     public function show($hall_id)
     {
-        $hall = Hall::findOrFail($hall_id); // This should return a single Hall instance, not a collection.
-        return view('user.user_show_hall', ['hall' => $hall]);
+        $hall = Hall::findOrFail($hall_id);
+        $isAvailable = $hall->availability > 0; // This should return a single Hall instance, not a collection.
+        return view('user.user_show_hall', [
+            'hall' => $hall,
+            'isAvailable' => $isAvailable
+        ]);
     }
 
 

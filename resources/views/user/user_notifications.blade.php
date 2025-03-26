@@ -51,10 +51,10 @@
                         if ($booking->payment_status === 'Cancelled' && $booking->booking_status === 'Cancelled') {
                             $color = 'bg-red-50 text-red-500';
                             $statusMessage = 'Your booking has been cancelled.';
-                        } elseif ($booking->payment_status === 'Partial' && $booking->booking_status === 'Pending') {
+                        } elseif ($booking->payment_status === 'Partial' && $booking->booking_status === 'Success') {
                             $color = 'bg-yellow-50 text-yellow-500';
                             $statusMessage = 'Your booking is pending payment.';
-                        } elseif ($booking->payment_status === 'Fully Paid' && $booking->booking_status === 'Approved') {
+                        } elseif ($booking->payment_status === 'Fully Paid' && $booking->booking_status === 'Success') {
                             $color = 'bg-green-50 text-green-500';
                             $statusMessage = 'Your booking has been confirmed.';
                         }

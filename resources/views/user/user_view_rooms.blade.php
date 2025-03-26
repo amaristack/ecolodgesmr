@@ -44,16 +44,42 @@
                     <span class="text-xl sm:text-2xl font-bold">{{ $room->rate }}</span> / Night
                 </p>
 
-                @if(auth()->check())
-                <a href="{{ url('/checkout/rooms/' . $room->room_id) }}"
-                    class="block bg-yellow-500 text-white font-semibold py-2 mt-4 rounded-lg text-center hover:bg-yellow-600 transition-all">
-                     Book Now
-                 </a>
+                <!-- Availability indicator -->
+                @if($isAvailable)
+                    <div class="mt-2 bg-green-100 text-green-800 p-2 rounded-md text-sm">
+                        <span class="font-semibold">Available:</span> {{ $room->availability }} unit/s
+                    </div>
                 @else
-                    <a href="{{ route('guest.book', ['type' => 'rooms', 'id' => $room->room_id]) }}"
-                       class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
-                        Book Now
-                    </a>
+                    <div class="mt-2 bg-red-100 text-red-800 p-2 rounded-md text-sm">
+                        <span class="font-semibold">Currently unavailable</span>
+                    </div>
+                @endif
+
+                <!-- Book Now Button -->
+                @if(auth()->check())
+                    @if($isAvailable)
+                        <a href="{{ url('/checkout/rooms/' . $room->room_id) }}"
+                            class="block bg-yellow-500 text-white font-semibold py-2 mt-4 rounded-lg text-center hover:bg-yellow-600 transition-all">
+                            Book Now
+                        </a>
+                    @else
+                        <button disabled
+                            class="block w-full bg-gray-400 text-white font-semibold py-2 mt-4 rounded-lg text-center cursor-not-allowed">
+                            Currently Unavailable
+                        </button>
+                    @endif
+                @else
+                    @if($isAvailable)
+                        <a href="{{ route('guest.book', ['type' => 'rooms', 'id' => $room->room_id]) }}"
+                        class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
+                            Book Now
+                        </a>
+                    @else
+                        <button disabled
+                            class="block w-full mt-4 px-6 py-3 bg-gray-400 text-white font-medium rounded-lg cursor-not-allowed">
+                            Currently Unavailable
+                        </button>
+                    @endif
                 @endif
             </div>
 

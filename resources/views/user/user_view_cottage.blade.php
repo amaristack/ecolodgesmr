@@ -31,16 +31,41 @@
                     <span class="font-semibold text-yellow-600">{{ $pool->rate }}</span> / Day
                 </p>
 
-                @if(auth()->check())
-                    <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
-                       class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">
-                        Book Now
-                    </a>
+                <!-- Availability indicator -->
+                @if(isset($isAvailable) && $isAvailable)
+                    <div class="w-full bg-green-100 text-green-800 p-2 rounded-md text-sm">
+                        <span class="font-semibold">Available:</span> {{ $pool->availability ?? 'Limited spots' }} remaining
+                    </div>
                 @else
-                    <a href="{{ route('guest.book', ['type' => 'cottages', 'id' => $pool->pool_id]) }}"
-                       class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
-                        Book Now
-                    </a>
+                    <div class="w-full bg-red-100 text-red-800 p-2 rounded-md text-sm">
+                        <span class="font-semibold">Currently unavailable</span>
+                    </div>
+                @endif
+
+                @if(auth()->check())
+                    @if(isset($isAvailable) && $isAvailable)
+                        <a href="{{ url('/checkout/cottages/' . $pool->pool_id) }}"
+                           class="bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-700 w-full text-center text-sm sm:text-base">
+                            Book Now
+                        </a>
+                    @else
+                        <button disabled
+                            class="bg-gray-400 text-white font-bold py-2 px-6 rounded-lg w-full text-center text-sm sm:text-base cursor-not-allowed">
+                            Currently Unavailable
+                        </button>
+                    @endif
+                @else
+                    @if(isset($isAvailable) && $isAvailable)
+                        <a href="{{ route('guest.book', ['type' => 'cottages', 'id' => $pool->pool_id]) }}"
+                           class="block w-full mt-4 px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg hover:bg-yellow-700 transition-colors text-center">
+                            Book Now
+                        </a>
+                    @else
+                        <button disabled
+                            class="block w-full mt-4 px-6 py-3 bg-gray-400 text-white font-medium rounded-lg cursor-not-allowed">
+                            Currently Unavailable
+                        </button>
+                    @endif
                 @endif
 
                 <div class="flex space-x-3 text-gray-600">

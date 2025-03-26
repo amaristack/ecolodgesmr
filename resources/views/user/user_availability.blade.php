@@ -2,45 +2,7 @@
     <x-navbar />
 
     <div class="container mx-auto p-6 space-y-8 max-w-5xl">
-        <!-- Booking Form -->
-        <form id="booking-form" class="bg-white p-6 rounded-lg shadow-md space-y-6" action="{{ route('checkAvailability') }}" method="POST">
-            @csrf
-            <h2 class="text-2xl font-bold text-gray-800 text-center">Check Availability</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Check-in Date -->
-                <div>
-                    <label for="checkin" class="block text-sm font-semibold text-gray-700">Check-in Date</label>
-                    <input type="date" name="checkin" id="checkin" required
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 p-2">
-                </div>
-
-                <!-- Check-out Date -->
-                <div>
-                    <label for="checkout" class="block text-sm font-semibold text-gray-700">Check-out Date</label>
-                    <input type="date" name="checkout" id="checkout" required
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 p-2">
-                </div>
-            </div>
-
-            <!-- Category Select -->
-            <div>
-                <label for="category" class="block text-sm font-semibold text-gray-700">Category</label>
-                <select name="category" id="category" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 p-2">
-                    <option value="rooms">Rooms</option>
-                    <option value="activity">Activities</option>
-                    <option value="cottages">Cottages</option>
-                    <option value="function_hall">Function Hall</option>
-                </select>
-            </div>
-
-            <!-- Check Availability Button -->
-            <button type="submit"
-                    class="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white py-3 px-4 rounded-md font-semibold transition ease-in-out duration-150">
-                Check Availability
-            </button>
-        </form>
 
         <!-- Display Available Items -->
         <div class="bg-gradient-to-r from-blue-50 via-teal-50 to-blue-100 p-6 rounded-lg shadow-md max-w-5xl mx-auto">

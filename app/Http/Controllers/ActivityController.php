@@ -39,7 +39,11 @@ class ActivityController extends Controller
     public function show($id)
     {
         $activity = Activity::findOrFail($id);
-        return view('user.user_view_activity', ['activity' => $activity]);
+        $isAvailable = $activity->availability > 0;
+        return view('user.user_view_activity', [
+            'activity' => $activity,
+            'isAvailable' => $isAvailable
+        ]);
     }
 
     /**

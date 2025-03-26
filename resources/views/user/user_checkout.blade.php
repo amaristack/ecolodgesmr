@@ -288,12 +288,98 @@
             const discountSpan = document.getElementById('discount');
             const totalSpan = document.getElementById('total');
             const quantityInput = document.getElementById('quantity');
+            const itemType = '{{ $type }}'; // Get the item type from the server
+
+            let entranceFeePerPerson = 0;
+            let maxGuests = 0;
+
+            // Set entrance fee and max guests based on item type
+            if (itemType === 'cottages') {
+                entranceFeePerPerson = 50; // 50 pesos entrance fee for cottages
+                maxGuests = 20; // Max 20 guests for cottages
+
+                // Create number of persons input for cottages if it doesn't exist
+                if (!numberOfPersonsInput && itemType === 'cottages') {
+                    // Create the container
+                    const container = document.createElement('div');
+                    container.classList.add('mb-4');
+
+                    // Create label
+                    const label = document.createElement('label');
+                    label.setAttribute('for', 'number_of_persons');
+                    label.classList.add('block', 'mb-2', 'font-medium', 'text-gray-700');
+                    label.textContent = 'Number of Persons (Max 20):';
+
+                    // Create input
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.name = 'number_of_person';
+                    input.id = 'number_of_persons';
+                    input.min = '1';
+                    input.max = '20';
+                    input.value = '1';
+                    input.required = true;
+                    input.classList.add('block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'focus:border-transparent');
+
+                    // Append to container
+                    container.appendChild(label);
+                    container.appendChild(input);
+
+                    // Find the element to insert before
+                    const noteField = document.querySelector('textarea[name="note"]').parentNode;
+                    noteField.parentNode.insertBefore(container, noteField);
+
+                    // Create guest list container if it doesn't exist
+                    if (!guestListContainer) {
+                        const guestListDiv = document.createElement('div');
+                        guestListDiv.id = 'guest_list';
+                        guestListDiv.classList.add('mb-4');
+                        noteField.parentNode.insertBefore(guestListDiv, noteField);
+                    }
+
+                    // Update references
+                    numberOfPersonsInput = document.getElementById('number_of_persons');
+                    guestListContainer = document.getElementById('guest_list');
+                }
+
+                // Add event listener to newly created input
+                if (numberOfPersonsInput) {
+                    numberOfPersonsInput.addEventListener('input', function() {
+                        updateGuestList();
+                        updatePricing();
+                    });
+                }
+            } else if (itemType === 'rooms') {
+                maxGuests = parseInt('{{ $item->max_people }}') || 4;
+                entranceFeePerPerson = 0; // No entrance fee for rooms
+            }
 
             function updateGuestList() {
-                const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
+                if (!guestListContainer) return;
+
+                const numberOfPersons = parseInt(numberOfPersonsInput?.value) || 1;
+                let limitedPersons = numberOfPersons;
+
+                // Limit number of persons based on item type
+                if (itemType === 'cottages' && limitedPersons > maxGuests) {
+                    limitedPersons = maxGuests;
+                    numberOfPersonsInput.value = maxGuests;
+                    alert(`Maximum number of guests for cottages is ${maxGuests}`);
+                } else if (itemType === 'rooms' && limitedPersons > maxGuests) {
+                    limitedPersons = maxGuests;
+                    numberOfPersonsInput.value = maxGuests;
+                    alert(`Maximum number of guests for this room is ${maxGuests}`);
+                }
+
                 guestListContainer.innerHTML = ''; // Clear existing guest inputs
 
-                for (let i = 1; i <= numberOfPersons; i++) {
+                // Add heading for guest list
+                const heading = document.createElement('h3');
+                heading.classList.add('font-medium', 'text-gray-700', 'mb-2');
+                heading.textContent = 'Guest List';
+                guestListContainer.appendChild(heading);
+
+                for (let i = 1; i <= limitedPersons; i++) {
                     const guestDiv = document.createElement('div');
                     guestDiv.classList.add('mb-2');
 
@@ -314,6 +400,14 @@
                     guestDiv.appendChild(guestInput);
                     guestListContainer.appendChild(guestDiv);
                 }
+
+                // Add note about entrance fee if it's a cottage
+                if (itemType === 'cottages') {
+                    const noteDiv = document.createElement('div');
+                    noteDiv.classList.add('mt-3', 'text-sm', 'text-blue-600', 'italic');
+                    noteDiv.textContent = `Note: An entrance fee of ₱50 per person will be applied (₱${entranceFeePerPerson * limitedPersons} total)`;
+                    guestListContainer.appendChild(noteDiv);
+                }
             }
 
             function calculateDays() {
@@ -328,19 +422,74 @@
                 const rate = parseFloat(rateInput.value) || 0;
                 const days = calculateDays();
                 const quantity = parseInt(quantityInput.value) || 1;
-                const subtotal = rate * days * quantity;
+
+                // Base amount (room/cottage rate * days * quantity)
+                const baseAmount = rate * days * quantity;
+
+                // Calculate entrance fees for cottages
+                let entranceFees = 0;
+                if (itemType === 'cottages' && numberOfPersonsInput) {
+                    const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
+                    entranceFees = entranceFeePerPerson * numberOfPersons;
+                }
+
+                // Total values with entrance fees included
+                const subtotal = baseAmount + entranceFees;
                 const discount = 0; // adjust if needed
                 const total = subtotal - discount;
 
-                subtotalSpan.textContent = subtotal.toFixed(2);
+                // Update displayed values
+                subtotalSpan.textContent = subtotal.toFixed(2); // Display subtotal WITH entrance fees
+
+                // Display entrance fee breakdown if cottage
+                if (itemType === 'cottages') {
+                    let entranceFeesRow = document.getElementById('entrance-fees-row');
+                    if (!entranceFeesRow) {
+                        // Create the entrance fees breakdown row
+                        entranceFeesRow = document.createElement('div');
+                        entranceFeesRow.id = 'entrance-fees-row';
+                        entranceFeesRow.classList.add('flex', 'justify-between', 'items-center', 'text-sm', 'text-gray-500', 'mt-1');
+
+                        const entranceLabel = document.createElement('span');
+                        entranceLabel.textContent = '(Includes entrance fees)';
+
+                        const entranceValueContainer = document.createElement('div');
+                        entranceValueContainer.classList.add('flex', 'items-center');
+
+                        const entranceDetails = document.createElement('span');
+                        const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
+                        entranceDetails.textContent = `${numberOfPersons} × ₱${entranceFeePerPerson} = ₱${entranceFees.toFixed(2)}`;
+
+                        entranceValueContainer.appendChild(entranceDetails);
+                        entranceFeesRow.appendChild(entranceLabel);
+                        entranceFeesRow.appendChild(entranceValueContainer);
+
+                        // Insert after the subtotal row
+                        const subtotalRow = subtotalSpan.closest('.flex');
+                        subtotalRow.parentNode.insertBefore(entranceFeesRow, subtotalRow.nextSibling);
+                    } else {
+                        // Update existing row
+                        const numberOfPersons = parseInt(numberOfPersonsInput.value) || 1;
+                        entranceFeesRow.querySelector('div > span').textContent =
+                            `${numberOfPersons} × ₱${entranceFeePerPerson} = ₱${entranceFees.toFixed(2)}`;
+                    }
+                }
+
+                // Update discount and total displays
                 discountSpan.textContent = discount.toFixed(2);
                 totalSpan.textContent = total.toFixed(2);
 
                 // Add hidden fields to store calculated values for the backend
-                updateOrCreateHiddenInput('calculated_subtotal', subtotal);
+                updateOrCreateHiddenInput('base_amount', baseAmount);
+                updateOrCreateHiddenInput('entrance_fees', entranceFees);
                 updateOrCreateHiddenInput('calculated_days', days);
                 updateOrCreateHiddenInput('calculated_quantity', quantity);
+                updateOrCreateHiddenInput('calculated_subtotal', subtotal); // Total subtotal including entrance fees
                 updateOrCreateHiddenInput('calculated_total', total);
+
+                if (numberOfPersonsInput) {
+                    updateOrCreateHiddenInput('number_of_persons', numberOfPersonsInput.value);
+                }
             }
 
             // Helper function to create or update hidden input fields
@@ -355,12 +504,9 @@
                 input.value = value;
             }
 
-            if (numberOfPersonsInput) {
-                // Initialize guest list on page load
+            // Initialize guest list on page load if needed
+            if ((itemType === 'rooms' || itemType === 'cottages') && numberOfPersonsInput) {
                 updateGuestList();
-
-                // Update guest list when number of persons changes
-                numberOfPersonsInput.addEventListener('input', updateGuestList);
             }
 
             // Initialize pricing on page load
@@ -379,25 +525,83 @@
             });
 
             // Disable checkout date initially
-            checkoutInput.disabled = true;
+            if (checkoutInput) {
+                checkoutInput.disabled = true;
 
-            // Update checkout min date when checkin changes
-            checkinInput.addEventListener('change', function() {
-                const checkinDate = new Date(this.value);
+                // Update checkout min date when checkin changes
+                checkinInput.addEventListener('change', function() {
+                    const checkinDate = new Date(this.value);
+                    const nextDay = new Date(checkinDate);
+                    nextDay.setDate(checkinDate.getDate() + 1);
+
+                    // Format the date to YYYY-MM-DD
+                    const formattedDate = nextDay.toISOString().split('T')[0];
+
+                    // Enable checkout and set minimum date
+                    checkoutInput.disabled = false;
+                    checkoutInput.min = formattedDate;
+                    checkoutInput.value = formattedDate;
+
+                    // Update pricing after setting new dates
+                    updatePricing();
+                });
+
+                // Trigger the change event to initialize checkout date
+                const event = new Event('change');
+                checkinInput.dispatchEvent(event);
+            }
+
+            // Add this to your code where the other event listeners are defined
+            if (numberOfPersonsInput) {
+                numberOfPersonsInput.addEventListener('input', function() {
+                    updateGuestList();
+                    updatePricing(); // Make sure pricing updates when number of persons changes
+                });
+
+                // Also trigger an immediate update
+                updateGuestList();
+                updatePricing();
+            }
+        });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // All your existing code for guest list, pricing, etc.
+
+        // Fix for checkout date initialization
+        const checkinInput = document.getElementById('checkin');
+        const checkoutInput = document.getElementById('checkout');
+
+        if (checkinInput && checkoutInput) {
+            // Function to update checkout date
+            function updateCheckoutDate() {
+                const checkinDate = new Date(checkinInput.value);
+                if (isNaN(checkinDate.getTime())) {
+                    return; // Invalid date, do nothing
+                }
+
                 const nextDay = new Date(checkinDate);
                 nextDay.setDate(checkinDate.getDate() + 1);
 
                 // Format the date to YYYY-MM-DD
-                const formattedDate = nextDay.toISOString().split('T')[0];
+                const year = nextDay.getFullYear();
+                const month = String(nextDay.getMonth() + 1).padStart(2, '0');
+                const day = String(nextDay.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
 
                 // Enable checkout and set minimum date
                 checkoutInput.disabled = false;
                 checkoutInput.min = formattedDate;
                 checkoutInput.value = formattedDate;
+            }
 
-                // Update pricing after setting new dates
-                updatePricing();
-            });
-        });
-    </script>
+            // Add event listener for check-in date changes
+            checkinInput.addEventListener('change', updateCheckoutDate);
+
+            // Initialize checkout date on page load
+            // Using setTimeout to ensure this runs after everything else
+            setTimeout(updateCheckoutDate, 100);
+        }
+    });
+</script>
 </x-layout>

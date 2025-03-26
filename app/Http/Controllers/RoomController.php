@@ -43,7 +43,12 @@ class RoomController extends Controller
     public function show($id)
     {
         $room = Room::findOrFail($id);
-        return view('user.user_view_rooms', ['room' => $room]);
+        $isAvailable = $room->availability > 0;
+
+        return view('user.user_view_rooms', [
+            'room' => $room,
+            'isAvailable' => $isAvailable
+            ]);
     }
 
     /**

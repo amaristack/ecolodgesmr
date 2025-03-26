@@ -47,8 +47,8 @@
             </div>
 
             <div class="flex space-x-4">
-                <button type="submit" id="loginButton" disabled
-                        class="w-1/2 bg-blue-600 text-white py-3 rounded-lg transition-all font-bold disabled:opacity-50 disabled:cursor-not-allowed">
+                <button type="submit" id="loginButton"
+                        class="w-1/2 bg-blue-600 text-white py-3 rounded-lg transition-all font-bold hover:bg-blue-700">
                     Login
                 </button>
                 <a href="{{ route('verify.email') }}"
@@ -68,10 +68,35 @@
         // Get DOM elements
         const termsCheckbox = document.getElementById('termsCheckbox');
         const loginButton = document.getElementById('loginButton');
+        const loginForm = document.querySelector('form');
 
-        // Enable/disable login button based on checkbox
-        termsCheckbox.addEventListener('change', function() {
-            loginButton.disabled = !this.checked;
+        // Remove the disabled attribute from the login button
+        loginButton.disabled = false;
+
+        // Check for authentication errors
+        @if($errors->has('email') || $errors->has('password'))
+            Swal.fire({
+                title: 'Authentication Failed',
+                text: 'Invalid credentials. Please check your email and password.',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Try Again'
+            });
+        @endif
+
+        // Add click event to the login form submission
+        loginForm.addEventListener('submit', function(event) {
+            // If the checkbox is not checked, prevent form submission and show alert
+            if (!termsCheckbox.checked) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Terms Required',
+                    text: 'Please read and agree to the Terms and Conditions before proceeding',
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Understand'
+                });
+            }
         });
 
         document.getElementById('showTerms').addEventListener('click', function(event) {
